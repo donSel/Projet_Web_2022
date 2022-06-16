@@ -4,35 +4,68 @@
         <meta charset="utf-8">
         <title>profile</title>
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/style2.css" rel="stylesheet">
     </head>
     
     <body>
-        <header>
-            <div id="logo">
-                <img src="images/logo.png" alt="logo officiel" width="200" height="99">
-            </div>
+        <header id="secondHeader">
             
-            <h1 id="site_name">Catch Your Messi</h1>
-            <div id="box3"></div>
+            <div id="firstHeader">
+                    <div id="logo">
+                    <img src="images/logo.png" alt="logo officiel" width="200" height="99">
+                </div>
+                <h1 id="site_name">Catch Your Messi</h1>
+                <div id="box3">
+                    <button type="submit" id="logoutButton" name="logout">Déconnexion</button><br><br>
+                </div>
+                <br>
+            </div>
+            <nav>
+                <ul id = 'navigation'>
+                    <li class = 'navigation_elmt'><a href="">Recherche</a></li>
+                    <li class = 'navigation_elmt'><a href="">Organiser</a></li>
+                    <li class = 'navigation_elmt'><a href="">Profil</a></li>
+                </ul>
+            </nav>
+            <br>
         </header>
         
         <div class="pageContent">
-            <div class="titleCreation">Création</div>
-            <div class="mainCreation">
-                <form action="redirect.php" method="post">
-                    nom : <input type="text" name="lastName" class="text_field"><br><br>
-                    prénom : <input type="text" name="firstName" class="text_field"><br><br>
-                    ville : <input type="text" name="town" class="text_field"><br><br>
-                    chemin relatif de la photo : <input type="text" name="photoUrl" class="text_field"><br><br>
-                    mail : <input type="text" name="mail" class="text_field"><br><br>
-                    mot de passe : <input type="password" name="password" class="text_field"><br><br>
-                    confirmer mot de passe : <input type="password" name="confirmationPassword" class="text_field"><br><br>
-                </form>
+            <div id="container">
+            
+            <form action="redirect.php" method="post">
+                
+                <div id="profilImage">
+                    <img src="images/default_avatar.jpg" alt="logo officiel" width="200px" height="200px">
+                    url  <input type="text" name="photoUrl" class="text_field">
+                </div>
+                
+                <div class="titleCreation">Profil</div>
+                <div class="mainCreation">
+                    nom  <input type="text" name="lastName" class="text_field"><br><br>
+                    prénom  <input type="text" name="firstName" class="text_field"><br><br>
+                    mail  <input type="text" name="mail" class="text_field"><br><br>
+                    âge  <input type="text" name="age" class="text_field"><br><br>
+                    ville  <input type="text" name="town" class="text_field"><br><br>
+                    forme sportive  <input type="text" name="health" class="text_field"><br><br>
+                    mot de passe  <input type="password" name="password" class="text_field"><br><br>
+                    chemin relatif de la photo  <input type="text" name="photoUrl" class="text_field"><br><br>
+                    commentaire  <input type="text" name="commentaire" id="commentary"><br><br>
+                </div>
+                
+                <div class="titleConnexion">Statistiques</div>
+                <div class="mainConnexion"> 
+                    match joués <input type="text" name="mail" class="text_field"><br><br>
+                    buts marqués <input type="text" name="mail" class="text_field"><br><br>
+                    meilleur(e) joueur(euse) <input type="text" name="mail" class="text_field"><br><br>
             </div>
+            </form>
+            
             <div class="buttons">
-                <button type="submit" class="button" name="connect">M'inscrire et me connecter</button><br><br>
-                <button onclick="window.location='index.html';" class="button">Retour</button>
+                <button type="submit" class="button" name="modif">modifier le profil</button><br><br>
             </div>
+            
+            </div>  
         </div>
         
         <footer>
