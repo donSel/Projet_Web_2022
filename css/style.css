@@ -16,15 +16,8 @@ body {
     
 
 header {
-    position :absolute;
-    top : 0;
-    width : 100%;
-    left : 0;
-    
     display: flex;
     flex-grow: 1;
-    /*#box3 : flex-basis : 250px;*/
-    
     background-color: #3D7E1F;
 }
 
@@ -40,31 +33,73 @@ header {
     text-transform: uppercase;
     font-weight: 400;
     font-size: 50px;
-    
-    margin-left : 200px;
-    
-    /*line-height: 61px;
-    margin-top : 36px;
-    margin-bottom : 1em;*/
-    
+    margin-left : 200px; 
 }
 
 
-.main {    
+.titleConnexion {
+    background: #515151;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 54px;
+    color: #FFFFFF;
+    
+    margin: 2.5% 35% 0% 35%;
+    padding: 1%;
+}
+
+
+.mainConnexion {    
     display: flex;
     justify-content: center;
-    margin: 15em 4em 2em 4em; 
+    margin: 0% 35% 2.5% 35%;
     padding: 1em;   
-    
-
     background: #E5E5E5;
-    border-radius: 25px;
-    
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+
+.mainCreation {    
+    display: flex;
+    justify-content: center;
+    margin: 0% 35% 2.5% 35%;
+    padding: 1em;  
+    background: #E5E5E5;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.titleCreation {
+    background: #515151;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 54px;
+    color: #FFFFFF;
+    margin: 2.5% 35% 0% 35%;
+    padding: 1%;
+}
+
+
+.pageContent {
+    min-height: calc(100vh - 95px);
 }
 
 
 .buttons {
-    margin: 2em 4em 2em 4em; 
+    /*display: flex;
+    flex-grow : 0;
+    flex-direction: column;
+    justify-content: center;*/
+    margin: 0% 35% 2.5% 35%;
 }
 
 
@@ -72,6 +107,8 @@ header {
     background: #D9D9D9;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 25px;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 
@@ -84,10 +121,6 @@ header {
 
 
 footer {
-    position :absolute;
-    bottom : 0;
-    width : 100%;
-    left : 0;
     background-color: #3D7E1F;
     padding-top: 1em;
     padding-bottom: 1em;

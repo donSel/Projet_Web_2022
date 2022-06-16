@@ -2,12 +2,10 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>Connexion</title>
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <!--<div class="layout">
-        </div>-->
         <header>
             <div id="logo">
                 <img src="images/logo.png" alt="logo officiel" width="200" height="99">
@@ -17,17 +15,19 @@
             <div id="box3"></div>
         </header>
             
-        <div class="main"> <!-- mettre layout vertical ici-->
-            <form action="redirect.php" method="post">
-                <p class="more">J'ai déjà un compte</p>
-                mail : <input type="text" name="mail" class="text_field"><br><br>
-                mot de passe : <input type="password" name="password" class="text_field"><br><br>
+        <div class="pageContent">
+            <div class="titleConnexion">J'ai déjà un compte</div>
+            <div class="mainConnexion"> 
+                <form action="redirect.php" method="post">
+                    mail : <input type="text" name="mail" class="text_field"><br><br>
+                    mot de passe : <input type="password" name="password" class="text_field"><br><br>
+                </form>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="button" name="connect">Se connecter</button><br><br>
+                <button onclick="window.location='registration.html';" class="button">Pas de Compte ?</button>
+            </div>
         </div>
-        <div class="buttons">
-            <button type="submit" class="button" name="connect">Se connecter</button><br><br>
-            <button type="submit" class="button" name="no_count">Pas de Compte ?</button>
-        </div>
-            </form>
         
         <footer>
             <p>All content copyright &copy; 2022.</p>

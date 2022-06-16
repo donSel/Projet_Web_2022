@@ -1,0 +1,44 @@
+<!DOCTYPE html><!--HTML5-->
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>registration</title>
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <header>
+            <div id="logo">
+                <img src="images/logo.png" alt="logo officiel" width="200" height="99">
+            </div>
+            
+            <h1 id="site_name">Catch Your Messi</h1>
+            <div id="box3"></div>
+        </header>
+        
+        <div class="pageContent">
+            <div class="titleCreation">Création</div>
+            <div class="mainCreation">
+                <form action="redirect.php" method="post">
+                    nom : <input type="text" name="lastName" class="text_field"><br><br>
+                    prénom : <input type="text" name="firstName" class="text_field"><br><br>
+                    ville : <input type="text" name="town" class="text_field"><br><br>
+                    chemin relatif de la photo : <input type="text" name="photoUrl" class="text_field"><br><br>
+                    mail : <input type="text" name="mail" class="text_field"><br><br>
+                    mot de passe : <input type="password" name="password" class="text_field"><br><br>
+                    confirmer mot de passe : <input type="password" name="confirmationPassword" class="text_field"><br><br>
+                </form>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="button" name="connect">M'inscrire et me connecter</button><br><br>
+                <button onclick="window.location='index.html';" class="button">Retour</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>All content copyright &copy; 2022.</p>
+        </footer>
+        
+        <!--<script src="script.js"></script>-->
+    </body>
+</html>
