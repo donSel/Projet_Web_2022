@@ -6,27 +6,32 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <div id="layout">
-            <header>
-                <img src="images/logo.png" alt="logo officiel" width="72" height="72">
-            </header>
-                
-            <div id="main"> <!-- mettre layout vertical ici-->
-                <form action="redirect.php" method="post">
-                    Prénom:<br>
-                    <input type="text" name="fname"><br>
-                    Nom:<br>
-                    <input type="text" name="lname"><br><br>
-                    <input type="email" name="email"><br><br>
-                    <input type="password" name="password"><br><br>
-                    <input type="submit" value="valider">
-                </form>
+        <!--<div class="layout">
+        </div>-->
+        <header>
+            <div id="logo">
+                <img src="images/logo.png" alt="logo officiel" width="200" height="99">
             </div>
             
-            <footer>
-                
-            </footer>
+            <h1 id="site_name">Catch Your Messi</h1>
+            <div id="box3"></div>
+        </header>
+            
+        <div class="main"> <!-- mettre layout vertical ici-->
+            <form action="redirect.php" method="post">
+                <p class="more">J'ai déjà un compte</p>
+                mail : <input type="text" name="mail" class="text_field"><br><br>
+                mot de passe : <input type="password" name="password" class="text_field"><br><br>
         </div>
+        <div class="buttons">
+            <button type="submit" class="button" name="connect">Se connecter</button><br><br>
+            <button type="submit" class="button" name="no_count">Pas de Compte ?</button>
+        </div>
+            </form>
+        
+        <footer>
+            <p>All content copyright &copy; 2022.</p>
+        </footer>
         
         <!-- <script src="script.js"></script> -->
     </body>

@@ -1,4 +1,4 @@
-#layout {
+/*#layout {
     display: grid;
     grid-template-rows: 100px 400px 100px;
     grid-template-columns: 900px;
@@ -7,20 +7,91 @@
     "header"
     "main"
     "footer";
+}*/
+
+
+body {
+    font-family: 'Arial', 'Comic Sans';
 }
     
 
 header {
-    grid-area : header;
+    position :absolute;
+    top : 0;
+    width : 100%;
+    left : 0;
+    
+    display: flex;
+    flex-grow: 1;
+    /*#box3 : flex-basis : 250px;*/
+    
+    background-color: #3D7E1F;
 }
 
 
-#main {
-    grid-area : main;
+#logo {
+    margin : 15px;
 }
+
+
+#site_name {
+    text-align: right;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 50px;
+    
+    margin-left : 200px;
+    
+    /*line-height: 61px;
+    margin-top : 36px;
+    margin-bottom : 1em;*/
+    
+}
+
+
+.main {    
+    display: flex;
+    justify-content: center;
+    margin: 15em 4em 2em 4em; 
+    padding: 1em;   
+    
+
+    background: #E5E5E5;
+    border-radius: 25px;
+    
+}
+
+
+.buttons {
+    margin: 2em 4em 2em 4em; 
+}
+
+
+.button {
+    background: #D9D9D9;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+}
+
+
+.text_field {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+}
+
 
 footer {
-    grid-area : footer;
+    position :absolute;
+    bottom : 0;
+    width : 100%;
+    left : 0;
+    background-color: #3D7E1F;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: center;
 }
 
 
