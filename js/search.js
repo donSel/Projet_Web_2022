@@ -20,7 +20,7 @@ function generateMyEvent(infos){ //[titre]
     let txt = '<div class="one-event">'
         + '<span>' + infos[0] + '</span>'
         + '</div>';
-    $('#me-organize-all').append(txt);
+    $('#me-games-all').append(txt);
 }
 
 $(document).ready(function(){
@@ -28,6 +28,7 @@ $(document).ready(function(){
         generateCardInfoEvent([i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12]);
     }
     generateMyOrganizeEvent(['foot2rue']);
+    generateMyEvent(['foot2rue']);
 });
 
 
