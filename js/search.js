@@ -23,6 +23,14 @@ function generateMyEvent(infos){ //[titre]
     $('#my-games-all').append(txt);
 }
 
+function generateMniProfile(infos){
+    let txt = '<div class="little-profil">'
+        + '<img src="images/default_avatar.jpg" alt="image de profil" width="70" height="83">'
+        + '<span class="little-box">profil</span>'
+        +'</div>';
+    $('#all_players').append(txt);
+}
+
 function setSearchMode() {
     let txt = "<div id = 'result'>" +
         "</div>" +
@@ -45,17 +53,8 @@ function setSearchMode() {
         "</div>" +
         "</div>";
     $('#page').html(txt);
-}
+    $('#popup').html('');
 
-function setShowInfosMode(){
-
-}
-
-$(document).ready(function(){
-
-
-
-    //setSearchMode();
     for (let i = 0; i < 15; i++){
         generateCardInfoEvent([i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12]);
     }
@@ -66,9 +65,79 @@ $(document).ready(function(){
     $('.card-event').click(function (e)
         {
             console.log(e.currentTarget.id);
+            setShowInfosMode();
 
         }
     );
+}
+
+
+function setShowInfosMode(){
+    let txt = "<div id = \"little-window\">"
+        + "<div id=\"title-little-window\">"
+        + "Titre de l'évènement"
+        + "</div>"
+        + "<div id=\"body-little-window\">"
+        + "<div id=\"left-side\">"
+        + "<div id = 'description'>"
+
+        + "<label for=\"description-txt\">Description </label>"
+        + "<input id=\"description-txt\" type=\"text\">"
+        + "</div>"
+
+        + "<div id=\"organisateur\" class=\"little-profil\">"
+        + "<img src=\"images/default_avatar.jpg\" alt=\"image de profil\" width=\"70\" height=\"83\">"
+        + "<span class=\"little-box\">profil</span>"
+        + "</div>"
+
+        + "<div id=\"players\">"
+        + "<h2>Joueurs</h2>"
+        + "<div id=\"all_players\">"
+        + "</div>"
+        + "</div>"
+        + "</div>"
+        + "<div id=\"right\">"
+        + "<div id=\"infos-match\">"
+        + "<span>Adresse : --:--</span><br>"
+        + "<span>Heure du début : --:--</span><br>"
+        + "<span>Durée estimée : --:--</span><br>"
+        + "<span>Prix : --</span><br>"
+        + "<span>Nombre max de participants : --</span><br>"
+        + "<span>Nombre d'inscrits : --</span>"
+
+        + "</div>"
+        + "<button id='register' class='classic-button'>Participer</button>"
+        + "<button id='close' >Fermer</button>"
+
+        + "</div>"
+
+        + "</div>"
+        + "</div>" ;
+    $('#popup').html(txt);
+
+    generateMniProfile(1);
+    generateMniProfile(1);
+    generateMniProfile(1);
+    generateMniProfile(1);
+    generateMniProfile(1);
+    generateMniProfile(1);
+
+    $('#close').click(function (e)
+        {
+            setSearchMode();
+
+        }
+    );
+}
+
+$(document).ready(function(){
+
+
+
+    setSearchMode();
+    //setShowInfosMode();
+
+
 });
 
 
