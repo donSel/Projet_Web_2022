@@ -3,18 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script src="js/jquery3.4.1.min.js"></script>
+
+    <script src="js/search.js"></script>
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style2.css" rel="stylesheet">
 </head>
 <body>
 <header>
     <nav>
-        <ul>
-            <li class = 'navigation_elmt'>Recherche</li>
-            <li class = 'navigation_elmt'>Organiser</li>
-            <li class = 'navigation_elmt'>Profil</li>
+
+        <ul id = 'navigation'>
+            <li class = 'navigation_elmt'><a href="">Recherche</a></li>
+            <li class = 'navigation_elmt'><a href="">Organiser</a></li>
+            <li class = 'navigation_elmt'><a href="">Profil</a></li>
         </ul>
     </nav>
 </header>
+<form id = "search">
+    <label for='research'>Match en préparation</label>
+    <br>
+    <button id='research'>Rechercher</button>
+    <select id="ville">
+        <option value="valeur1">Valeur 1</option>
+    </select>
+    <select id="sport">
+        <option value="valeur1">Valeur 1</option>
+    </select>
+    <select id="période">
+        <option value="valeur1">Valeur 1</option>
+    </select>
+    <select id="statut match">
+        <option value="valeur1">Valeur 1</option>
+    </select>
+
+
+</form>
+
+<div id = 'result'>
+
+</div>
+
 </body>
 </html>
