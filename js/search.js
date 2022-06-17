@@ -23,7 +23,7 @@ function generateMyEvent(infos){ //[titre]
     $('#my-games-all').append(txt);
 }
 
-function generateMniProfile(infos){
+function generateMiniProfile(infos){
     let txt = '<div class="little-profil">'
         + '<img src="images/default_avatar.jpg" alt="image de profil" width="70" height="83">'
         + '<span class="little-box">profil</span>'
@@ -79,12 +79,12 @@ function setShowInfosMode(){
         + "</div>" ;
     $('#popup').html(txt);
 
-    generateMniProfile(1);
-    generateMniProfile(1);
-    generateMniProfile(1);
-    generateMniProfile(1);
-    generateMniProfile(1);
-    generateMniProfile(1);
+    generateMiniProfile(1);
+    generateMiniProfile(1);
+    generateMiniProfile(1);
+    generateMiniProfile(1);
+    generateMiniProfile(1);
+    generateMiniProfile(1);
 
     $('#close').click(function (e)
         {

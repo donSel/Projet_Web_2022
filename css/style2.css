@@ -277,20 +277,22 @@ nav {
     margin-top : 20px;
 }
 
+.one-event-organization-head {
+    background-color : #515151;
+    border-radius : 25px;
+    padding-bottom : 20px;
+}
 .one-event-organization{
     background-color : #989898;
     border-radius : 25px;
     padding-bottom : 20px;
-
-
 }
+
 .box-register-subinfo{
     background-color : #EFF1CD;
     border-radius : 30px;
     margin-left : 171px;
     margin-right : 171px;
-
-
 }
 
 .box-register-subinfo .sub-title {
@@ -330,6 +332,7 @@ nav {
     margin-left: 21px;
     margin-top: 10px;
 }
+
 .scoretxt-card-info-three{
     margin-top : 1px;
     width : 106px;
@@ -345,11 +348,76 @@ nav {
     text-align : center;
 }
 
+.wait {
+    width : 100%;
+}
+
 .other-infos {
+    display : grid;
     margin-top:10px;
+    grid-template-columns: repeat(auto-fit,554px);
+    gap : 30px ;
 }
 
 
+.end-stats {
+    /*margin-left:170px; /* 170*/
+
+    border-radius : 30px;
+    width : 100%;
+}
+
+.card-for-wait{
+    padding-bottom: 20px;
+}
+
+.select-best-box{
+    font-size : 25px;
+    margin-top: 30px;
+}
+
+.sizes-one{
+
+    width : 350px;
+    height : 100px;
+}
+
+.sizes-two {
+    width : 250px;
+    height : 90px;
+    margin-bottom : 30px;
+}
+
+.select-best-box input{
+    width : 30px;
+}
+
+.select-best-box select{
+    height : 20px;
+    width : 100px;
+}
+
+.one-event-organization-title {
+    width : 100%;
+    font-size : 40px;
+    color : white;
+    text-align : center;
+}
+
+.one-event-organization-details {
+    font-size : 25px;
+    margin-bottom : 30px;
+    text-align : center;
+    background-color : #A38C8C;
+    border : white solid 5px;
+    border-top : 0;
+    height : 60px;
+}
+
+.select-best-box-txt {
+    margin-top: 10px;
+    margin-left : 10px;
+}
 
 /*
 .navigation_elmt {
