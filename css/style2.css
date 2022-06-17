@@ -3,17 +3,17 @@ nav {
     height : 97px;
 }
 
-#navigation {
+.navi {
     /*background-color : red;*/
     height : 100%;
     display: flex;
     padding:0;
     justify-content: center;
-    margin-left : 274px;
+
 
 }
 
-#navigation li {
+.navi li {
     list-style-type: none ;
 
     width: 548px;
@@ -21,15 +21,17 @@ nav {
     /*background-color : green;*/
 }
 
-#navigation a {
+.navi a {
     display:block;
     width : 100%;
     font-size : 50px;
     margin-top : 15px;
     text-decoration: none;
+    text-align: center;
+
     color : black;
 }
-#navigation a :hover{
+.navi :hover{
     border-radius : 25px;
     background-color : blue;
 }
@@ -121,7 +123,7 @@ nav {
 
 #little-window{
     width : 1336px;
-    height : 469px;
+    min-height : 469px;
     border-radius : 30px 30px 0 0;
     background-color : #989898;
     display : block;
@@ -136,7 +138,7 @@ nav {
 
 #body-little-window {
     width : 100%;
-    height : 91%;
+    min-height : 469px;
     background-color : #D9D9D9;
     display: grid;
     grid-template-columns: 50% 50%;
@@ -166,6 +168,7 @@ nav {
     font-size : 25px;
     width : 100%;
     text-align : center;
+    margin-bottom : 20px;
 }
 
 .little-profil img{
@@ -189,9 +192,14 @@ nav {
     grid-template-columns: repeat(auto-fit,90px);
 }
 
-#infos-match{
+.infos-match{
     margin-top : 10px;
     font-size: 40px;
+}
+.infos-match2{
+    margin-top : 10px;
+    font-size: 40px;
+    text-align : left;
 }
 
 #popup {
@@ -206,7 +214,70 @@ nav {
     margin-top : 10px;
 }
 
+#one-event-organization{
+    background-color : #989898;
+    border-radius : 25px;
+}
 
+.right {
+    text-align : right;
+}
+
+.left {
+    text-align : left;
+
+}
+
+.twenty {
+    font-size : 20px;
+}
+.twenty-five {
+    font-size : 25px;
+}
+.fourty {
+    font-size : 40px;
+}
+
+.grid-double{
+    display : grid;
+    grid-template-columns: 400px 400px;
+}
+#left-side{
+}
+#right-side{
+ }
+
+#the-organizator {
+    display : grid;
+    grid-template-columns: repeat(auto-fit,250px);
+    padding-bottom : 20px;
+    margin-top : 20px;
+}
+
+#best {
+    display : grid;
+    grid-template-columns: repeat(auto-fit,285px);
+    padding-bottom : 20px;
+    margin-top : 20px;
+}
+
+#description {
+    text-align : left;
+    font-size : 40px;
+}
+
+#description-txt {
+    padding-top: 10px;
+    width : 400px;
+    height : 35px;
+}
+
+.space-right {
+    margin-right : 5px;
+}
+.space-up {
+    margin-top : 20px;
+}
 
 
 

@@ -6,55 +6,39 @@
 
     <script src="js/jquery3.4.1.min.js"></script>
 
-    <script src="js/search.js"></script>
+    <script src="js/register.js"></script>
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style2.css" rel="stylesheet">
 </head>
 <body>
     <nav>
-        <ul id = 'navigation'>
+        <ul id = 'navigation' class="navi">
             <li class = 'navigation_elmt'><a href="">Recherche</a></li>
             <li class = 'navigation_elmt'><a href="">Organiser</a></li>
             <li class = 'navigation_elmt'><a href="">Profil</a></li>
         </ul>
+
+
     </nav>
 
-    <div id = 'sommaire'>
-        <ul>
-            <li><button><a href="#search">Chercher un nouvel évènement</a></button></li>
-            <li><button><a href="#my-event">Chercher mes évènements</a></button></li>
+    <nav>
+        <ul id = 'navigation2' class="navi">
+            <li class = 'navigation_elmt'><a href="">Nouvel évènement</a></li>
+            <li class = 'navigation_elmt'><a href="">Registre</a></li>
         </ul>
+    </nav>
+
+    <div id="one-event-organization">
+        <div id = 'sommaire'>
+            <ul>
+                <li><button><a href="#search">Chercher un nouvel évènement</a></button></li>
+                <li><button><a href="#my-event">Chercher mes évènements</a></button></li>
+            </ul>
+        </div>
     </div>
 
-    <form id = "search">
-        <label for='research'>Match en préparation</label>
-        <br>
-        <button id='research'>Rechercher</button>
-        <select id="ville">
-            <option value="valeur1">Valeur 1</option>
-        </select>
-        <select id="sport">
-            <option value="valeur1">Valeur 1</option>
-        </select>
-        <select id="période">
-            <option value="valeur1">Valeur 1</option>
-        </select>
-        <select id="statut match">
-            <option value="valeur1">Valeur 1</option>
-        </select>
 
 
-    </form>
-
-
-
-    <div id="page">
-
-
-
-    </div>
-
-    <div id="popup"></div>
 
 </body>
 </html>

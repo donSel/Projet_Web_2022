@@ -11,8 +11,8 @@
     <link href="css/style2.css" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <ul id = 'navigation'>
+    <nav class="nav-bar">
+        <ul id = 'navigation' class="navi">
             <li class = 'navigation_elmt'><a href="">Recherche</a></li>
             <li class = 'navigation_elmt'><a href="">Organiser</a></li>
             <li class = 'navigation_elmt'><a href="">Profil</a></li>
@@ -22,7 +22,7 @@
     <div id = 'sommaire'>
         <ul>
             <li><button><a href="#search">Chercher un nouvel évènement</a></button></li>
-            <li><button><a href="#my-event">Chercher mes évènements</a></button></li>
+            <li><button><a href="#my-events-title">Chercher mes évènements</a></button></li>
         </ul>
     </div>
 
@@ -48,11 +48,29 @@
 
 
 
-    <div id="page">
 
+    <div id = 'result'>
+    </div>"
+    <h1 id="my-events-title">Mes matchs :</h1>
+    <div id="my-events">
 
+    <div id="me-organize" class="under-block">
+        <h2>Ceux que j'organise :</h2>
+        <div id="me-organize-all">
 
+            </div>
+        <button class="classic-button">Nouveau</button>
+        </div>
+    <div id="my-games" class="under-block">
+        <h2>Ceux qui me concernent :</h2>
+        <div id="my-games-all">
+
+            </div>
+        <button class="classic-button hidden">Nouveau</button>
+        </div>
     </div>
+
+
 
     <div id="popup"></div>
 

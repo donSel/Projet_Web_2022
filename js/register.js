@@ -17,7 +17,7 @@ function generateMyOrganizeEvent(infos){ //[titre]
     $('#me-organize-all').append(txt);
 }
 function generateMyEvent(infos){ //[titre]
-    let txt = '<div class="one-event normal">'
+    let txt = '<div class="one-event">'
         + '<span>' + infos[0] + '</span>'
         + '</div>';
     $('#my-games-all').append(txt);
@@ -31,7 +31,45 @@ function generateMniProfile(infos){
     $('#all_players').append(txt);
 }
 
+function setSearchMode() {
+    let txt = "<div id = 'result'>" +
+        "</div>" +
+        "<h1 id=\"my-events-title\">Mes matchs :</h1>" +
+        "<div id=\"my-events\">" +
 
+        "<div id=\"me-organize\" class=\"under-block\">" +
+        "<h2>Ceux que j'organise :</h2>" +
+        "<div id=\"me-organize-all\">" +
+
+        "</div>" +
+        "<button class=\"classic-button\">Nouveau</button>" +
+        "</div>" +
+        "<div id=\"my-games\" class=\"under-block\">" +
+        "<h2>Ceux qui me concernent :</h2>" +
+        "<div id=\"my-games-all\">" +
+
+        "</div>" +
+        "<button class=\"classic-button hidden\">Nouveau</button>" +
+        "</div>" +
+        "</div>";
+    $('#page').html(txt);
+    $('#popup').html('');
+
+    for (let i = 0; i < 15; i++){
+        generateCardInfoEvent([i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12]);
+    }
+
+    generateMyOrganizeEvent(['foot2rue']);
+    generateMyEvent(['foot2rue']);
+
+    $('.card-event').click(function (e)
+        {
+            console.log(e.currentTarget.id);
+            setShowInfosMode();
+
+        }
+    );
+}
 
 
 function setShowInfosMode(){
@@ -43,15 +81,13 @@ function setShowInfosMode(){
         + "<div id=\"left-side\">"
         + "<div id = 'description'>"
 
-        + "<span id='label-description'>Description </span>"
+        + "<label for=\"description-txt\">Description </label>"
         + "<input id=\"description-txt\" type=\"text\">"
         + "</div>"
-        + "<div id='the-organizator'>"
-        + "<span class='fourty'>Organisateur </span>"
-        + "<div id=\"organizator\" class=\"little-profil\">"
+
+        + "<div id=\"organisateur\" class=\"little-profil\">"
         + "<img src=\"images/default_avatar.jpg\" alt=\"image de profil\" width=\"70\" height=\"83\">"
         + "<span class=\"little-box\">profil</span>"
-        + "</div>"
         + "</div>"
 
         + "<div id=\"players\">"
@@ -60,8 +96,8 @@ function setShowInfosMode(){
         + "</div>"
         + "</div>"
         + "</div>"
-        + "<div id=\"right-side\">"
-        + "<div class=\"infos-match\">"
+        + "<div id=\"right\">"
+        + "<div id=\"infos-match\">"
         + "<span>Adresse : --:--</span><br>"
         + "<span>Heure du début : --:--</span><br>"
         + "<span>Durée estimée : --:--</span><br>"
@@ -88,54 +124,7 @@ function setShowInfosMode(){
 
     $('#close').click(function (e)
         {
-            $('#popup').html("");
-
-        }
-    );
-}
-function setShowInfosNormalMode(){
-    let txt = "<div id = \"little-window\">"
-        + "<div id=\"title-little-window\">"
-        + "Titre de l'évènement"
-        + "</div>"
-        + "<div id=\"body-little-window\">"
-        + "<div id=\"left-side\">"
-
-        + "<div id='best'>"
-        + "<span class='twenty-five space-right space-up'>Meilleur(e) joueur(euse) : </span>"
-        + "<div id=\"organizator\" class=\"little-profil\">"
-        + "<img src=\"images/default_avatar.jpg\" alt=\"image de profil\" width=\"70\" height=\"83\">"
-        + "<span class=\"little-box\">profil</span>"
-        + "</div>"
-        + "</div>"
-
-        + "<div class=\"infos-match2\">"
-        + "<span>État de l'évènement : Terminé</span><br>"
-        + "<span>Votre rôle dans le match : Organisateur</span><br>"
-
-        + "<span>Score 0 / 0 === Vainqueur : équipeA</span><br>"
-
-        + "</div>"
-
-        + "</div>"
-        + "<div id=\"right-side\">"
-
-
-
-        + "<button id='close' >Fermer</button>"
-
-        + "</div>"
-        + "</div>"
-
-
-        + "</div>" ;
-    $('#popup').html(txt);
-
-
-
-    $('#close').click(function (e)
-        {
-            $('#popup').html("");
+            setSearchMode();
 
         }
     );
@@ -144,26 +133,8 @@ function setShowInfosNormalMode(){
 $(document).ready(function(){
 
 
-    for (let i = 0; i < 15; i++){
-        generateCardInfoEvent([i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12]);
-    }
 
-    generateMyOrganizeEvent(['foot2rue']);
-    generateMyEvent(['foot2rue']);
-    $('.card-event').click(function (e)
-        {
-            console.log(e.currentTarget.id);
-            setShowInfosMode();
-
-        }
-    );
-    $('.normal').click(function (e)
-        {
-            console.log(e.currentTarget.id);
-            setShowInfosNormalMode();
-
-        }
-    );
+    setSearchMode();
     //setShowInfosMode();
 
 
@@ -192,31 +163,4 @@ $(document).ready(function(){
                 </div>
 
 
-
-
-+ "<div id=\"left-side\">"
-
-
-
-
-        + "<div class=\"infos-match left\">"
-        + "<div class='grid-double'>"
-            + "<span>Meilleur(e) joueur(euse) :</span>"
-            + "<div class=\"little-profil\">"
-            + "<img src=\"images/default_avatar.jpg\" alt=\"image de profil\" width=\"70\" height=\"83\">"
-            + "<span class=\"little-box\">profil</span>"
-            + "</div>"
-        + "</div>"
-        + "<span>État de l'évènement : Terminé</span><br>"
-        + "<span>Votre rôle dans le match : Joueur</span><br><br>"
-        + "<span>Score : 0 / 0</span><br>"
-        + "<span>Gagnant : équipeA</span><br>"
-        + "</div>"
-        + "</div>"
-        + "<div id=\"right-side\">"
-
-
-        + "<button id='close' >Fermer</button>"
-
-        + "</div>"
  */
