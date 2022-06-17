@@ -1,4 +1,4 @@
-function generateCardInfoEvent(infos){ //[id_match,titre,sport,ville,date,heure,inscrits,max]
+    function generateCardInfoEvent(infos){ //[id_match,titre,sport,ville,date,heure,inscrits,max]
     let txt = '<div class="card-event" id="card-event-number' + infos[0] + '">'
         + '<div class="card-event-infos-background">'
         + '<div class="card-event-infos">'

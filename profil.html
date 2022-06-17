@@ -20,6 +20,7 @@
                 </div>
                 <br>
             </div>
+            
             <nav>
                 <ul id = 'navigation' class='navi'>
                     <li class = 'navigation_elmt'><a href="">Recherche</a></li>
@@ -30,47 +31,87 @@
             <br>
         </header>
         
-            <div class="'pageContent">
-                <div class="layout">
-                        
-                    <div id="profilImage">
-                        <br><br>
+        <div class="'pageContent">
+            <div class="layout">
+                
+                <div id="profilImage">                    
+                    <div>
                         <img src="images/default_avatar.jpg" alt="logo officiel" width="200px" height="200px"><br><br>
                         url  <input type="text" name="photoUrl" class="text_field">
                     </div>
-                    
-                    <div id="profilInfo">
-                        <div class="titleCreation">Profil</div>
-                        <div class="mainCreation">
-                            <form action="">
-                                nom  <input type="text" name="lastName" class="text_field"><br><br>
-                                prénom  <input type="text" name="firstName" class="text_field"><br><br>
-                                mail  <input type="text" name="mail" class="text_field"><br><br>
-                                âge  <input type="text" name="age" class="text_field"><br><br>
-                                ville  <input type="text" name="town" class="text_field"><br><br>
-                                forme sportive  <input type="text" name="health" class="text_field"><br><br>
-                                mot de passe  <input type="password" name="password" class="text_field"><br><br>
-                                chemin relatif de la photo  <input type="text" name="photoUrl" class="text_field"><br><br>
-                                commentaire  <input type="text" name="commentaire" id="commentary"><br><br>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div id="profilStatistics">
-                        <div class="titleConnexion">Statistiques</div>
-                        <div class="mainConnexion"> 
-                            <form action="">
-                                match joués <input type="text" name="mail" class="text_field"><br><br>
-                                buts marqués <input type="text" name="mail" class="text_field"><br><br>
-                                meilleur(e) joueur(euse) <input type="text" name="mail" class="text_field"><br><br>
-                                <button type="submit" class="button" name="modif">modifier le profil</button><br><br>
-                            </form>
-                        </div>
-                    </div>
-                    
                 </div>
-            </div> 
-        
+                    
+                <div id="profilInfo">
+                    <div class="cardTitle">Profil</div>
+                    <div class="cardMain">
+                        <form action="">
+                            nom  <input type="text" name="lastName" class="text_field"><br><br>
+                            prénom  <input type="text" name="firstName" class="text_field"><br><br>
+                            mail  <input type="text" name="mail" class="text_field"><br><br>
+                            âge  <input type="text" name="age" class="text_field"><br><br>
+                            ville  <input type="text" name="town" class="text_field"><br><br>
+                            forme sportive  <input type="text" name="health" class="text_field"><br><br>
+                            mot de passe  <input type="password" name="password" class="text_field"><br><br>
+                            chemin relatif de la photo  <input type="text" name="photoUrl" class="text_field"><br><br>
+                            commentaire  <br><br><textarea name="commentaire" id="commentary" rows="5" cols="20" placeholder="entrer votre commentaire ici / votre commentaire"></textarea><br><br>
+                            <!-- fix the commentary size -->
+                        </form>
+                    </div>
+                </div>
+                    
+                <div id="profilStatistics">
+                    <div class="cardTitle">Statistiques</div>
+                    <div class="cardMain"> 
+                        <form action="">
+                            match joués <input type="text" name="mail" class="text_field"><br><br>
+                            buts marqués <input type="text" name="mail" class="text_field"><br><br>
+                            meilleur(e) joueur(euse) <input type="text" name="mail" class="text_field"><br><br>
+                            <button type="submit" class="button" name="modif">modifier le profil</button><br><br>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="profilNotifications">
+                    <div class="notificationsButton">
+                        <div class="notificationsButtonText">
+                            <span>N<br>o<br>t<br>i<br>f<br>i<br>c<br>a<br>t<br>i<br>o<br>n<br>s</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="notificationList">
+                <div class="titleNotifications">Notification</div>
+                <div class="mainNotification"> 
+                    <div id = 'notifications'>
+                        
+                    <div class="notificationRequestContour">
+                        <div class="notificationContent"><br>
+                            User veut se joindre à l'évènement
+                            <!-- buttons-->
+                            
+                        </div> 
+                    </div>
+                    
+                    <div class="approvalNotificationContour">
+                        <div class="notificationContent"><br>
+                            Vous avez été séléctionnés pour l’évènement : 
+                                “Petit tennis au SNUC”
+                        </div>
+                    </div>
+                    
+                    <div class="refusalNotificationContour">
+                        <div class="notificationContent"><br>
+                            Vous avez n’avez pas été séléctionnés pour l’évènement : 
+                                “match de basket au stade de Procès”
+                        </div>
+                    </div>  
+                        
+                </div>
+            </div>
+        </div>
+            
         <footer>
             <p>All content copyright &copy; 2022.</p>
         </footer>
