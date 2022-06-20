@@ -1,13 +1,29 @@
 body {
     font-family: 'Arial', 'Comic Sans';
 }
-    
 
-#firstHeader {
-    display: flex;
-    justify-content: center;
-    flex-grow: 1;
-    background-color: #3D7E1F;
+
+@media screen and (min-width: 900px){
+    #firstHeader {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+        background-color: #3D7E1F;
+        margin-bottom : 30px;
+    }
+}
+
+
+@media screen and (max-width: 900px){
+    #firstHeader {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+        background-color: #3D7E1F;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom : 30px;
+    }
 }
     
 
@@ -22,64 +38,82 @@ body {
 
 
 #site_name {
-    letter-spacing: 0.3em;
     text-transform: uppercase;
     font-weight: 400;
-    font-size: 50px;
+    font-size: 30px;
 }
 
 
 .titleConnexion {
     background: #515151;
+    display: flex;
+    justify-content: center;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
-    text-align: center;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 54px;
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 30px;
     color: #FFFFFF;
-    
-    margin: 2.5% 35% 0% 35%;
-    padding: 1%;
+    width: 300px;
+    padding: 1em;
 }
 
 
 .mainConnexion {    
     display: flex;
     justify-content: center;
-    margin: 0% 35% 2.5% 35%;
-    padding: 1em;   
+    width: 300px;
+    padding: 1em;
     background: #E5E5E5;
     border-bottom-right-radius: 25px;
     border-bottom-left-radius: 25px;
+    margin-bottom : 30px;
 }
 
-
-.mainCreation {    
+.mainConnexion-form{
     display: flex;
-    justify-content: center;
-    margin: 0% 35% 2.5% 35%;
-    padding: 1em;  
-    background: #E5E5E5;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 
 .titleCreation {
     background: #515151;
+    display: flex;
+    justify-content: center;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
-    text-align: center;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 54px;
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 30px;
     color: #FFFFFF;
-    margin: 2.5% 35% 0% 35%;
-    padding: 1%;
+    width : 400px;
+    padding: 1em;
 }
+
+.mainCreation {    
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    padding: 1em;  
+    background: #E5E5E5;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    margin-bottom : 30px;
+}
+
+
+.mainCreation-form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+
 
 
 .pageContent {
@@ -88,7 +122,14 @@ body {
 
 
 .buttons {
-    margin: 0% 35% 2.5% 35%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.margin-auto {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -98,6 +139,7 @@ body {
     border-radius: 25px;
     padding-left: 5%;
     padding-right: 5%;
+    margin-left : 10px;
 }
 
 
@@ -155,6 +197,51 @@ body {
 }
 
 
+.cardTitle {
+    background: #515151;
+    display: flex;
+    justify-content: center;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 30px;
+    color: #FFFFFF;
+    width: 300px;
+    padding: 1em;
+}
+
+
+.cardMain {   
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    padding: 1em;
+    background: #E5E5E5;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    margin-bottom : 30px;
+}
+
+
+.mainCard-form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+
+.form-item {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    width : 100%;
+}
+
+
 .layout {
     margin-top: 30px;
     display : grid;
@@ -163,31 +250,6 @@ body {
     column-gap: 100px;
     row-gap: 100px;
     grid-template-columns: repeat(auto-fit, 400px);
-}
-
-
-.cardTitle {
-    background: #515151;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    text-align: center;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 54px;
-    color: #FFFFFF;
-    width : 100%;
-}
-
-
-.cardMain {   
-    padding-top: 20px; 
-    display: flex;
-    justify-content: center;
-    background: #E5E5E5;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-    width : 100%;
 }
 
 

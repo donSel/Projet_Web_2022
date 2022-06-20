@@ -17,19 +17,40 @@
         </header>
         
         <div class="pageContent">
-            <div class="titleCreation">Création</div>
-            <div class="mainCreation">
-                <form action="redirect.php" method="post">
-                    nom : <input type="text" name="lastName" class="text_field"><br><br>
-                    prénom : <input type="text" name="firstName" class="text_field"><br><br>
-                    ville : <input type="text" name="town" class="text_field"><br><br>
-                    chemin relatif de la photo : <input type="url" name="photoUrl" class="text_field"><br><br>
-                    mail : <input type="email" name="mail" class="text_field"><br><br>
-                    mot de passe : <input type="password" name="password" class="text_field"><br><br>
-                    confirmer mot de passe : <input type="password" name="confirmationPassword" class="text_field"><br><br>
+            <div class="titleCreation margin-auto">Création</div>
+            <div class="mainCreation margin-auto">
+                <form class="mainCreation-form margin-auto" action="redirect.php" method="post">
+                    <div class="form-item">
+                        <label for="text_field">nom :</label>
+                        <input type="text" name="lastName" class="text_field">
+                    </div>
+                    <div class="form-item">
+                        <label for="text_field">prénom :</label>
+                        <input type="text" name="firstName" class="text_field">
+                    </div>
+                    <div class="form-item">
+                        <label for="text_field">ville :</label>
+                        <input type="text" name="town" class="text_field">
+                    </div>
+                    <div class="form-item">
+                        <label for="text_field">chemin relatif de la photo : </label>
+                        <input type="url" name="photoUrl" class="text_field">
+                    </div>
+                    <div class="form-item">
+                        <label for="text_field">mail : </label>
+                        <input type="email" name="mail" class="text_field">
+                    </div>
+                    <div class="form-item">
+                        <label for="text_field">mot de passe : </label>
+                        <input type="password" name="password" class="text_field">
+                    </div>
+                    <div class="form-item">
+                        <label for="text_field">confirmer mot de passe : </label>
+                        <input type="password" name="confirmationPassword" class="text_field">
+                    </div>
                 </form>
             </div>
-            <div class="buttons">
+            <div class="buttons margin-auto">
                 <button type="submit" class="button" name="connect">M'inscrire et me connecter</button><br><br>
                 <button onclick="window.location='index.html';" class="button">Retour</button>
             </div>

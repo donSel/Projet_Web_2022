@@ -33,17 +33,6 @@ CREATE TABLE public.sport(
 )WITHOUT OIDS;
 
 
-------------------------------------------------------------
--- Table: match_result
-------------------------------------------------------------
-CREATE TABLE public.match_result(
-	match_id      SERIAL NOT NULL ,
-	score_match   VARCHAR (50) NOT NULL ,
-	duration      TIME  NOT NULL ,
-	best_player   VARCHAR (50) NOT NULL  ,
-	CONSTRAINT match_result_PK PRIMARY KEY (match_id) ,
-	CONSTRAINT match_result_AK UNIQUE (best_player)
-)WITHOUT OIDS;
 
 
 ------------------------------------------------------------
@@ -68,6 +57,20 @@ CREATE TABLE public.player(
 
 
 ------------------------------------------------------------
+-- Table: match_result
+------------------------------------------------------------
+CREATE TABLE public.match_result(
+	match_id      SERIAL NOT NULL ,
+	score_match   VARCHAR (50) NOT NULL ,
+	duration      TIME  NOT NULL ,
+	best_player   VARCHAR (50) NOT NULL  ,
+	winner        VARCHAR (50) NOT NULL ,
+	CONSTRAINT match_result_PK PRIMARY KEY (match_id) ,
+	CONSTRAINT match_result_AK UNIQUE (best_player)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
 -- Table: match
 ------------------------------------------------------------
 CREATE TABLE public.match(
@@ -82,7 +85,6 @@ CREATE TABLE public.match(
 	title                   VARCHAR (50) NOT NULL ,
 	age_range               VARCHAR (50) NOT NULL ,
 	match_description       VARCHAR (50) NOT NULL ,
-	winner                  VARCHAR (50) NOT NULL ,
 	duration                TIME  NOT NULL ,
 	organizer_id            VARCHAR (50) NOT NULL ,
 	sport_id                INT  NOT NULL ,
@@ -94,6 +96,24 @@ CREATE TABLE public.match(
 	,CONSTRAINT match_sport_FK FOREIGN KEY (sport_id) REFERENCES public.sport(sport_id)
 	,CONSTRAINT match_match_result0_FK FOREIGN KEY (match_id_match_result) REFERENCES public.match_result(match_id)
 	,CONSTRAINT match_town1_FK FOREIGN KEY (town_id) REFERENCES public.town(town_id)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
+-- Table: play
+------------------------------------------------------------
+CREATE TABLE public.play(
+	match_id        INT  NOT NULL ,
+	mail            VARCHAR (50) NOT NULL ,
+	is_registered   BOOL  NOT NULL ,
+	wait_response   BOOL  NOT NULL ,
+	role       INT  NOT NULL  , -- 0 => Organizer, 1 => Player, 2 => player + Organizer
+	team_a          BOOL  NOT NULL ,
+	team_b          BOOL  NOT NULL  ,
+	CONSTRAINT play_PK PRIMARY KEY (match_id,mail)
+
+	,CONSTRAINT play_match_FK FOREIGN KEY (match_id) REFERENCES public.match(match_id)
+	,CONSTRAINT play_player0_FK FOREIGN KEY (mail) REFERENCES public.player(mail)
 )WITHOUT OIDS;
 
 
@@ -112,20 +132,5 @@ CREATE TABLE public.score(
 )WITHOUT OIDS;
 
 
-------------------------------------------------------------
--- Table: play
-------------------------------------------------------------
-CREATE TABLE public.play(
-	match_id        INT  NOT NULL ,
-	mail            VARCHAR (50) NOT NULL ,
-	is_registered   BOOL  NOT NULL ,
-	wait_response   BOOL  NOT NULL ,
-	team_a          BOOL  NOT NULL ,
-	team_b          BOOL  NOT NULL  ,
-	CONSTRAINT play_PK PRIMARY KEY (match_id,mail)
-
-	,CONSTRAINT play_match_FK FOREIGN KEY (match_id) REFERENCES public.match(match_id)
-	,CONSTRAINT play_player0_FK FOREIGN KEY (mail) REFERENCES public.player(mail)
-)WITHOUT OIDS;
 
 
