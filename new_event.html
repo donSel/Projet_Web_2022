@@ -2,74 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>New event</title>
 
     <script src="js/jquery3.4.1.min.js"></script>
+    <script src="js/new_event.js"></script>
+    
 
-    <script src="js/organize.js"></script>
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style2.css" rel="stylesheet">
 </head>
 <body>
     <nav>
         <ul id = 'navigation' class="navi">
-            <li class = 'navigation_elmt'><a href="">Recherche</a></li>
-            <li class = 'navigation_elmt'><a href="">Organiser</a></li>
-            <li class = 'navigation_elmt'><a href="">Profil</a></li>
+            <li class = 'navigation_elmt'><a href="search.html">Recherche</a></li>
+            <li class = 'navigation_elmt'><a href=""><b>Organiser</b></a></li>
+            <li class = 'navigation_elmt'><a href="profil.html">Profil</a></li>
         </ul>
 
 
     </nav>
 
-    <nav>
-        <ul id = 'navigation2' class="navi">
-            <li class = 'navigation_elmt'><a href="">Nouvel évènement</a></li>
-            <li class = 'navigation_elmt'><a href="">Registre</a></li>
-        </ul>
-    </nav>
-
-
-    <div class="one-event-organization">
-        <span>Titre mon évènement A (que j'organise): </span><br>
-        <span>Sport,date,heure,nb_minimum [nb_joueurs / nb_total]</span><br>
-
-        <div class="box-register-subinfo">
-            <span class="sub-title">Joueurs :</span><br>
-            <div id="all_players-in" class="show-all_players">
-
-            </div>
-
-        </div>
-        <div class="other-infos">
-            <div class="box-register-subinfo">
-                <span class="sub-title">Liste des attentes:</span><br>
-                <div id="all_players-wait" class="show-all_players">
-
-                    <div class="card-info-three">
-                        <div class="infos-card-info-three">
-                        <span>nom, prénom<br>
-                        mail,<br>
-                        statut sportif
-                        </span>
-                        </div>
-                        <img src="images/default_avatar.jpg" alt="profil" width="70" height="83">
-                        <div class="score-card-info-three">
-                            <span>score : </span>
-                            <input class="scoretxt-card-info-three" type="text">
+    <div class="one-event-organization-head">
+      
+        <br>
+        <div class="one-event-organization">
+            
+            <div class="other-infos">
+                <div class="box-register-subinfo wait">
+                    <br>
+                    Discipline (sport) : <input type="text" name="sportName" class="text_field"><br><br>
+                    Titre <input type="text" name="eventTitle" class="large_text_field"><br><br>
+                    Description <br><br>
+                    <textarea name="eventDescription" id="commentary" rows="5" cols="20" placeholder="entrer votre la description de votre évènement"></textarea><br><br>
+                    Nombre Minimum <select id='selectNbMinPlayer' name="eventNbMin"></select>
+                    Nombre Maximum <select id='selectNbMaxPlayer' name="eventNbMax"></select><br><br>
+                    ville <input type="text" name="eventTown" class="text_field"><br><br>
+                    adresse <input type="text" name="eventAdress" class="text_field"><br><br>
+                </div>
+                
+                <div class="box-register-subinfo wait">
+                    <br>
+                    date <input type='date' id='start' name='eventDate'><br><br>
+                    heure <input type="time" id="appt" name='eventHour'><br><br>
+                    durée éstimée <input type="time" id="appt" name='eventDuration'><br><br>
+                    prix <input type="text" name="eventPrice" class="small_text_field"><br><br>
+                    tranche d'âge <select id='selectMinAgeRange' name="eventNbMin"></select> - <select id='selectMaxAgeRange' name="eventNbMax"></select><br><br>
+                    participer <input type="checkbox" name="isOrganiserParticipating"><br><br>
+                </div>
+                
+                <!--<div class="end-stats">
+                    <div class="box-register-subinfo sizes-one">
+                        <div class="select-best-box">
+                            <div class="select-best-box-txt">
+                                <label >Meilleur(e) joueur(euse)</label><br>
+                                <select >
+                                    <option value="valeur1">Valeur 1</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div class="box-register-subinfo sizes-two">
+                        
+                        
+                    </div>
 
-
+                    <div class="box-register-subinfo sizes-two">
+                        <div class="select-best-box">
+                            <div class="select-best-box-txt">
+                                <span> Score : </span>
+                                <input type="text" >
+                                    <span> / </span>
+                                    <input type="text">
+                            </div>
+                        </div>
+                    </div>-->
+                    
+                    
+                    <button class="classic-button">Lancer</button>
+                    
+                    
                 </div>
-
             </div>
         </div>
-
-
-
-    </div>
-
-
+        
 
 
 </body>

@@ -125,12 +125,33 @@ body {
 }
 
 
+.small_text_field {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    width : 30px;
+}
+
+
+.large_text_field {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    width : 300px;
+}
+
+
 #commentary {
     width: 290px;
     height: 112px;
+    max-width: 290px;
+    max-height: 112px;
     background: #FFFFFF;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
+
 }
 
 
