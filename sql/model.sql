@@ -14,30 +14,6 @@ CREATE TABLE public.review(
 	CONSTRAINT review_PK PRIMARY KEY (review_id)
 )WITHOUT OIDS;
 
-
-------------------------------------------------------------
--- Table: match_result
-------------------------------------------------------------
-CREATE TABLE public.match_result(
-	match_id      SERIAL NOT NULL ,
-	score_match   VARCHAR (50) NOT NULL ,
-	duration      TIMETZ  NOT NULL ,
-	best_player   VARCHAR (50) NOT NULL  ,
-	CONSTRAINT match_result_PK PRIMARY KEY (match_id) ,
-	CONSTRAINT match_result_AK UNIQUE (best_player)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: sport
-------------------------------------------------------------
-CREATE TABLE public.sport(
-	sport_id     SERIAL NOT NULL ,
-	sport_name   SERIAL NOT NULL  ,
-	CONSTRAINT sport_PK PRIMARY KEY (sport_id)
-)WITHOUT OIDS;
-
-
 ------------------------------------------------------------
 -- Table: town
 ------------------------------------------------------------
@@ -45,6 +21,28 @@ CREATE TABLE public.town(
 	town_id   SERIAL NOT NULL ,
 	town      VARCHAR (5) NOT NULL  ,
 	CONSTRAINT town_PK PRIMARY KEY (town_id)
+)WITHOUT OIDS;
+
+------------------------------------------------------------
+-- Table: sport
+------------------------------------------------------------
+CREATE TABLE public.sport(
+	sport_id     SERIAL NOT NULL ,
+	sport_name   VARCHAR (50) NOT NULL  ,
+	CONSTRAINT sport_PK PRIMARY KEY (sport_id)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
+-- Table: match_result
+------------------------------------------------------------
+CREATE TABLE public.match_result(
+	match_id      SERIAL NOT NULL ,
+	score_match   VARCHAR (50) NOT NULL ,
+	duration      TIME  NOT NULL ,
+	best_player   VARCHAR (50) NOT NULL  ,
+	CONSTRAINT match_result_PK PRIMARY KEY (match_id) ,
+	CONSTRAINT match_result_AK UNIQUE (best_player)
 )WITHOUT OIDS;
 
 
@@ -60,12 +58,12 @@ CREATE TABLE public.player(
 	age                   INT  NOT NULL ,
 	number_match_played   INT  NOT NULL ,
 	health                VARCHAR (50) NOT NULL ,
-	review_id             INT  NOT NULL ,
+	review_id             SERIAL NOT NULL ,
 	town_id               INT  NOT NULL  ,
 	CONSTRAINT player_PK PRIMARY KEY (mail)
 
 	,CONSTRAINT player_review_FK FOREIGN KEY (review_id) REFERENCES public.review(review_id)
-	,CONSTRAINT player_town0_FK FOREIGN KEY (town_id) REFERENCES tublic.town(town_id)
+	,CONSTRAINT player_town_FK FOREIGN KEY (town_id) REFERENCES public.town(town_id)
 )WITHOUT OIDS;
 
 
@@ -77,7 +75,7 @@ CREATE TABLE public.match(
 	number_max_player       INT  NOT NULL ,
 	number_min_player       INT  NOT NULL ,
 	date                    DATE  NOT NULL ,
-	hour                    TIMESTAMP  NOT NULL ,
+	hour                    TIME  NOT NULL ,
 	adress                  VARCHAR (50) NOT NULL ,
 	price                   FLOAT  NOT NULL ,
 	registered_count        INT  NOT NULL ,
@@ -85,7 +83,7 @@ CREATE TABLE public.match(
 	age_range               VARCHAR (50) NOT NULL ,
 	match_description       VARCHAR (50) NOT NULL ,
 	winner                  VARCHAR (50) NOT NULL ,
-	duration                TIMETZ  NOT NULL ,
+	duration                TIME  NOT NULL ,
 	organizer_id            VARCHAR (50) NOT NULL ,
 	sport_id                INT  NOT NULL ,
 	match_id_match_result   INT  NOT NULL ,
