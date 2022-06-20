@@ -65,7 +65,7 @@ CREATE TABLE public.player(
 	CONSTRAINT player_PK PRIMARY KEY (mail)
 
 	,CONSTRAINT player_review_FK FOREIGN KEY (review_id) REFERENCES public.review(review_id)
-	,CONSTRAINT player_town0_FK FOREIGN KEY (town_id) REFERENCES public.town(town_id)
+	,CONSTRAINT player_town0_FK FOREIGN KEY (town_id) REFERENCES tublic.town(town_id)
 )WITHOUT OIDS;
 
 
