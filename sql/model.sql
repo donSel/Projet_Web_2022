@@ -2,7 +2,7 @@
 --        Script Postgre 
 ------------------------------------------------------------
 
-
+DROP TABLE IF EXISTS review,match_result,sport,match,town,player,score,play CASCADE;
 
 ------------------------------------------------------------
 -- Table: review
