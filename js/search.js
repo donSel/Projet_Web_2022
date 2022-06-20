@@ -23,10 +23,10 @@ function generateMyEvent(infos){ //[titre]
     $('#my-games-all').append(txt);
 }
 
-function generateMiniProfile(infos){
+function generateMiniProfile(infos){ //[id_user,nom,url]
     let txt = '<div class="little-profil">'
-        + '<img src="images/default_avatar.jpg" alt="image de profil" width="70" height="83">'
-        + '<span class="little-box">profil</span>'
+        + '<img src=\"' + infos[2] + '\" alt="image de profil" width="70" height="83">'
+        + '<span class="little-box">'  +  infos[1] + '</span>'
         +'</div>';
     $('#all_players').append(txt);
 }
@@ -34,23 +34,23 @@ function generateMiniProfile(infos){
 
 
 
-function setShowInfosMode(){
+function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
     let txt = "<div id = \"little-window\">"
         + "<div id=\"title-little-window\">"
-        + "Titre de l'évènement"
+        + infos[1]
         + "</div>"
         + "<div id=\"body-little-window\">"
         + "<div id=\"left-side\">"
         + "<div id = 'description'>"
 
-        + "<span id='label-description'>Description </span>"
+        + "<span id='label-description'>" + infos[2] + "</span>"
         + "<input id=\"description-txt\" type=\"text\">"
         + "</div>"
         + "<div id='the-organizator'>"
         + "<span class='fourty'>Organisateur </span>"
         + "<div id=\"organizator\" class=\"little-profil\">"
-        + "<img src=\"images/default_avatar.jpg\" alt=\"image de profil\" width=\"70\" height=\"83\">"
-        + "<span class=\"little-box\">profil</span>"
+        + "<img src=\"" + infos[4] + "\" alt=\"image de profil\" width=\"70\" height=\"83\">" //images/default_avatar.jpg
+        + "<span class=\"little-box\">" +infos[3] + "</span>"
         + "</div>"
         + "</div>"
 
@@ -62,12 +62,12 @@ function setShowInfosMode(){
         + "</div>"
         + "<div id=\"right-side\">"
         + "<div class=\"infos-match\">"
-        + "<span>Adresse : --:--</span><br>"
-        + "<span>Heure du début : --:--</span><br>"
-        + "<span>Durée estimée : --:--</span><br>"
-        + "<span>Prix : --</span><br>"
-        + "<span>Nombre max de participants : --</span><br>"
-        + "<span>Nombre d'inscrits : --</span>"
+        + "<span>Adresse : "+ infos[5] + "</span><br>"
+        + "<span>Heure du début : "+ infos[6] + "</span><br>"
+        + "<span>Durée estimée : "+ infos[7] + "</span><br>"
+        + "<span>Prix : "+ infos[8] + "</span><br>"
+        + "<span>Nombre max de participants : "+ infos[9] + "</span><br>"
+        + "<span>Nombre d'inscrits : "+ infos[10] + "</span>"
 
         + "</div>"
         + "<button id='register' class='classic-button'>Participer</button>"
@@ -93,7 +93,7 @@ function setShowInfosMode(){
         }
     );
 }
-function setShowInfosNormalMode(){
+function setShowInfosNormalMode(infos){ //
     let txt = "<div id = \"little-window\">"
         + "<div id=\"title-little-window\">"
         + "Titre de l'évènement"
@@ -152,9 +152,8 @@ $(document).ready(function(){
     generateMyEvent(['foot2rue']);
     $('.card-event').click(function (e)
         {
-            console.log(e.currentTarget.id);
-            setShowInfosMode();
-
+            console.log(e.currentTarget.id); //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
+            setShowInfosMode([0,'titre','description','nom','images/default_avatar.jpg','--','--:--','--:--','--',10,2]);
         }
     );
     $('.normal').click(function (e)
