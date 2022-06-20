@@ -90,7 +90,7 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
                         + '</div>'
                     + '</div>'
 
-                    + '<button class="classic-button">Terminer</button>'
+                    + '<button id="end-event-org-'+infos[0]+'" class="classic-button end-button">Terminer</button>'
 
 
                 + '</div>'
@@ -101,19 +101,24 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
 
     + '</div>';
     $('#all-events-organization').append(txt);
+
 }
 
 function subMenuWanted(menu){ //0 or 1
     let txt = '';
+    console.log(menu);
 
     if (menu == 0){
         txt += '<nav>'
             + '<ul id = "navigation2" class="navi">'
-            + '<li class = "navigation_elmt"><a href="">Nouvel évènement</a></li>'
-            + '<li class = "navigation_elmt"><a href=""><b>Registre</b></a></li>'
+            + '<li id="go-new-event" class = "navigation_elmt"><span><b>Nouvel évènement</b></span></li>'
+            + '<li id="go-register" class = "navigation_elmt"><span>Registre</span></li>'
             + '</ul>'
-            + '</nav>'
-            + '<div class="one-event-organization-head">'
+            + '</nav>';
+        $('#sub-menu-organize-space').html(txt);
+        txt = '';
+        txt +=
+            '<div class="one-event-organization-head">'
 
             + '<br>'
                 + '<div class="one-event-organization">'
@@ -144,7 +149,7 @@ function subMenuWanted(menu){ //0 or 1
 
 
 
-                        + '<button class="classic-button">Lancer</button>'
+                        + '<button id="start-event" class="classic-button">Lancer</button>'
 
 
                     + '</div>'
@@ -154,19 +159,38 @@ function subMenuWanted(menu){ //0 or 1
     else{
         txt +='<nav>'
             + '<ul id = "navigation2" class="navi">'
-            + '<li class = "navigation_elmt"><a href="">Nouvel évènement</a></li>'
-            + '<li class = "navigation_elmt"><a href=""><b>Registre</b></a></li>'
+            + '<li id="go-new-event" class = "navigation_elmt"><span>Nouvel évènement</span></li>'
+            + '<li id="go-register" class = "navigation_elmt"><span><b>Registre</b></span></li>'
             + '</ul>'
-            + '</nav>'
-            +'<div id="all-events-organization">'
+            + '</nav>';
+        $('#sub-menu-organize-space').html(txt);
+        txt = '';
+        txt +=
+            '<div id="all-events-organization">'
 
             + '</div>';
     }
-    $('body').append(txt);
+    $('#page-organize-space').html(txt);
 
     if (menu == 0){
         createSelectNbPlayer();
         createSelectAgeRange();
+        $('#go-register').click(function (e)
+            {
+                subMenuWanted(1);
+
+            }
+        );
+
+        $('#start-event').click(function (e)
+            {
+                console.log('Lance l\'évènement');
+
+            }
+        );
+
+
+
     }
     else{
         generateEventOrganize([0,'titre0','foot','date','heure',2,20,8]); //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
@@ -175,18 +199,27 @@ function subMenuWanted(menu){ //0 or 1
         for (let i=0;i<3;i++){
             generateMiniProfileIn([0,'Leroy','gérard','gégé@gmail.com','débutant','A']); //[id,nom,prénom,mail,statut,équipe]
         }
-
         for (let i=0;i<3;i++){
             generateMiniProfileWait([1,'Leroy','gérard','gégé@gmail.com','débutant']); //[id,nom,prénom,mail,statut]
         }
+        $('#go-new-event').click(function (e)
+            {
+                subMenuWanted(0);
+            }
+        );
+        $('.end-button').click(function (e)
+            {
+                console.log(e.currentTarget.id);
+            }
+        );
     }
 }
 
 function createSelectNbPlayer(){
     let option = '';
     for (i = 1; i <= 100; i++){
-        option += '<option val="' + i + '">' + i + '</option>';
-        console.log(option);
+        option += '<option value="' + i + '">' + i + '</option>';
+        //console.log(option);
     }
     $('#selectNbMinPlayer').append(option);
     $('#selectNbMaxPlayer').append(option);
@@ -196,8 +229,8 @@ function createSelectNbPlayer(){
 function createSelectAgeRange(){
     let option = '';
     for (i = 1; i <= 100; i++){
-        option += '<option val="' + i + '">' + i + '</option>';
-        console.log(option);
+        option += '<option value="' + i + '">' + i + '</option>';
+        //console.log(option);
     }
     $('#selectMinAgeRange').append(option);
     $('#selectMaxAgeRange').append(option);
@@ -208,9 +241,17 @@ function createSelectAgeRange(){
 
 
 $(document).ready(function(){
-    subMenuWanted(0);
+    let parsedUrl = new URL(window.location.href);
+    let mode = parsedUrl.searchParams.get("mode");
+    if (mode == null){
+        mode = 0;
+    }
 
-    location.href = "#organized-event-id-1";
+    console.log(mode)
+
+    subMenuWanted(mode);
+
+    location.href = "#organized-event-id-" + parsedUrl.searchParams.get("location");
 
 
 

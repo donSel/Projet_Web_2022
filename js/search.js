@@ -11,7 +11,7 @@
 }
 
 function generateMyOrganizeEvent(infos){ //[id,titre]
-    let txt = '<a href="organize.html#organized-event-id-'+1+'"  class="one-event">'
+    let txt = '<a href="organize.html?mode=1&location='+infos[0]+'"  class="one-event">'
         + '<span>' + infos[1] + '</span>'
         + '</a>';
     $('#me-organize-all').append(txt);
@@ -183,6 +183,19 @@ $(document).ready(function(){
 
         }
     );
+
+    $('#research').click(function (e)
+        {
+            console.log('Rechercher');
+
+        }
+    );
+
+    $('#new-organizes-event').click(function (e)
+    {
+        console.log('Nouveau');
+
+    });
 
     //setShowInfosMode();
 

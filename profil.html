@@ -5,6 +5,8 @@
         <title>profile</title>
         <link href="css/style.css" rel="stylesheet">
         <link href="css/style2.css" rel="stylesheet">
+        <script src="js/jquery3.4.1.min.js"></script>
+        <script src="js/profile.js"></script>
     </head>
     
     <body>
@@ -70,46 +72,31 @@
                         </form>
                     </div>
                 </div>
-                
-                <div id="profilNotifications">
-                    <div class="notificationsButton">
-                        <div class="notificationsButtonText">
-                            <span>N<br>o<br>t<br>i<br>f<br>i<br>c<br>a<br>t<br>i<br>o<br>n<br>s</span>
+
+                <div id="notification-bar">
+                    <div id="profilNotifications">
+                        <div class="notificationsButton">
+                            <div class="notificationsButtonText">
+                                <span>N<br>o<br>t<br>i<br>f<br>i<br>c<br>a<br>t<br>i<br>o<br>n<br>s</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
+
+                <div class="notificationList">
+                    <div class="titleNotifications">Notification</div>
+                    <div class="mainNotification">
+                        <div id = 'notifications'>
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
             
-            <div class="notificationList">
-                <div class="titleNotifications">Notification</div>
-                <div class="mainNotification"> 
-                    <div id = 'notifications'>
-                        
-                    <div class="notificationRequestContour">
-                        <div class="notificationContent"><br>
-                            User veut se joindre à l'évènement
-                            <!-- buttons-->
-                            
-                        </div> 
-                    </div>
-                    
-                    <div class="approvalNotificationContour">
-                        <div class="notificationContent"><br>
-                            Vous avez été séléctionnés pour l’évènement : 
-                                “Petit tennis au SNUC”
-                        </div>
-                    </div>
-                    
-                    <div class="refusalNotificationContour">
-                        <div class="notificationContent"><br>
-                            Vous avez n’avez pas été séléctionnés pour l’évènement : 
-                                “match de basket au stade de Procès”
-                        </div>
-                    </div>  
-                        
-                </div>
-            </div>
+
         </div>
             
         <footer>
