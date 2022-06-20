@@ -123,11 +123,10 @@ nav {
 }
 
 #little-window{
-    width : 1336px;
+    width : 90%;
     min-height : 469px;
     border-radius : 30px 30px 0 0;
     background-color : #989898;
-    display : block;
     margin: auto;
 }
 
@@ -142,7 +141,8 @@ nav {
     min-height : 469px;
     background-color : #D9D9D9;
     display: grid;
-    grid-template-columns: 50% 50%;
+
+    grid-template-columns: repeat(auto-fit,800px);
 }
 
 .one-event span{
@@ -419,6 +419,26 @@ nav {
 .select-best-box-txt {
     margin-top: 10px;
     margin-left : 10px;
+}
+
+.infos-match2 span{
+    display : block;
+    border-radius : 25px;
+    text-align : center;
+}
+
+.infos-match span{
+    display : block;
+    border-radius : 25px;
+    text-align : center;
+}
+
+.a{
+    background-color: #515151;
+}
+
+.z {
+    background-color : #A38C8C;
 }
 
 /*

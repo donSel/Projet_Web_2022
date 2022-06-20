@@ -39,7 +39,7 @@ function generateMiniProfileWait(infos){//[id,nom,prénom,mail,statut]
 
 
 function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
-    let txt = '<div class="one-event-organization-head">'
+    let txt = '<div id=organized-event-id-' + infos[0] + 'class="one-event-organization-head">'
         + '<div class="one-event-organization-title">'
             + '<span>' + infos[1] + '</span><br>'
         + '</div>'
@@ -135,9 +135,10 @@ function subMenuWanted(menu){ //0 or 1
 }
 
 $(document).ready(function(){
-
     subMenuWanted(1);
-
+    //window.scrollTo(0,4000);
+    //console.log($('organized-event-id-1').offset());
+    location.href = "#organized-event-id-1";
 
 
 
