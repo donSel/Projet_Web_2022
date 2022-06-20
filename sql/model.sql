@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS review,match_result,sport,match,town,player,score,play CASC
 ------------------------------------------------------------
 CREATE TABLE public.review(
 	review_id      SERIAL NOT NULL ,
-	review_value   CHAR (5)  NOT NULL ,
-	review_text    SERIAL NOT NULL  ,
+	review_value   INT  NOT NULL ,
+	review_text    VARCHAR (50) NOT NULL  ,
 	CONSTRAINT review_PK PRIMARY KEY (review_id)
 )WITHOUT OIDS;
 
@@ -21,7 +21,7 @@ CREATE TABLE public.review(
 CREATE TABLE public.match_result(
 	match_id      SERIAL NOT NULL ,
 	score_match   VARCHAR (50) NOT NULL ,
-	duration      FLOAT  NOT NULL ,
+	duration      TIMETZ  NOT NULL ,
 	best_player   VARCHAR (50) NOT NULL  ,
 	CONSTRAINT match_result_PK PRIMARY KEY (match_id) ,
 	CONSTRAINT match_result_AK UNIQUE (best_player)
@@ -32,36 +32,9 @@ CREATE TABLE public.match_result(
 -- Table: sport
 ------------------------------------------------------------
 CREATE TABLE public.sport(
-	sport_name   VARCHAR (50) NOT NULL  ,
-	CONSTRAINT sport_PK PRIMARY KEY (sport_name)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: match
-------------------------------------------------------------
-CREATE TABLE public.match(
-	match_id                SERIAL NOT NULL ,
-	number_max_player       INT  NOT NULL ,
-	number_min_player       INT  NOT NULL ,
-	date                    DATE  NOT NULL ,
-	hour                    TIMESTAMP  NOT NULL ,
-	adress                  VARCHAR (50) NOT NULL ,
-	duration                FLOAT  NOT NULL ,
-	price                   FLOAT  NOT NULL ,
-	registered_count        INT  NOT NULL ,
-	title                   VARCHAR (50) NOT NULL ,
-	age_range               VARCHAR (50) NOT NULL ,
-	match_description       VARCHAR (50) NOT NULL ,
-	winner                  VARCHAR (50) NOT NULL ,
-	organizer_id            VARCHAR (50) NOT NULL ,
-	sport_name              VARCHAR (50) NOT NULL ,
-	match_id_match_result   INT  NOT NULL  ,
-	CONSTRAINT match_PK PRIMARY KEY (match_id) ,
-	CONSTRAINT match_AK UNIQUE (organizer_id)
-
-	,CONSTRAINT match_sport_FK FOREIGN KEY (sport_name) REFERENCES public.sport(sport_name)
-	,CONSTRAINT match_match_result0_FK FOREIGN KEY (match_id_match_result) REFERENCES public.match_result(match_id)
+	sport_id     SERIAL NOT NULL ,
+	sport_name   SERIAL NOT NULL  ,
+	CONSTRAINT sport_PK PRIMARY KEY (sport_id)
 )WITHOUT OIDS;
 
 
@@ -97,6 +70,36 @@ CREATE TABLE public.player(
 
 
 ------------------------------------------------------------
+-- Table: match
+------------------------------------------------------------
+CREATE TABLE public.match(
+	match_id                SERIAL NOT NULL ,
+	number_max_player       INT  NOT NULL ,
+	number_min_player       INT  NOT NULL ,
+	date                    DATE  NOT NULL ,
+	hour                    TIMESTAMP  NOT NULL ,
+	adress                  VARCHAR (50) NOT NULL ,
+	price                   FLOAT  NOT NULL ,
+	registered_count        INT  NOT NULL ,
+	title                   VARCHAR (50) NOT NULL ,
+	age_range               VARCHAR (50) NOT NULL ,
+	match_description       VARCHAR (50) NOT NULL ,
+	winner                  VARCHAR (50) NOT NULL ,
+	duration                TIMETZ  NOT NULL ,
+	organizer_id            VARCHAR (50) NOT NULL ,
+	sport_id                INT  NOT NULL ,
+	match_id_match_result   INT  NOT NULL ,
+	town_id                 INT  NOT NULL  ,
+	CONSTRAINT match_PK PRIMARY KEY (match_id) ,
+	CONSTRAINT match_AK UNIQUE (organizer_id)
+
+	,CONSTRAINT match_sport_FK FOREIGN KEY (sport_id) REFERENCES public.sport(sport_id)
+	,CONSTRAINT match_match_result0_FK FOREIGN KEY (match_id_match_result) REFERENCES public.match_result(match_id)
+	,CONSTRAINT match_town1_FK FOREIGN KEY (town_id) REFERENCES public.town(town_id)
+)WITHOUT OIDS;
+
+
+------------------------------------------------------------
 -- Table: score
 ------------------------------------------------------------
 CREATE TABLE public.score(
@@ -126,6 +129,5 @@ CREATE TABLE public.play(
 	,CONSTRAINT play_match_FK FOREIGN KEY (match_id) REFERENCES public.match(match_id)
 	,CONSTRAINT play_player0_FK FOREIGN KEY (mail) REFERENCES public.player(mail)
 )WITHOUT OIDS;
-
 
 
