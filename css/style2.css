@@ -305,16 +305,17 @@ nav {
     border-radius : 30px;
     padding-top: 10px;
     padding-bottom: 13px;
-    width : 241px;
+    width : 300px;
     display : grid;
     grid-template-columns: 119px 112px;
     margin-bottom : 13px;
+
 }
 
 .infos-card-info-three {
     background-color : #44A0F6;
     border-radius : 25px;
-    width : 111px;
+    width : 200px;
     text-align : center;
     padding-top: 6px;
     margin-left : 10px;
@@ -322,7 +323,7 @@ nav {
 }
 
 .card-info-three img{
-    margin-left : 19px;
+    margin-left : 100px;
 }
 
 .score-card-info-three {
@@ -344,7 +345,7 @@ nav {
 
 .show-all_players {
     display : grid;
-    grid-template-columns: repeat(auto-fit,277px);
+    grid-template-columns: repeat(auto-fit,310px);
     margin-left : 38px;
     text-align : center;
 }
@@ -356,7 +357,7 @@ nav {
 .other-infos {
     display : grid;
     margin-top:10px;
-    grid-template-columns: repeat(auto-fit,554px);
+    grid-template-columns: repeat(auto-fit,554px); /*554px*/
     gap : 30px ;
 }
 

@@ -1,11 +1,11 @@
 
-function generateMiniProfileIn(infos){
+function generateMiniProfileIn(infos){ //[id,nom,prénom,mail,statut,équipe]
     let txt = '<div class="card-info-three">'
         + '<div class="infos-card-info-three">'
-            + '<span>nom, prénom<br>'
-            + 'mail,<br>'
-            + 'statut sportif<br>'
-            + 'équipe'
+            +'<span>'+infos[1]+','+ infos[2] + '<br>'
+            + infos[3] + ',<br>'
+            + infos[4] + ',<br>'
+            + 'Équipe : ' + infos[5]
             + '</span>'
         + '</div>'
         + '<img src="images/default_avatar.jpg" alt="profil" width="70" height="83">'
@@ -17,12 +17,12 @@ function generateMiniProfileIn(infos){
     $('#all_players-in' + infos[0]).append(txt);
 }
 
-function generateMiniProfileWait(infos){
+function generateMiniProfileWait(infos){//[id,nom,prénom,mail,statut]
     let txt = '<div class="card-info-three">'
         +'<div class="infos-card-info-three">'
-            +'<span>nom, prénom<br>'
-                +'mail,<br>'
-                +'statut sportif'
+            +'<span>'+infos[1]+','+ infos[2] + '<br>'
+                + infos[3] +',<br>'
+                + infos[4]
             +'</span>'
         +'</div>'
         +'<img src="images/default_avatar.jpg" alt="profil" width="70" height="83">'
@@ -38,14 +38,14 @@ function generateMiniProfileWait(infos){
 }
 
 
-function generateEventOrganize(infos){
+function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
     let txt = '<div class="one-event-organization-head">'
         + '<div class="one-event-organization-title">'
-            + '<span>Titre mon évènement A (que j\'organise): </span><br>'
+            + '<span>' + infos[1] + '</span><br>'
         + '</div>'
         + '<div class="one-event-organization">'
             + '<div class="box-register-subinfo one-event-organization-details">'
-                + '<span>Sport,date,heure,nb_minimum [nb_joueurs / nb_total]</span>'
+                + '<span>Sport : ' + infos[2] + ', date : ' + infos[3] + ', heure : ' + infos[4] + ', minimum : ' + infos[5] + ', inscrits : [' + infos[7] + '/' + infos[6] + ']</span>'
             + '</div>'
             + '<div class="box-register-subinfo">'
                 + '<span class="sub-title">Joueurs :</span><br>'
@@ -58,10 +58,6 @@ function generateEventOrganize(infos){
                 + '<div class="box-register-subinfo wait">'
                     + '<span class="sub-title">Liste des attentes:</span><br>'
                     + '<div id="all_players-wait' + infos[0] + '" class="show-all_players">'
-
-
-
-
                     + '</div>'
 
                 + '</div>'
@@ -108,17 +104,41 @@ function generateEventOrganize(infos){
     $('#all-events-organization').append(txt);
 }
 
+function subMenuWanted(menu){ //0 or 1
+    let txt = '';
+    if (menu == 1){
+        txt += '<nav>'
+            + '<ul id = "navigation2" class="navi">'
+                + '<li class = "navigation_elmt"><a href="">Nouvel évènement</a></li>'
+                + '<li class = "navigation_elmt"><a href=""><b>Registre</b></a></li>'
+            + '</ul>'
+        + '</nav>'
+
+        + '<div id="all-events-organization">'
+
+        + '</div>'
+    }
+    $('body').append(txt);
+
+    if (menu == 1){
+        generateEventOrganize([0,'titre0','foot','date','heure',2,20,8]); //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
+        generateEventOrganize([1,'titre1','hand','date','heure',4,20,5]);
+
+        for (let i=0;i<3;i++){
+            generateMiniProfileIn([0,'Leroy','gérard','gégé@gmail.com','débutant','A']); //[id,nom,prénom,mail,statut,équipe]
+        }
+
+        for (let i=0;i<3;i++){
+            generateMiniProfileWait([1,'Leroy','gérard','gégé@gmail.com','débutant']); //[id,nom,prénom,mail,statut]
+        }
+    }
+}
+
 $(document).ready(function(){
-    //generateEventOrganize([0]);
-    //generateEventOrganize([1]);
 
-    for (let i=0;i<3;i++){
-        generateMiniProfileIn([0]);
-    }
+    subMenuWanted(1);
 
-    for (let i=0;i<3;i++){
-        generateMiniProfileWait([[1]]);
-    }
+
 
 
 
