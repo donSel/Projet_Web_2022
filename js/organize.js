@@ -37,9 +37,8 @@ function generateMiniProfileWait(infos){//[id,nom,prénom,mail,statut]
     $('#all_players-wait' + infos[0]).append(txt);
 }
 
-
 function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
-    let txt = '<div id=organized-event-id-' + infos[0] + 'class="one-event-organization-head">'
+    let txt = '<div id="organized-event-id-' + infos[0] + '" class="one-event-organization-head">'
         + '<div class="one-event-organization-title">'
             + '<span>' + infos[1] + '</span><br>'
         + '</div>'
@@ -106,21 +105,70 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
 
 function subMenuWanted(menu){ //0 or 1
     let txt = '';
-    if (menu == 1){
+
+    if (menu == 0){
         txt += '<nav>'
             + '<ul id = "navigation2" class="navi">'
-                + '<li class = "navigation_elmt"><a href="">Nouvel évènement</a></li>'
-                + '<li class = "navigation_elmt"><a href=""><b>Registre</b></a></li>'
+            + '<li class = "navigation_elmt"><a href="">Nouvel évènement</a></li>'
+            + '<li class = "navigation_elmt"><a href=""><b>Registre</b></a></li>'
             + '</ul>'
-        + '</nav>'
+            + '</nav>'
+            + '<div class="one-event-organization-head">'
 
-        + '<div id="all-events-organization">'
+            + '<br>'
+                + '<div class="one-event-organization">'
 
-        + '</div>'
+                    + '<div class="other-infos">'
+                        + '<div class="box-register-subinfo wait">'
+                            + '<br>'
+                                + 'Discipline (sport) : <input type="text" name="sportName" class="text_field"><br><br>'
+                                + 'Titre <input type="text" name="eventTitle" class="large_text_field"><br><br>'
+                                + 'Description <br><br>'
+                                + '<textarea name="eventDescription" id="commentary" rows="5" cols="20" placeholder="entrer votre la description de votre évènement"></textarea><br><br>'
+                                + 'Nombre Minimum <select id="selectNbMinPlayer" name="eventNbMin"></select>'
+                                + 'Nombre Maximum <select id="selectNbMaxPlayer" name="eventNbMax"></select><br><br>'
+                                + 'ville <input type="text" name="eventTown" class="text_field"><br><br>'
+                                + 'adresse <input type="text" name="eventAdress" class="text_field"><br><br>'
+                        + '</div>'
+
+                        + '<div class="box-register-subinfo wait">'
+                            + '<br>'
+                                + 'date <input type="date" id="start" name="eventDate"><br><br>'
+                                + 'heure <input type="time" name="eventHour"><br><br>'
+                                + 'durée éstimée <input type="time"  name="eventDuration"><br><br>'
+                                + 'prix <input type="text" name="eventPrice" class="small_text_field"><br><br>'
+                                + 'tranche d\'âge <select id="selectMinAgeRange" name="eventNbMin"></select> - <select id="selectMaxAgeRange" name="eventNbMax"></select><br><br>'
+                                + 'participer <input type="checkbox" name="isOrganiserParticipating"><br><br>'
+                        + '</div>'
+
+
+
+
+                        + '<button class="classic-button">Lancer</button>'
+
+
+                    + '</div>'
+                + '</div>'
+        + '</div>';
+    }
+    else{
+        txt +='<nav>'
+            + '<ul id = "navigation2" class="navi">'
+            + '<li class = "navigation_elmt"><a href="">Nouvel évènement</a></li>'
+            + '<li class = "navigation_elmt"><a href=""><b>Registre</b></a></li>'
+            + '</ul>'
+            + '</nav>'
+            +'<div id="all-events-organization">'
+
+            + '</div>';
     }
     $('body').append(txt);
 
-    if (menu == 1){
+    if (menu == 0){
+        createSelectNbPlayer();
+        createSelectAgeRange();
+    }
+    else{
         generateEventOrganize([0,'titre0','foot','date','heure',2,20,8]); //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
         generateEventOrganize([1,'titre1','hand','date','heure',4,20,5]);
 
@@ -134,10 +182,34 @@ function subMenuWanted(menu){ //0 or 1
     }
 }
 
+function createSelectNbPlayer(){
+    let option = '';
+    for (i = 1; i <= 100; i++){
+        option += '<option val="' + i + '">' + i + '</option>';
+        console.log(option);
+    }
+    $('#selectNbMinPlayer').append(option);
+    $('#selectNbMaxPlayer').append(option);
+}
+
+
+function createSelectAgeRange(){
+    let option = '';
+    for (i = 1; i <= 100; i++){
+        option += '<option val="' + i + '">' + i + '</option>';
+        console.log(option);
+    }
+    $('#selectMinAgeRange').append(option);
+    $('#selectMaxAgeRange').append(option);
+}
+
+
+
+
+
 $(document).ready(function(){
-    subMenuWanted(1);
-    //window.scrollTo(0,4000);
-    //console.log($('organized-event-id-1').offset());
+    subMenuWanted(0);
+
     location.href = "#organized-event-id-1";
 
 
