@@ -7,7 +7,9 @@
     error_reporting(E_ALL);
     $db = dbConnect();
     
-    getInfosAllEvent($db);
-    //getMatchIdTitle($db);
-    //getOrganizerMatchIdTitle($db, 'toto1@gmail.com');
+    $match_id = 1;
+    $mail = 'toto1@gmail.com';
+    
+    //getInfoEvent($db, $match_id);
+    getAllOrganizerEvents($db, $mail)
 ?>

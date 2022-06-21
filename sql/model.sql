@@ -90,6 +90,7 @@ CREATE TABLE public.match(
 	sport_id                INT  NOT NULL ,
 	match_id_match_result   INT  NOT NULL ,
 	town_id                 INT  NOT NULL  ,
+	is_finished   BOOL  NOT NULL ,
 	CONSTRAINT match_PK PRIMARY KEY (match_id) ,
 	CONSTRAINT match_AK UNIQUE (organizer_id)
 
@@ -108,8 +109,7 @@ CREATE TABLE public.play(
 	is_registered   BOOL  NOT NULL ,
 	wait_response   BOOL  NOT NULL ,
 	role       INT  NOT NULL  , -- 0 => Organizer, 1 => Player, 2 => player + Organizer
-	team_a          BOOL  NOT NULL ,
-	team_b          BOOL  NOT NULL  ,
+	team       INT  NOT NULL  , -- 0 => team_A, 1 => team_B, 2 => no_team
 	CONSTRAINT play_PK PRIMARY KEY (match_id,mail)
 
 	,CONSTRAINT play_match_FK FOREIGN KEY (match_id) REFERENCES public.match(match_id)
