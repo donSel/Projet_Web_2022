@@ -1,5 +1,5 @@
     function generateCardInfoEvent(infos){ //[id_match,titre,sport,ville,date,heure,inscrits,max]
-    let txt = '<div class="card-event" id="card-event-number' + infos[0] + '">'
+    let txt = '<div class="card-event" id="cardEventNumber-' + infos[0] + '">'
         + '<div class="card-event-infos-background">'
         + '<div class="card-event-infos">'
         + infos[1] + ', ' + infos[2] + '<br>'
@@ -94,7 +94,7 @@ function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_u
         }
     );
 }
-function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA,scoreB,vainqueur]
+function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA-scoreB,vainqueur]
     let txt = "<div id = \"little-window\">"
         + "<div id=\"title-little-window\">"
         + infos[1]
@@ -102,6 +102,8 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
         + "<div id=\"body-little-window\">"
         + "<div id=\"left-side\">";
     if (infos[2]) {
+        let score = infos[11].split("-");
+
         txt += "<div id='best'>"
             + "<span class='twenty-five space-right space-up'>Meilleur(e) joueur(euse) : </span>"
             + "<div  class=\"little-profil\">"
@@ -113,7 +115,7 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
             + "<span class='a'>État de l'évènement : Terminé</span><br>"
             + "<span class='z'>Votre rôle dans le match : "+ infos[6] +"</span><br>"
 
-            + "<span class='a'>Score "+ infos[11] +" / "+ infos[12] +" === Vainqueur : "+ infos[13] +"</span><br>"
+            + "<span class='a'>Score "+ score[0] +" / "+ score[1] +" === Vainqueur : "+ infos[12] +"</span><br>"
 
             + "</div>"
 
@@ -143,7 +145,6 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
         + "</div>"
         + "</div>" ;
 
-    console.log(txt);
 
     $('#popup').html(txt);
     $('#close').click(function (e)
@@ -165,91 +166,50 @@ $(document).ready(function(){
     generateMyEvent([0,'foot2rue']);
     $('.card-event').click(function (e)
         {
-            console.log(e.currentTarget.id); //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
+
+            let idEvent = e.currentTarget.id.split("-"); //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
             setShowInfosMode([0,'titre','description','Arnaud','images/default_avatar.jpg','--','--:--','--:--','--',10,2]);
+
+            //HERE
+            $('#register').click(function(e){
+                console.log(idEvent[1]);
+            })
         }
     );
     $('.normal').click(function (e)
         {
             console.log(e.currentTarget.id);
-            setShowInfosNormalMode([0,'titre',true,0,'images/default_avatar.jpg','Jean-Eude','Organisateur','--:--','--','Bretteville','rue du moulin',10,2,'ÉquipeA']);
+            setShowInfosNormalMode([0,'titre',true,0,'images/default_avatar.jpg','Jean-Eude','Organisateur','--:--','--','Bretteville','rue du moulin','10-2','ÉquipeA']);
 
 
         }
     );
-    $('.one-event').click(function (e)
-        {
-            console.log(e.currentTarget.id);
 
-        }
-    );
 
     $('#research').click(function (e)
         {
-            console.log('Rechercher');
+            let tabSearch = [];
+            tabSearch.push($('#ville').val());
+            tabSearch.push($('#sport').val());
+            tabSearch.push($('#période').val());
+            tabSearch.push($('#statut_match').val());
+
+            for (let i = 0; i< tabSearch.length;i++){
+                console.log(tabSearch[i])
+            }
 
         }
     );
 
     $('#new-organizes-event').click(function (e)
     {
-        console.log('Nouveau');
+        window.location.href = "organize.html?mode=0";
+
 
     });
-
-    //setShowInfosMode();
 
 
 });
 
 
 
-
-
-/*
-
-<div class="card-event">
-        <div class="card-event-infos-background">
-            <div class="card-event-infos">
-                titre,sport <br>
-                ville,<br>
-                date,heure<br>
-                inscrits/max (:évènmentA)
-            </div>
-        </div>
-    </div>
-
-
-<div class="one-event">
-                    <span>titre évènement</span>
-                </div>
-
-
-
-
-+ "<div id=\"left-side\">"
-
-
-
-
-        + "<div class=\"infos-match left\">"
-        + "<div class='grid-double'>"
-            + "<span>Meilleur(e) joueur(euse) :</span>"
-            + "<div class=\"little-profil\">"
-            + "<img src=\"images/default_avatar.jpg\" alt=\"image de profil\" width=\"70\" height=\"83\">"
-            + "<span class=\"little-box\">profil</span>"
-            + "</div>"
-        + "</div>"
-        + "<span>État de l'évènement : Terminé</span><br>"
-        + "<span>Votre rôle dans le match : Joueur</span><br><br>"
-        + "<span>Score : 0 / 0</span><br>"
-        + "<span>Gagnant : équipeA</span><br>"
-        + "</div>"
-        + "</div>"
-        + "<div id=\"right-side\">"
-
-
-        + "<button id='close' >Fermer</button>"
-
-        + "</div>"
- */

@@ -14,7 +14,7 @@ function generateMiniProfileIn(infos){ //[id,nom,prénom,mail,statut,équipe]
                 + '<input class="scoretxt-card-info-three" type="text">'
             + '</div>'
         + '</div>';
-    $('#all_players-in' + infos[0]).append(txt);
+    $('#all_players-in' + where).append(txt);
 }
 
 function generateMiniProfileWait(infos){//[id,nom,prénom,mail,statut]
@@ -28,17 +28,19 @@ function generateMiniProfileWait(infos){//[id,nom,prénom,mail,statut]
         +'<img src="images/default_avatar.jpg" alt="profil" width="70" height="83">'
             +'<div class="score-card-info-three card-for-wait">'
 
-                +'<button>Équipe A</button>'
-                +'<button>Équipe B</button>'
+                +'<button class="buttonSetTeamA" id="setToTeamA-' + where + '-' + infos[0] + '">Équipe A</button>'
+                +'<button class="buttonSetTeamB" id="setToTeamB-' + where + '-' + infos[0] + '">Équipe B</button>'
                 +'<br>'
-                    +'<button>refus</button>'
+                    +'<button class="buttonSetRefus" id="setToRefus-' + where + '-' + infos[0] + '">refus</button>'
             +'</div>'
     +'</div>';
-    $('#all_players-wait' + infos[0]).append(txt);
+    $('#all_players-wait' + where).append(txt);
+
+
 }
 
 function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
-    let txt = '<div id="organized-event-id-' + infos[0] + '" class="one-event-organization-head">'
+    let txt = '<div id="organizedEventId-' + infos[0] + '" class="one-event-organization-head">'
         + '<div class="one-event-organization-title">'
             + '<span>' + infos[1] + '</span><br>'
         + '</div>'
@@ -46,7 +48,7 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
             + '<div class="box-register-subinfo one-event-organization-details">'
                 + '<span>Sport : ' + infos[2] + ', date : ' + infos[3] + ', heure : ' + infos[4] + ', minimum : ' + infos[5] + ', inscrits : [' + infos[7] + '/' + infos[6] + ']</span>'
             + '</div>'
-            + '<div class="box-register-subinfo">'
+            + '<div class="box-register-subinfo min-h">'
                 + '<span class="sub-title">Joueurs :</span><br>'
                 + '<div id="all_players-in' + infos[0] + '" class="show-all_players">'
 
@@ -90,7 +92,7 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
                         + '</div>'
                     + '</div>'
 
-                    + '<button id="end-event-org-'+infos[0]+'" class="classic-button end-button">Terminer</button>'
+                    + '<button id="endEventOrg-'+infos[0]+'" class="classic-button end-button">Terminer</button>'
 
 
                 + '</div>'
@@ -101,6 +103,8 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
 
     + '</div>';
     $('#all-events-organization').append(txt);
+
+
 
 }
 
@@ -122,28 +126,29 @@ function subMenuWanted(menu){ //0 or 1
 
             + '<br>'
                 + '<div class="one-event-organization">'
+                        + '<div id="alert-event-creation" class="hidden"><span>Veuillez au minimum saisir les informations marquées d\'une *</span></div>'
 
                     + '<div class="other-infos">'
                         + '<div class="box-register-subinfo wait">'
                             + '<br>'
-                                + 'Discipline (sport) : <input type="text" name="sportName" class="text_field"><br><br>'
-                                + 'Titre <input type="text" name="eventTitle" class="large_text_field"><br><br>'
+                                + '*Discipline (sport) : <input type="text" id="sportName" name="sportName" class="text_field"><br><br>'
+                                + '*Titre <input type="text" id="eventTitle" name="eventTitle" class="large_text_field"><br><br>'
                                 + 'Description <br><br>'
                                 + '<textarea name="eventDescription" id="commentary" rows="5" cols="20" placeholder="entrer votre la description de votre évènement"></textarea><br><br>'
-                                + 'Nombre Minimum <select id="selectNbMinPlayer" name="eventNbMin"></select>'
-                                + 'Nombre Maximum <select id="selectNbMaxPlayer" name="eventNbMax"></select><br><br>'
-                                + 'ville <input type="text" name="eventTown" class="text_field"><br><br>'
-                                + 'adresse <input type="text" name="eventAdress" class="text_field"><br><br>'
+                                + '*Nombre Minimum <select id="selectNbMinPlayer" name="eventNbMin"></select>'
+                                + '*Nombre Maximum <select id="selectNbMaxPlayer" name="eventNbMax"></select><br><br>'
+                                + '*ville <input type="text" id="eventTown" name="eventTown" class="text_field"><br><br>'
+                                + '*adresse <input type="text" id="eventAdress" name="eventAdress" class="text_field"><br><br>'
                         + '</div>'
 
                         + '<div class="box-register-subinfo wait">'
                             + '<br>'
-                                + 'date <input type="date" id="start" name="eventDate"><br><br>'
-                                + 'heure <input type="time" name="eventHour"><br><br>'
-                                + 'durée éstimée <input type="time"  name="eventDuration"><br><br>'
-                                + 'prix <input type="text" name="eventPrice" class="small_text_field"><br><br>'
-                                + 'tranche d\'âge <select id="selectMinAgeRange" name="eventNbMin"></select> - <select id="selectMaxAgeRange" name="eventNbMax"></select><br><br>'
-                                + 'participer <input type="checkbox" name="isOrganiserParticipating"><br><br>'
+                                + '*date <input type="date" id="start" name="eventDate"><br><br>'
+                                + '*heure <input type="time" id="eventHour" name="eventHour"><br><br>'
+                                + '*durée éstimée <input type="time" id="eventDuration" name="eventDuration"><br><br>'
+                                + '*prix <input type="text" id="eventPrice" name="eventPrice" class="small_text_field"><br><br>'
+                                + '*tranche d\'âge <select id="selectMinAgeRange" name="eventNbMin"></select> - <select id="selectMaxAgeRange" name="eventNbMax"></select><br><br>'
+                                + 'participer <input type="checkbox" id="isOrganiserParticipating" name="isOrganiserParticipating"><br><br>'
                         + '</div>'
 
 
@@ -177,7 +182,7 @@ function subMenuWanted(menu){ //0 or 1
         createSelectAgeRange();
         $('#go-register').click(function (e)
             {
-                subMenuWanted(1);
+                window.location.href = "organize.html?mode=1";
 
             }
         );
@@ -185,6 +190,43 @@ function subMenuWanted(menu){ //0 or 1
         $('#start-event').click(function (e)
             {
                 console.log('Lance l\'évènement');
+                let tab=[];
+                tab.push($('#sportName').val());
+                tab.push($('#eventTitle').val());
+                tab.push($('#commentary').val());
+                tab.push($('#selectNbMinPlayer').val());
+                tab.push($('#selectNbMaxPlayer').val());
+                tab.push($('#eventTown').val());
+                tab.push($('#eventAdress').val());
+
+
+                tab.push($('#start').val());
+                tab.push($('#eventHour').val());
+                tab.push($('#eventDuration').val());
+                tab.push($('#eventPrice').val());
+                tab.push($('#selectMinAgeRange').val());
+                tab.push($('#selectMaxAgeRange').val());
+
+                let check = true;
+
+                for (let i=0;i<tab.length;i++){
+                    if (i!=2){
+                        if (tab[i] == ""){
+                            check = false
+                        }
+                    }
+                }
+                tab.push($('#isOrganiserParticipating').prop("checked"));
+                if (check){
+                    console.log('OK tu passes')
+                    console.log(tab[tab.length - 1]);
+                }
+                else{
+                    console.log('Tu passes pas')
+                    $('#alert-event-creation').removeClass('hidden');
+                }
+
+
 
             }
         );
@@ -196,23 +238,60 @@ function subMenuWanted(menu){ //0 or 1
         generateEventOrganize([0,'titre0','foot','date','heure',2,20,8]); //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
         generateEventOrganize([1,'titre1','hand','date','heure',4,20,5]);
 
+        where = 0;
         for (let i=0;i<3;i++){
-            generateMiniProfileIn([0,'Leroy','gérard','gégé@gmail.com','débutant','A']); //[id,nom,prénom,mail,statut,équipe]
+            generateMiniProfileIn([i+1,'Leroy','gérard','gégé@gmail.com','débutant','A']); //[id,nom,prénom,mail,statut,équipe]
         }
+        where = 1;
         for (let i=0;i<3;i++){
-            generateMiniProfileWait([1,'Leroy','gérard','gégé@gmail.com','débutant']); //[id,nom,prénom,mail,statut]
+            generateMiniProfileWait([i+1,'Leroy','gérard','gégé@gmail.com','débutant']); //[id,nom,prénom,mail,statut]
         }
         $('#go-new-event').click(function (e)
             {
-                subMenuWanted(0);
+                window.location.href = "organize.html?mode=0";
             }
         );
         $('.end-button').click(function (e)
             {
                 console.log(e.currentTarget.id);
+                let idEvent = e.currentTarget.id.split("-");
+                let tabBest = [];
+
+                tabBest.push($('#select-bestA'+idEvent[1]).val());
+                tabBest.push($('#select-bestB'+idEvent[1]).val());
+                tabBest.push($('#select-bestC'+idEvent[1]).val());
+                tabBest.push($('#select-bestD'+idEvent[1]).val());
+
+                for (let i = 0;i<tabBest.length;i++){
+                    console.log(tabBest[i]);
+                }
+
+            }
+        );
+        $('.buttonSetTeamA').click(function (e)
+            {
+                console.log(' TEAM A !');
+                acceptationOrNot(e.currentTarget.id)
+            }
+        );
+        $('.buttonSetTeamB').click(function (e)
+            {
+                console.log(' TEAM B !');
+                acceptationOrNot(e.currentTarget.id)
+            }
+        );
+        $('.buttonSetRefus').click(function (e)
+            {
+                console.log(' Refus !');
+                acceptationOrNot(e.currentTarget.id)
             }
         );
     }
+}
+
+function acceptationOrNot(id){
+    let infos = id.split("-");
+    console.log(infos[0] + ' ' + infos[1] + ' ' + infos[2]);
 }
 
 function createSelectNbPlayer(){
@@ -247,11 +326,13 @@ $(document).ready(function(){
         mode = 0;
     }
 
-    console.log(mode)
-
     subMenuWanted(mode);
 
-    location.href = "#organized-event-id-" + parsedUrl.searchParams.get("location");
+    if(mode == 1){
+        location.href = "#organizedEventId-" + parsedUrl.searchParams.get("location");
+
+    }
+
 
 
 

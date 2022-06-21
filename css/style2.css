@@ -154,7 +154,7 @@ nav {
     display: grid;
     overflow-y: scroll;
 
-    grid-template-columns: repeat(auto-fit,800px);
+    grid-template-columns: repeat(auto-fit,600px);
 }
 
 .one-event span{
@@ -219,12 +219,18 @@ nav {
     position : fixed;
     width : 100%;
     text-align : center;
-    top : 100px;
+    top : 70px;
 }
 
 #close {
     font-size : 40px;
     margin-top : 10px;
+}
+
+#alert-event-creation{
+    width : 100%;
+    text-align: center;
+    color : red;
 }
 
 
@@ -306,6 +312,10 @@ nav {
     border-radius : 30px;
     margin-left : 171px;
     margin-right : 171px;
+}
+
+.min-h{
+    min-height : 200px;
 }
 
 .box-register-subinfo .sub-title {
