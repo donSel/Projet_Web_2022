@@ -22,7 +22,7 @@
 
     
     //----------------------------------------------------------------------------
-    //---------------------------------------------------------- Requests funciton  ----------------------------------------------------------
+    //---------------------------------------------------------- Requests functions  ----------------------------------------------------------
     //----------------------------------------------------------------------------
 
     
@@ -162,7 +162,7 @@
     // function to check if the mail already exists
     function mailExists($db, $mail){
         $arrUser = getUser($db, $mail);
-        foreach ($arrUsers as $val){ // changer foreach
+        foreach ($arrUser as $val){ // changer foreach
             if ($val['mail'] == $mail){
                 return true;
             }
@@ -181,14 +181,13 @@
         if ($arrLength == 0){ // return 0 if the town doesn't exist in the DB
             return 0;
         }
-        print_r($data);
-        return $data[0]['town_id']; // return the id of the town if it already exist in the DB
+        return $data['0']['town_id']; // return the id of the town if it already exist in the DB
     }
     
     
     function addNewTown($db, $town){
         // inserting the new town
-        $stmt = $conn->prepare("INSERT INTO town (value) VALUES (:town)");
+        $stmt = $db->prepare("INSERT INTO town (town) VALUES (:town)");
         $stmt->bindParam(':town', $town);
         $stmt->execute();
         // returning the id of the inserted town
@@ -197,8 +196,7 @@
         $statement->bindParam(':town', $town);
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        print_r($data);
-        return $data[0]['town_id'];
+        return $data['0']['town_id'];
     }
     
     
@@ -210,37 +208,37 @@
     
     function insertEmptyReview($db){
         // inserting an empty review
-        $db = "INSERT INTO review (review_value, review_text) VALUES (-1, '')";
-        if ($conn->query($sql) === TRUE) {
-           		echo "New record created successfully";
-        } 
-        else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        $stmt = "INSERT INTO review (review_value, review_text) VALUES (-1, '')";
+        $db->query($stmt);
         // getting the id of the last inserted review (even if it's empty)
         $reviewArray = getReviews($db);
-        $arrLength = count($data);
-        print_r($arrLength);
-        return $reviewArray[$arrLength - 1]['review_id'];
+        return end($reviewArray)['review_id'];
     }
     
     
-    function registerNewUser($db, $last_name, $first_name, $town, $photo_url, $mail, $password){ //  /!\ Encrypt the password and passing town names in lowercase 
+    function registerNewUser($db, $last_name, $first_name, $town, $mail, $password){ //  /!\ Encrypt the password and passing town names in lowercase 
+        if (mailExists($db, $mail)){
+            echo "mail exists";
+            return false;
+        }
+        
         // Cheking and inserting the town if it doesn't already exist
         $res = townAlreadyExist($db, $town);
         if ($res == 0){
+            echo "town not exist";
             $town_id = addNewTown($db, $town);
         }
         else {
+            echo "town exist";
             $town_id = $res;
         }
         
         //insert an empty review
         $review_id = insertEmptyReview($db);
         
-        // inserting the new user in the database
-        $stmt = $db->prepare("INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_player, review_id, town_id) 
-                            VALUES (:mail, :last_name, :first_name, :password, '', NULL, NULL, 0, :review_id, :town_id)");
+        // inserting the new user in the database mail
+        $stmt = $db->prepare("INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_played, review_id, town_id) 
+                            VALUES (:mail, :last_name, :first_name, :password, '', -1, -1, 0, :review_id, :town_id)");
         $stmt->bindParam(':mail', $mail);
         $stmt->bindParam(':last_name', $last_name);
         $stmt->bindParam(':first_name', $first_name);
@@ -248,6 +246,7 @@
         $stmt->bindParam(':review_id', $review_id);
         $stmt->bindParam(':town_id', $town_id);
         $stmt->execute();
+        return true;
     }
     
     
