@@ -9,9 +9,15 @@ $request = explode('/', $request);
 $requestRessource = array_shift($request);
 
 
-if ($requestRessource == 'my-organize-event'){
+if ($requestRessource == 'search-event'){
     $result = 0; //default value
 
+    if ($requestMethod == 'POST'){
+        $result = add($_POST['value1'],$_POST['value2']);
+    }
+    if ($requestMethod == 'POST'){
+        $result = add($_POST['value1'],$_POST['value2']);
+    }
     if ($requestMethod == 'POST'){
         $result = add($_POST['value1'],$_POST['value2']);
     }

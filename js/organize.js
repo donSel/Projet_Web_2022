@@ -35,8 +35,6 @@ function generateMiniProfileWait(infos){//[id,nom,prénom,mail,statut]
             +'</div>'
     +'</div>';
     $('#all_players-wait' + where).append(txt);
-
-
 }
 
 function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
@@ -98,19 +96,12 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
                 + '</div>'
             + '</div>'
         + '</div>'
-
-
-
     + '</div>';
     $('#all-events-organization').append(txt);
-
-
-
 }
 
 function subMenuWanted(menu){ //0 or 1
     let txt = '';
-    console.log(menu);
 
     if (menu == 0){
         txt += '<nav>'
@@ -150,13 +141,7 @@ function subMenuWanted(menu){ //0 or 1
                                 + '*tranche d\'âge <select id="selectMinAgeRange" name="eventNbMin"></select> - <select id="selectMaxAgeRange" name="eventNbMax"></select><br><br>'
                                 + 'participer <input type="checkbox" id="isOrganiserParticipating" name="isOrganiserParticipating"><br><br>'
                         + '</div>'
-
-
-
-
                         + '<button id="start-event" class="classic-button">Lancer</button>'
-
-
                     + '</div>'
                 + '</div>'
         + '</div>';
@@ -183,7 +168,6 @@ function subMenuWanted(menu){ //0 or 1
         $('#go-register').click(function (e)
             {
                 window.location.href = "organize.html?mode=1";
-
             }
         );
 
@@ -225,13 +209,8 @@ function subMenuWanted(menu){ //0 or 1
                     console.log('Tu passes pas')
                     $('#alert-event-creation').removeClass('hidden');
                 }
-
-
-
             }
         );
-
-
 
     }
     else{
@@ -265,7 +244,6 @@ function subMenuWanted(menu){ //0 or 1
                 for (let i = 0;i<tabBest.length;i++){
                     console.log(tabBest[i]);
                 }
-
             }
         );
         $('.buttonSetTeamA').click(function (e)
@@ -309,15 +287,10 @@ function createSelectAgeRange(){
     let option = '';
     for (i = 1; i <= 100; i++){
         option += '<option value="' + i + '">' + i + '</option>';
-        //console.log(option);
     }
     $('#selectMinAgeRange').append(option);
     $('#selectMaxAgeRange').append(option);
 }
-
-
-
-
 
 $(document).ready(function(){
     let parsedUrl = new URL(window.location.href);
@@ -330,106 +303,6 @@ $(document).ready(function(){
 
     if(mode == 1){
         location.href = "#organizedEventId-" + parsedUrl.searchParams.get("location");
-
     }
-
-
-
-
-
-
 });
 
-
-/*
-
-<div class="card-info-three">
-    <div class="infos-card-info-three">
-    <span>nom, prénom<br>
-    mail,<br>
-    statut sportif
-    </span>
-    </div>
-    <img src="images/default_avatar.jpg" alt="profil" width="70" height="83">
-    <div class="score-card-info-three card-for-wait">
-
-        <button>Équipe A</button>
-        <button>Équipe B</button>
-        <br>
-        <button>refus</button>
-    </div>
-</div>
-
-
-
-
-
-<div class="one-event-organization-head">
-            <div class="one-event-organization-title">
-                <span>Titre mon évènement A (que j'organise): </span><br>
-            </div>
-            <div class="one-event-organization">
-                <div class="box-register-subinfo one-event-organization-details">
-                    <span>Sport,date,heure,nb_minimum [nb_joueurs / nb_total]</span>
-                </div>
-                <div class="box-register-subinfo">
-                    <span class="sub-title">Joueurs :</span><br>
-                    <div id="all_players-in1" class="show-all_players">
-
-                    </div>
-
-                </div>
-                <div class="other-infos">
-                    <div class="box-register-subinfo wait">
-                        <span class="sub-title">Liste des attentes:</span><br>
-                        <div id="all_players-wait1" class="show-all_players">
-
-
-
-
-                        </div>
-
-                    </div>
-                    <div class="end-stats">
-                        <div class="box-register-subinfo sizes-one">
-                            <div class="select-best-box">
-                                <div class="select-best-box-txt">
-                                    <label  for="select-bestA1">Meilleur(e) joueur(euse)</label><br>
-                                    <select id="select-bestA1">
-                                        <option value="valeur1">Valeur 1</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="box-register-subinfo sizes-two">
-                            <div class="select-best-box">
-                                <div class="select-best-box-txt">
-                                    <label for="select-bestB1">Gagnant :</label>
-                                    <select id="select-bestB1">
-                                        <option value="valeur1">Valeur 1</option>
-                                    </select>
-                                </div>
-
-                                <div class="select-best-box-txt">
-                                    <span> Score : </span>
-                                    <input type="text" id="select-bestC1">
-                                    <span> / </span>
-                                    <input type="text" id="select-bestD1">
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="classic-button">Terminer</button>
-
-
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-
-
- */
