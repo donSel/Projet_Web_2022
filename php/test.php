@@ -25,8 +25,10 @@
     //echo "player inserted : " . $res;
     
     
-    $res = registerNewUser($db, 'Neroda', 'Alexandre', 'Moscou', 'neroda.alexandre@gmail.com', '123');
-    echo "player inserted : " . $res;
+    //$res = registerNewUser($db, 'Neroda', 'Alexandre', 'Moscou', 'neroda.alexandre@gmail.com', '123');
+    //echo "player inserted : " . $res;
+    
+    echo " res1 : " . isGoodLogin($db, 'Bertrand.RIESSE@gmail.com', 'aze');
     
     //$town_id = addNewTown($db, $town);
     //echo $town_id;

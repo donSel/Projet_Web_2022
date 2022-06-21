@@ -150,15 +150,6 @@
     }
     
     
-    function getUser($db, $mail){
-        $request = 'SELECT * FROM player WHERE mail=:mail';
-        $statement = $db->prepare($request);
-        $statement->bindParam(':mail', $mail);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC); 
-    }
-    
-    
     // function to check if the mail already exists
     function mailExists($db, $mail){
         $arrUser = getUser($db, $mail);
@@ -216,30 +207,33 @@
     }
     
     
-    function registerNewUser($db, $last_name, $first_name, $town, $mail, $password){ //  /!\ Encrypt the password and passing town names in lowercase 
+    function registerNewUser($db, $last_name, $first_name, $photo_url, $town, $mail, $password){ //  /!\ Encrypt the password and passing town names in lowercase 
         if (mailExists($db, $mail)){
-            echo "mail exists";
             return false;
         }
         
         // Cheking and inserting the town if it doesn't already exist
         $res = townAlreadyExist($db, $town);
         if ($res == 0){
-            echo "town not exist";
             $town_id = addNewTown($db, $town);
         }
         else {
-            echo "town exist";
             $town_id = $res;
         }
         
         //insert an empty review
         $review_id = insertEmptyReview($db);
         
+        //checking if the avatar url has to be default 
+        if (empty($photo_url)){
+            $photo_url = "images/default_avatar.jpg"; 
+        }
+   
         // inserting the new user in the database mail
         $stmt = $db->prepare("INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_played, review_id, town_id) 
-                            VALUES (:mail, :last_name, :first_name, :password, '', -1, -1, 0, :review_id, :town_id)");
+                            VALUES (:mail, :password, :first_name, :last_name, :photo_url, -1, -1, 0, :review_id, :town_id)");
         $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':photo_url', $photo_url);
         $stmt->bindParam(':last_name', $last_name);
         $stmt->bindParam(':first_name', $first_name);
         $stmt->bindParam(':password', $password);
@@ -253,17 +247,35 @@
     //----------------------------------------------------------------------------
     //---------------------------------------------------------- Connexion  ----------------------------------------------------------
     //----------------------------------------------------------------------------
-    
+
     
     function isGoodLogin($db, $mail, $password){
         $arrUser = getUser($db, $mail);
-        foreach ($arrUser as $val){ // changer foreach
+        foreach ($arrUser as $val){
             if ($val['mail'] == $mail && $val['password'] == $password){
                 return true;
             }
         }
         return false;
     }
+    
+    
+    function getUser($db, $mail){
+        $request = 'SELECT * FROM player WHERE mail=:mail';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
+    }
         
+    
+    function redirectSearchPage(){
+        $url = 'search.html';
+        ob_start();
+        header('Location: '.$url);
+        ob_end_flush();
+        die();
+    }
+    
         
 ?>

@@ -15,29 +15,30 @@
     
     $arrLastName = ['ROM-PUISAIS', 'ROM DANE', 'ROLZOU', 'ROLZHAUSEN', 'ROLZEN'	, 'ROLZ', 'ROLU', 'ROLTMIT'	, 'ROLTHMEIR', 'ROLT-LEVEQUE', 'ROBICOUET', 'ROBICO', 'ROBICKEZ', 'ROBICHOY', 'ROBICHOU', 'RIESSE'];
     $arrFirstName = ['Bernard', 'Thomas' , 'Petit', 'Robert', 'Richard', 'Durand', 'Dubois', 'Moreau', 'Laurent', 'Simon', 'Michel', 'Lefebvre', 'Leroy', 'Roux', 'David', 'Bertrand'];
-    //16
+    $arrFirstNameLen = count($arrFirstName);
+    $arrLastNameLen = count($arrLastName);
+    
+    $photo_url = '';
     $mdp = 'aze';
-    $tel = '0783069282';
-    
-    $arrSpecialite = ['proctologue', 'urologue', 'cardiologue', 'OLR', 'chirurgien de la face', 'psychiatre']; //6
-    $arrEtablissement = ['CHU', 'Hopital Dieu', 'Clinique Anatole France']; ///3
     $arrAdresse = ['1 Pl. Alexis-Ricordeau', '12 boulevard de Alsace', '3 place Anatole France']; 
-    $arrCodePostal = ['44093', '69120', '44100'];  
-    $arrVille = ['Nantes', 'Vaulx-en-velin', 'Nantes'];
+    $arrVille = ['Nantes', 'Vaulx-en-velin', 'Angers', 'Paris', ];
+    $arrVilleLen = count($arrVille);
     
-    $n = count($arrLastName);
-    
-    for ($i = 0; $i < 16; $i++){
+    for ($i = 0; $i < $arrFirstNameLen; $i++){
         $mail = $arrFirstName[$i] . "." . $arrLastName[$i] . "@gmail.com";
-        if ($i < 7){
-            addUser($db, $mdp, $arrFirstName[$i], $arrLastName[$i], $mail, $tel);
-        } else {
-            $randI = rand(0, 5);
-            $randJ = rand(0, 2);
-            addDoc($db, $mdp, $arrFirstName[$i], $arrLastName[$i], $mail, $tel, $arrSpecialite[$randI], $arrEtablissement[$randJ], $arrAdresse[$randJ], $arrVille[$randJ], $arrCodePostal[$randJ]);
+        $randJ = rand(0, $arrVilleLen - 1);
+        $res = registerNewUser($db, $arrLastName[$i], $arrFirstName[$i], $photo_url, $arrVille[$randJ], $mail, $mdp);
+        if ($res == true){
+            echo "player inserted succesfully !<br>";
+        }
+        else {
+            echo "player not inserted !<br>";
         }
     }
     
+//------------------------------------------------------------
+//-- Filling Match table
+//------------------------------------------------------------
     
     
 ?>
