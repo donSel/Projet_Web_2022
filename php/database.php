@@ -197,6 +197,18 @@
     }
     
     
+    function getSports($db){
+        $statement = $db->query('SELECT * FROM sport');
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }    
+    
+    
+    function getTowns($db){
+        $statement = $db->query('SELECT * FROM town');
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    } 
+    
+    
     function insertEmptyReview($db){
         // inserting an empty review
         $stmt = "INSERT INTO review (review_value, review_text) VALUES (-1, '')";
@@ -276,6 +288,127 @@
         ob_end_flush();
         die();
     }
+    
+    
+//----------------------------------------------------------------------------
+//---------------------------------------------------------- Organize  ----------------------------------------------------------
+//----------------------------------------------------------------------------
+
+
+    function sportAlreadyExist($db, $sport_name){
+        $request = 'SELECT sport_id FROM sport WHERE sport_name=:sport_name';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':sport_name', $sport_name);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $arrLength = count($data);
+        if ($arrLength == 0){ // return 0 if the town doesn't exist in the DB
+            return 0;
+        }
+        return $data['0']['sport_id']; // return the id of the town if it already exist in the DB
+    }
+
+
+    function addNewSport($db, $sport_name){
+        // inserting the new sport
+        $stmt = $db->prepare("INSERT INTO sport (sport_name) VALUES (:sport_name)");
+        $stmt->bindParam(':sport_name', $sport_name);
+        $stmt->execute();
+        // returning the id of the inserted town
+        $sportsArray = getSports($db);
+        return end($sportsArray)['sport_id'];
+        
+        /* $request = 'SELECT sport_id, sport_name FROM sport WHERE sport=:sport'; OLD
+        $statement = $db->prepare($request);
+        $statement->bindParam(':town', $town);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $data['0']['town_id'];*/
+    }
+    
+    
+    function getMatchResults($db){
+        $statement = $db->query('SELECT * FROM match_result');
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
+    }
+    
+
+    function insertEmptyMatchResult($db){
+        // inserting an empty review
+        $stmt = "INSERT INTO match_result (score_match, duration, best_player, winner) VALUES ('', '', '', '')";
+        $db->query($stmt);
+        // getting the id of the last inserted review (even if it's empty)
+        $matchResultsArray = getMatchResults($db);
+        return end($matchResultsArray)['match_id'];
+    }
+    
+    
+    function insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range){ //  /!\ Encrypt the password and passing town names in lowercase 
+                                                                                    // check if the match is created and insert the organizer as a player/organizer in play table
+                                                                                    // vérifier que le min est pas > au max, de même pour l'age range
+                                                                                    // vérifier que la date/heure rentrée est pas antérieure à l'actuelle
+                                                                                    // limiter le nombre de caractère pour le titre et la description (commentaire aussi)
+        // Cheking and inserting the sport if it doesn't already exist
+        $res = sportAlreadyExist($db, $sport);
+        if ($res == 0){
+            $sport_id = addNewSport($db, $sport);
+        }
+        else {
+            $sport_id = $res;
+        }
+        
+        // Cheking and inserting the town if it doesn't already exist
+        $res = townAlreadyExist($db, $town);
+        if ($res == 0){
+            $town_id = addNewTown($db, $town);
+        }
+        else {
+            $town_id = $res;
+        }
+        
+        //insert an empty review
+        $match_id_match_result = insertEmptyMatchResult($db);
+        
+        // values to insert
+        $registered_count = 0;
+        $is_finished = false;
+        
+        // inserting the new match in the database mail
+        $stmt = $db->prepare("INSERT INTO match (number_max_player, number_min_player, date, hour, address, price, registered_count, 
+                                title, age_range, match_description, duration, organizer_id, sport_id, match_id_match_result, town_id, is_finished) 
+                            VALUES (:number_max_player, :number_min_player, :date, :hour, :address, :price, :registered_count, 
+                                :title, :age_range, :match_description, :duration, :organizer_id, :sport_id, :match_id_match_result, :town_id, :is_finished");
+        $stmt->bindParam(':number_max_player', $number_max_player);
+        $stmt->bindParam(':number_min_player', $number_min_player);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':hour', $hour);
+        $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':registered_count', $registered_count); // 0 to default
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':age_range', $age_range);
+        $stmt->bindParam(':match_description', $match_description);
+        $stmt->bindParam(':duration', $duration);
+        $stmt->bindParam(':organizer_id', $organizer_id);
+        $stmt->bindParam(':sport_id', $sport_id);
+        $stmt->bindParam(':match_id_match_result', $match_id_match_result);
+        $stmt->bindParam(':town_id', $town_id);
+        $stmt->bindParam(':is_finished', $is_finished); // false by default
+        $stmt->execute();
+        return true;
+    }
+    
+    
+    // insert player in a match
+    // update registered count
+    // set player registered + team + role
+    // set player excluded
+    // update (becouse it's empty at the begining) match result => check if mail best player exist
+    // insert goal
+    // set match to finished
+    // update profile
+    
+
     
         
 ?>

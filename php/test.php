@@ -28,7 +28,23 @@
     //$res = registerNewUser($db, 'Neroda', 'Alexandre', 'Moscou', 'neroda.alexandre@gmail.com', '123');
     //echo "player inserted : " . $res;
     
-    echo " res1 : " . isGoodLogin($db, 'Bertrand.RIESSE@gmail.com', 'aze');
+    //echo " res1 : " . isGoodLogin($db, 'Bertrand.RIESSE@gmail.com', 'aze');
+    
+    $organizer_id = 1;
+    $sport = 'foot-ball';
+    $title = 'après-midi foot-ball';
+    $match_description = 'Petite après midi entre amis, match amicaux';
+    $number_min_player = 6;
+    $number_max_player = 20;
+    $town = 'Nantes';
+    $address = 'plaine de jeux des Dervalières';
+    $date = '25:06:2022';
+    $hour = '15:00:00';
+    $duration = '00:90:00';
+    $price = 0;
+    $age_range = '14-30';
+    
+    insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range);
     
     //$town_id = addNewTown($db, $town);
     //echo $town_id;

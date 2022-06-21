@@ -79,7 +79,7 @@ CREATE TABLE public.match(
 	number_min_player       INT  NOT NULL ,
 	date                    DATE  NOT NULL ,
 	hour                    TIME  NOT NULL ,
-	adress                  VARCHAR (50) NOT NULL ,
+	address                  VARCHAR (50) NOT NULL ,
 	price                   FLOAT  NOT NULL ,
 	registered_count        INT  NOT NULL ,
 	title                   VARCHAR (50) NOT NULL ,
