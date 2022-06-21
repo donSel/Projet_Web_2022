@@ -192,10 +192,6 @@ function loadEvents(infos){
         generateCardInfoEvent(infos[i]);
     }
 
-
-
-
-
     $('.card-event').click(function (e)
         {
 
@@ -224,8 +220,6 @@ function loadMyEvent(infos){
         {
             let idMyEvent = e.currentTarget.id.split("-");
             ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=infosNormal&idMatch=' + idMyEvent[1], loadInfosNormalMode);
-
-
         }
     );
 }

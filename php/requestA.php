@@ -1,14 +1,22 @@
 <?php
 
+function show($what){
+    // Send data to the client
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-control: no-store, no-cache, must-revalidate');
+    header('Pragma: no-cache');
+
+    echo json_encode($what); //send as JSON data
+}
 //check the request :
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $request = substr($_SERVER['PATH_INFO'], 1);
 $request = explode('/', $request);
 $requestRessource = array_shift($request);
 
+$result = 0; //default value
 
 if ($requestRessource == 'search-event'){
-    $result = 0; //default value
 
     if ($requestMethod == 'GET'){
         if ($_GET['wanted'] == 'cities'){
@@ -90,13 +98,50 @@ if ($requestRessource == 'search-event'){
         $result = 4;
     }
 
-    // Send data to the client
-    header('Content-Type: application/json; charset=utf-8');
-    header('Cache-control: no-store, no-cache, must-revalidate');
-    header('Pragma: no-cache');
+    show($result);
 
-    echo json_encode($result); //send as JSON data
+}
+else if ($requestRessource == 'organize-event'){
+        if ($requestMethod == 'GET'){
+            if ($_GET["wanted"] == 'showEventOrganize') {
+                $result = [];
+                $result[] = [0, 'titre0', 'foot', 'date', 'heure', 2, 20, 8];
+                $result[] = [1, 'titre1', 'hand', 'date', 'heure', 4, 20, 5];
 
+            }
+            else if ($_GET["wanted"] == 'showMiniProfilesIn') {
+                $result = [];
+                $idMatch = $_GET['idMatch'];
+                $result[] = $idMatch;
+                if($idMatch == 0){
+                    for($i=0;$i<3;$i++){
+                        $result[] = [$i,'Leroy','gérard','gégé@gmail.com','débutant','A'];
+                    }
+                }
+
+
+
+            }
+            else if ($_GET["wanted"] == 'showMiniProfilesWait') {
+                $result = [];
+                $idMatch = $_GET['idMatch'];
+                $result[] = $idMatch;
+                if($idMatch == 0){
+                    for($i=0;$i<3;$i++){
+                        $result[] = [$i,'Leroy','gérard','gégé@gmail.com','débutant'];
+                    }
+                }
+
+
+
+            }
+
+
+
+        }
+
+
+    show($result);
 }
 else{
     header('HTTP/1.1 400 Bad Request');
