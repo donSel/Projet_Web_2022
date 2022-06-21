@@ -59,9 +59,25 @@ if ($requestRessource == 'search-event'){
             $matchID = $_POST["matchID"];
             //Add to database
         }
+        else if ($_POST["what"] == 'createEvent'){
+            $matchID = $_POST["matchID"];
+            $sport = $_POST["sport"];
+            $title = $_POST["title"];
+            $comment = $_POST["comment"];
+            $min = $_POST["min"];
+            $max = $_POST["max"];
+            $town = $_POST["town"];
+            $adress = $_POST["adress"];
+            $date = $_POST["date"];
+            $hour = $_POST["hour"];
+            $duration = $_POST["duration"];
+            $price = $_POST["price"];
+            $minA = $_POST["minA"];
+            $maxA = $_POST["maxA"];
+            $in = $_POST["in"];
+            //Add to database  Pas oublier de préciser le "moi"
+        }
 
-        //$login = $_POST["login"];
-        $result = $_POST["value1"];
     }
     if ($requestMethod == 'PUT'){
         //parse_str(file_get_contents('php://input'), $_PUT);
