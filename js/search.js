@@ -17,7 +17,7 @@ function generateMyOrganizeEvent(infos){ //[id,titre]
     $('#me-organize-all').append(txt);
 }
 function generateMyEvent(infos){ //[id,titre]
-    let txt = '<div id=my-event-id-' + infos[0] + ' class="one-event normal">'
+    let txt = '<div id=myEventId-' + infos[0] + ' class="one-event normal">'
         + '<span>' + infos[1] + '</span>'
         + '</div>';
     $('#my-games-all').append(txt);
@@ -32,7 +32,11 @@ function generateMiniProfile(infos){ //[id_user,nom,url]
 }
 
 
-
+function loadAllPlayers(infos){
+    for (let i = 0; i < infos.length; i++){
+        generateMiniProfile(infos[i]);
+    }
+}
 
 function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
     let txt = "<div id = \"little-window\">"
@@ -80,19 +84,27 @@ function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_u
         + "</div>" ;
     $('#popup').html(txt);
 
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=allPlayers&idMatch=' + infos[0], loadAllPlayers);
+    /*
     generateMiniProfile([0,'Jean','images/default_avatar.jpg']);
     generateMiniProfile([1,'Paul','images/default_avatar.jpg']);
     generateMiniProfile([2,'Adrien','images/default_avatar.jpg']);
     generateMiniProfile([4,'Clark','images/default_avatar.jpg']);
     generateMiniProfile([5,'Batman','images/default_avatar.jpg']);
-    generateMiniProfile([33,'uwu','images/default_avatar.jpg']);
+    generateMiniProfile([33,'uwu','images/default_avatar.jpg']);*/
 
     $('#close').click(function (e)
         {
             $('#popup').html("");
+            //ajaxRequest('PUT', 'php/requestA.php/search-event/',test, 'value1=' + 9 );
+
 
         }
     );
+}
+
+function test(infos){
+    console.log(infos[0])
 }
 function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA-scoreB,vainqueur]
     let txt = "<div id = \"little-window\">"
@@ -155,35 +167,96 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
     );
 }
 
-$(document).ready(function(){
 
 
-    for (let i = 0; i < 15; i++){
-        generateCardInfoEvent([i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12]);
+function loadInfosMode(infos){
+    setShowInfosMode(infos); //[0, 'titre', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2]
+
+    $('#register').click(function(e){
+        console.log('participer '+infos[0]);
+        ajaxRequest('POST', 'php/requestA.php/search-event/',null, 'what=participate&matchID=' + infos[0]);
+        //console.log(idEvent[1]);
+        //ajaxRequest('GET', 'php/requestA.php/search-event/', test);
+    })
+}
+
+function loadInfosNormalMode(infos) {
+    setShowInfosNormalMode(infos); //[0, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA']
+
+}
+
+
+function loadEvents(infos){
+    $('#result').html(""); //init the destination of the cards
+    for (let i = 0; i < infos.length; i++){
+        generateCardInfoEvent(infos[i]);
     }
 
-    generateMyOrganizeEvent([0,'foot2rue']);
-    generateMyEvent([0,'foot2rue']);
+
+
+
+
     $('.card-event').click(function (e)
         {
 
             let idEvent = e.currentTarget.id.split("-"); //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
-            setShowInfosMode([0,'titre','description','Arnaud','images/default_avatar.jpg','--','--:--','--:--','--',10,2]);
+            //setShowInfosMode([0,'titre','description','Arnaud','images/default_avatar.jpg','--','--:--','--:--','--',10,2]);
+            ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=infos&idMatch=' + idEvent[1], loadInfosMode);
 
-            //HERE
-            $('#register').click(function(e){
-                console.log(idEvent[1]);
-            })
         }
     );
+
+}
+
+function loadMyOrganizeEvent(infos){
+    for (let i=0;i<infos.length;i++){
+        generateMyOrganizeEvent(infos[i]);
+    }
+
+}
+
+function loadMyEvent(infos){
+    for (let i=0;i<infos.length;i++){
+        generateMyEvent(infos[i]);
+    }
+
     $('.normal').click(function (e)
         {
-            console.log(e.currentTarget.id);
-            setShowInfosNormalMode([0,'titre',true,0,'images/default_avatar.jpg','Jean-Eude','Organisateur','--:--','--','Bretteville','rue du moulin','10-2','ÉquipeA']);
+            let idMyEvent = e.currentTarget.id.split("-");
+            ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=infosNormal&idMatch=' + idMyEvent[1], loadInfosNormalMode);
 
 
         }
     );
+}
+
+function setOption(id,infos){ //[id_town,town]
+    $('#'+id).append('<option value="'+infos[0]+'">'+infos[1]+'</option>');
+}
+
+function loadCitiesOptions(infos){
+    for (let i=0;i<infos.length;i++){
+        setOption('ville',infos[i]);
+    }
+}
+function loadSportsOptions(infos){
+    for (let i=0;i<infos.length;i++){
+        setOption('sport',infos[i]);
+    }
+}
+
+$(document).ready(function(){
+
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=cities', loadCitiesOptions);
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=sports', loadSportsOptions);
+
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=allEvents', loadEvents);
+
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=myOrganizeEvent', loadMyOrganizeEvent);
+
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=myEvent', loadMyEvent);
+
+
 
 
     $('#research').click(function (e)
@@ -197,6 +270,8 @@ $(document).ready(function(){
             for (let i = 0; i< tabSearch.length;i++){
                 console.log(tabSearch[i])
             }
+            ajaxRequest('GET', 'php/requestA.php/search-event/?ville='+tabSearch[0]+'&sport='+tabSearch[1]+'&periode='+tabSearch[2]+'&statutMatch='+tabSearch[3], loadEvents);
+            //ajaxRequest('POST', 'php/requestA.php/search-event/',test, 'value1=' + 8 );
 
         }
     );
