@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS review,match_result,sport,match,town,player,score,play CASC
 ------------------------------------------------------------
 CREATE TABLE public.review(
 	review_id      SERIAL NOT NULL ,
-	review_value   INT  NOT NULL ,
+	review_value   INT  NOT NULL , -- -1 => no review, 1 => 1 star, 2 => 2 stars, 3 => 3 stars, 4 => 4 stars, 5 => 5 stars
 	review_text    VARCHAR (50) NOT NULL  ,
 	CONSTRAINT review_PK PRIMARY KEY (review_id)
 )WITHOUT OIDS;
@@ -45,8 +45,8 @@ CREATE TABLE public.player(
 	last_name             VARCHAR (50) NOT NULL ,
 	photo_url             VARCHAR (50) NOT NULL ,
 	age                   INT  NOT NULL ,
+	health                INT  NOT NULL  , -- 0 => beginner, 1 => enthusiast, 2 => confirmed, 3 => professional
 	number_match_played   INT  NOT NULL ,
-	health                VARCHAR (50) NOT NULL ,
 	review_id             SERIAL NOT NULL ,
 	town_id               INT  NOT NULL  ,
 	CONSTRAINT player_PK PRIMARY KEY (mail)

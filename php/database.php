@@ -22,7 +22,7 @@
 
     
     //----------------------------------------------------------------------------
-    //---------------------------------------------------------- Verification funciton  ----------------------------------------------------------
+    //---------------------------------------------------------- Requests funciton  ----------------------------------------------------------
     //----------------------------------------------------------------------------
 
     
@@ -144,6 +144,127 @@
     //----------------------------------------------------------------------------
     
     
+    // function to check if the two password are the same
+    function isStringSame($string1, $string2){
+        return ($string1 == $string2);
+    }
     
+    
+    function getUser($db, $mail){
+        $request = 'SELECT * FROM player WHERE mail=:mail';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
+    }
+    
+    
+    // function to check if the mail already exists
+    function mailExists($db, $mail){
+        $arrUser = getUser($db, $mail);
+        foreach ($arrUsers as $val){ // changer foreach
+            if ($val['mail'] == $mail){
+                return true;
+            }
+        }
+        return false;
+    } 
 
-    ?>
+    
+    function townAlreadyExist($db, $town){
+        $request = 'SELECT town_id FROM town WHERE town=:town';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':town', $town);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $arrLength = count($data);
+        if ($arrLength == 0){ // return 0 if the town doesn't exist in the DB
+            return 0;
+        }
+        print_r($data);
+        return $data[0]['town_id']; // return the id of the town if it already exist in the DB
+    }
+    
+    
+    function addNewTown($db, $town){
+        // inserting the new town
+        $stmt = $conn->prepare("INSERT INTO town (value) VALUES (:town)");
+        $stmt->bindParam(':town', $town);
+        $stmt->execute();
+        // returning the id of the inserted town
+        $request = 'SELECT town_id, town FROM town WHERE town=:town';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':town', $town);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        print_r($data);
+        return $data[0]['town_id'];
+    }
+    
+    
+    function getReviews($db){
+        $statement = $db->query('SELECT * FROM review');
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
+    }
+    
+    
+    function insertEmptyReview($db){
+        // inserting an empty review
+        $db = "INSERT INTO review (review_value, review_text) VALUES (-1, '')";
+        if ($conn->query($sql) === TRUE) {
+           		echo "New record created successfully";
+        } 
+        else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+        // getting the id of the last inserted review (even if it's empty)
+        $reviewArray = getReviews($db);
+        $arrLength = count($data);
+        print_r($arrLength);
+        return $reviewArray[$arrLength - 1]['review_id'];
+    }
+    
+    
+    function registerNewUser($db, $last_name, $first_name, $town, $photo_url, $mail, $password){ //  /!\ Encrypt the password and passing town names in lowercase 
+        // Cheking and inserting the town if it doesn't already exist
+        $res = townAlreadyExist($db, $town);
+        if ($res == 0){
+            $town_id = addNewTown($db, $town);
+        }
+        else {
+            $town_id = $res;
+        }
+        
+        //insert an empty review
+        $review_id = insertEmptyReview($db);
+        
+        // inserting the new user in the database
+        $stmt = $db->prepare("INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_player, review_id, town_id) 
+                            VALUES (:mail, :last_name, :first_name, :password, '', NULL, NULL, 0, :review_id, :town_id)");
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':review_id', $review_id);
+        $stmt->bindParam(':town_id', $town_id);
+        $stmt->execute();
+    }
+    
+    
+    //----------------------------------------------------------------------------
+    //---------------------------------------------------------- Connexion  ----------------------------------------------------------
+    //----------------------------------------------------------------------------
+    
+    
+    function isGoodLogin($db, $mail, $password){
+        $arrUser = getUser($db, $mail);
+        foreach ($arrUser as $val){ // changer foreach
+            if ($val['mail'] == $mail && $val['password'] == $password){
+                return true;
+            }
+        }
+        return false;
+    }
+        
+        
+?>
