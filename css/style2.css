@@ -55,12 +55,14 @@ nav {
     border-radius : 30px;
     background-color : #363537;
     margin-top : 15px;
+    cursor: pointer;
 }
 
 .card-event :hover{
     background-color : cyan;
 
     border-radius : 25px;
+
 }
 
 .card-event-infos-background{
@@ -119,6 +121,9 @@ nav {
     font-size : 40px;
     color : #FFFFFF;
 }
+.classic-button:hover{
+    background-color: #141414;
+}
 
 
 
@@ -130,7 +135,14 @@ nav {
     width : 405px;
     height : 50px;
     text-align : center;
+    cursor: pointer;
 
+}
+
+.one-event :hover{
+    background-color : #54844C;
+    border-radius : 25px;
+    border : solid 3px;
 }
 
 #little-window{
