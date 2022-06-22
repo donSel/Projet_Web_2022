@@ -43,96 +43,116 @@ function generateEventOrganize(infos){ //[id,titre,sport,date,heure,nb_minimum,n
             + '<span>' + infos[1] + '</span><br>'
         + '</div>'
         + '<div class="one-event-organization">'
-            + '<div class="box-register-subinfo one-event-organization-details">'
-                + '<span>Sport : ' + infos[2] + ', date : ' + infos[3] + ', heure : ' + infos[4] + ', minimum : ' + infos[5] + ', inscrits : [' + infos[7] + '/' + infos[6] + ']</span>'
-            + '</div>'
-            + '<div class="box-register-subinfo min-h">'
-                + '<span class="sub-title">Joueurs :</span><br>'
-                + '<div id="all_players-in' + infos[0] + '" class="show-all_players">'
-
+            + '<div class="center">'
+                + '<div class="box-register-subinfo one-event-organization-details">'
+                    + '<span>Sport : ' + infos[2] + ', date : ' + infos[3] + ', heure : ' + infos[4] + ', minimum : ' + infos[5] + ', inscrits : [' + infos[7] + '/' + infos[6] + ']</span>'
                 + '</div>'
+                + '<div class="box-register-subinfo min-h">'
+                    + '<span class="sub-title">Joueurs :</span><br>'
+                    + '<div id="all_players-in' + infos[0] + '" class="show-all_players">'
 
-            + '</div>'
-            + '<div class="other-infos">'
-                + '<div class="box-register-subinfo wait">'
-                    + '<span class="sub-title">Liste des attentes:</span><br>'
-                    + '<div id="all_players-wait' + infos[0] + '" class="show-all_players">'
                     + '</div>'
 
                 + '</div>'
-                + '<div class="end-stats">'
-                    + '<div class="box-register-subinfo sizes-one">'
-                        + '<div class="select-best-box">'
-                            + '<div class="select-best-box-txt">'
-                                + '<label  for="select-bestA' + infos[0] + '">Meilleur(e) joueur(euse)</label><br>'
-                                + '<select id="select-bestA' + infos[0] + '">'
-                                    + '<option value="valeur1">Valeur 1</option>'
-                                + '</select>'
+                + '<div class="other-infos">'
+                    + '<div class="box-register-subinfo wait">'
+                        + '<span class="sub-title">Liste des attentes:</span><br>'
+                        + '<div id="all_players-wait' + infos[0] + '" class="show-all_players">'
+                        + '</div>'
+
+                    + '</div>'
+                    + '<div class="end-stats">'
+                        + '<div class="box-register-subinfo sizes-one">'
+                            + '<div class="select-best-box">'
+                                + '<div class="select-best-box-txt">'
+                                    + '<label  for="select-bestA' + infos[0] + '">Meilleur(e) joueur(euse)</label><br>'
+                                    + '<select id="select-bestA' + infos[0] + '">'
+
+                                    + '</select>'
+                                + '</div>'
                             + '</div>'
                         + '</div>'
-                    + '</div>'
 
-                    + '<div class="box-register-subinfo sizes-two">'
-                        + '<div class="select-best-box">'
-                            + '<div class="select-best-box-txt">'
-                                + '<label for="select-bestB' + infos[0] + '">Gagnant :</label>'
-                                + '<select id="select-bestB' + infos[0] + '">'
-                                    + '<option value="valeur1">Valeur 1</option>'
-                                + '</select>'
-                            + '</div>'
+                        + '<div class="box-register-subinfo sizes-two">'
+                            + '<div class="select-best-box">'
+                                + '<div class="select-best-box-txt">'
+                                    + '<label for="select-bestB' + infos[0] + '">Gagnant :</label>'
+                                    + '<select id="select-bestB' + infos[0] + '">'
+                                        + '<option value="A">Équipe A</option>'
+                                        + '<option value="B">Équipe B</option>'
+                                    + '</select>'
+                                + '</div>'
 
-                            + '<div class="select-best-box-txt">'
-                                + '<span> Score : </span>'
-                                + '<input type="text" id="select-bestC' + infos[0] + '">'
-                                    + '<span> / </span>'
-                                    + '<input type="text" id="select-bestD' + infos[0] + '">'
+                                + '<div class="select-best-box-txt">'
+                                    + '<span> Score : </span>'
+                                    + '<input type="text" id="select-bestC' + infos[0] + '">'
+                                        + '<span> / </span>'
+                                        + '<input type="text" id="select-bestD' + infos[0] + '">'
+                                + '</div>'
                             + '</div>'
                         + '</div>'
-                    + '</div>'
 
-                    + '<button id="endEventOrg-'+infos[0]+'" class="classic-button end-button">Terminer</button>'
+                        + '<button id="endEventOrg-'+infos[0]+'" class="classic-button end-button">Terminer</button>'
+                    + '</div>'
                 + '</div>'
-            + '</div>'
+            +'</div>'
         + '</div>'
     + '</div>';
     $('#all-events-organization').append(txt);
 }
 
 function loadMiniProfilesIn(infos){
+    $('#select-bestA' + infos[0]).html("");
+    $('#all_players-in' + infos[0]).html("");
     for (let i=1;i<infos.length;i++){
+
         generateMiniProfileIn(infos[i],infos[0]); //[id,nom,prénom,mail,statut,équipe] [j+1,'Leroy','gérard','gégé@gmail.com','débutant','A']
+        //console.log('select-bestA' + infos[0]);
+        $('#select-bestA' + infos[0]).append("<option value='" + infos[i][0] + "'>"+ infos[i][0] +"</option>");
     }
     //-mettre dans le select du best
 }
+function test(infos){
+    console.log('HERE c\'est un test : ' + infos)
+}
+function acceptationOrNot(id,idMatch,value){
+    let infos = id.split("-");
+    //console.log(infos[0] + ' ' + infos[1] + ' ' + infos[2]);
+    ajaxRequest('PUT', 'php/requestA.php/organize-event/',null, 'what=setTeam&idMatch='+idMatch+'team='+value);
+    ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showEventOrganize', loadEventOrganize);
+
+}
 function loadMiniProfilesWait(infos){
+    $('#all_players-wait' + infos[0]).html("");
     for (let i=1;i<infos.length;i++){
+
         generateMiniProfileWait(infos[i],infos[0]); //[id,nom,prénom,mail,statut]
     }
     $('.buttonSetTeamA').click(function (e)
         {
             console.log(' TEAM A !');
-            acceptationOrNot(e.currentTarget.id)
+            acceptationOrNot(e.currentTarget.id,infos[0],'A');
         }
     );
     $('.buttonSetTeamB').click(function (e)
         {
             console.log(' TEAM B !');
-            acceptationOrNot(e.currentTarget.id)
+            acceptationOrNot(e.currentTarget.id,infos[0],'B');
         }
     );
     $('.buttonSetRefus').click(function (e)
         {
             console.log(' Refus !');
-            acceptationOrNot(e.currentTarget.id)
+            acceptationOrNot(e.currentTarget.id,infos[0],'Refus');
         }
     );
 }
 function loadEventOrganize(infos){
+    $('#all-events-organization').html("");
     for(let i=0;i<infos.length;i++){
         generateEventOrganize(infos[i]);
 
         ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showMiniProfilesIn&idMatch='+infos[i][0], loadMiniProfilesIn);
-
 
 
         ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showMiniProfilesWait&idMatch='+infos[i][0], loadMiniProfilesWait);
@@ -144,21 +164,37 @@ function loadEventOrganize(infos){
         {
             console.log(e.currentTarget.id);
             let idEvent = e.currentTarget.id.split("-");
+            //console.log(idEvent[1]);
             let tabBest = [];
 
             tabBest.push($('#select-bestA'+idEvent[1]).val());
             tabBest.push($('#select-bestB'+idEvent[1]).val());
-            tabBest.push($('#select-bestC'+idEvent[1]).val());
-            tabBest.push($('#select-bestD'+idEvent[1]).val());
 
-            for (let i = 0;i<tabBest.length;i++){
-                console.log(tabBest[i]);
-            }
+            $('#select-bestC'+idEvent[1]).val(setScore($('#select-bestC'+idEvent[1]).val()));
+            tabBest.push($('#select-bestC'+idEvent[1]).val());
+            $('#select-bestD'+idEvent[1]).val(setScore($('#select-bestD'+idEvent[1]).val()))
+            tabBest.push(setScore($('#select-bestD'+idEvent[1]).val()));
+
+
+
+            //for (let i = 0;i<tabBest.length;i++){
+                //console.log(tabBest[i]);
+            //}
+
+            ajaxRequest('PUT', 'php/requestA.php/organize-event/',test, 'what=setEnd&idMatch='+idEvent[1]);
         }
     );
 
     //generateEventOrganize([0,'titre0','foot','date','heure',2,20,8]); //[id,titre,sport,date,heure,nb_minimum,nb_max,nb_actuel]
     //generateEventOrganize([1,'titre1','hand','date','heure',4,20,5]);
+}
+
+function setScore(val){
+    let score = '0';
+    if (val != ''){
+        score = val;
+    }
+    return score;
 }
 
 function subMenuWanted(menu){ //0 or 1
@@ -184,9 +220,9 @@ function subMenuWanted(menu){ //0 or 1
                         + '<div class="box-register-subinfo wait">'
                             + '<br>'
                                 + '*Discipline (sport) : <input type="text" id="sportName" name="sportName" class="text_field"><br><br>'
-                                + '*Titre <input type="text" id="eventTitle" name="eventTitle" class="large_text_field"><br><br>'
+                                + '*Titre <input type="text" size="15" id="eventTitle" name="eventTitle" class="large_text_field"><br><br>'
                                 + 'Description <br><br>'
-                                + '<textarea name="eventDescription" id="commentary" rows="5" cols="20" placeholder="entrer votre la description de votre évènement"></textarea><br><br>'
+                                + '<textarea name="eventDescription" size="50" id="commentary" rows="5" cols="20" placeholder="entrer votre la description de votre évènement"></textarea><br><br>'
                                 + '*Nombre Minimum <select id="selectNbMinPlayer" name="eventNbMin"></select>'
                                 + '*Nombre Maximum <select id="selectNbMaxPlayer" name="eventNbMax"></select><br><br>'
                                 + '*ville <input type="text" id="eventTown" name="eventTown" class="text_field"><br><br>'
@@ -234,7 +270,7 @@ function subMenuWanted(menu){ //0 or 1
 
         $('#start-event').click(function (e)
             {
-                console.log('Lance l\'évènement');
+                //console.log('Lance l\'évènement');
                 let tab=[];
                 tab.push($('#sportName').val());
                 tab.push($('#eventTitle').val());
@@ -264,12 +300,12 @@ function subMenuWanted(menu){ //0 or 1
                 tab.push($('#isOrganiserParticipating').prop("checked"));
                 if (check){
                     $('#alert-event-creation').addClass('hidden');
-                    console.log('OK tu passes')
-                    console.log(tab[tab.length - 1]);
+                    //console.log('OK tu passes')
+                    //console.log(tab[tab.length - 1]);
                     ajaxRequest('POST', 'php/requestA.php/search-event/',null, 'what=createEvent&sport='+tab[0]+'&title='+tab[1]+'&comment='+tab[2]+'&min='+tab[3]+'&max='+tab[4]+'&town='+tab[5]+'&adress='+tab[6]+'&date='+tab[7]+'&hour='+tab[8]+'&duration='+tab[9]+'&price='+tab[10]+'&mina='+tab[11]+'&maxa='+tab[12] + 'in='+tab[13]);
                 }
                 else{
-                    console.log('Tu passes pas')
+                    //console.log('Tu passes pas')
                     $('#alert-event-creation').removeClass('hidden');
                 }
             }
@@ -295,10 +331,7 @@ function subMenuWanted(menu){ //0 or 1
     }
 }
 
-function acceptationOrNot(id){
-    let infos = id.split("-");
-    console.log(infos[0] + ' ' + infos[1] + ' ' + infos[2]);
-}
+
 
 function createSelectNbPlayer(){
     let option = '';
@@ -319,7 +352,7 @@ function createSelectAgeRange(){
     $('#selectMinAgeRange').append(option);
     $('#selectMaxAgeRange').append(option);
 }
-where = 0;
+
 $(document).ready(function(){
     let parsedUrl = new URL(window.location.href);
     let mode = parsedUrl.searchParams.get("mode");

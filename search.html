@@ -20,31 +20,34 @@
     </nav>
 
     <div id = 'sommaire'>
-        <ul>
-            <li><button><a href="#search">Chercher un nouvel évènement</a></button></li>
-            <li><button><a href="#my-events-title">Chercher mes évènements</a></button></li>
+        <ul class="sommaire">
+            <li><button><a class="moveOnPage" href="#search">Chercher un évènement en cours</a></button></li><br>
+            <li><button><a class="moveOnPage" href="#my-events-title">Chercher dans mes évènements</a></button></li>
         </ul>
     </div>
 
-    <label for='research'>Match en préparation</label>
-    <br>
-    <button id='research'>Rechercher</button>
-    <select id="ville">
-        <option value="ville">--ville--</option>
-    </select>
-    <select id="sport">
-        <option value="sport">--sport--</option>
-    </select>
-    <select id="période">
-        <option value="periode">--periode--</option>
-        <option value="7">+7</option>
-        <option value="14">+14</option>
-    </select>
-    <select id="statut_match">
-        <option value="statut_match">--statut match--</option>
-        <option value="statut_match">Terminé</option>
-        <option value="statut_match">Non terminé</option>
-    </select>
+    <div id="searchPlace">
+        <label id='search' for='research'>Match en préparation</label>
+        <br>
+        <button class='buttonOfSearchPlace radius' id='research'>Rechercher</button>
+        <select class='buttonOfSearchPlace radius' id="ville">
+            <option value="ville">--ville--</option>
+        </select>
+        <select class='buttonOfSearchPlace radius' id="sport">
+            <option value="sport">--sport--</option>
+        </select>
+        <select class='buttonOfSearchPlace radius' id="période">
+            <option value="periode">--periode--</option>
+            <option value="7">+7</option>
+            <option value="14">+14</option>
+        </select>
+        <select class='buttonOfSearchPlace radius' id="statut_match">
+            <option value="statut_match">--statut match--</option>
+            <option value="statut_match">Terminé</option>
+            <option value="statut_match">Non terminé</option>
+        </select>
+    </div>
+
 
 
 
@@ -75,6 +78,7 @@
 
 
     <div id="popup"></div>
+    <button><a class="moveOnPage" href="#">Haut de page</a></button>
 
 </body>
 </html>

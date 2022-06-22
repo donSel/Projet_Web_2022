@@ -2,7 +2,7 @@
 
 function showNotif(show = true){
     let txt = '';
-    $('#notification-bar').removeClass('hidden');
+
     if (show){
         txt =
              '<div class="notificationRequestContour">'
@@ -25,6 +25,11 @@ function showNotif(show = true){
             + '</div>';
 
         $('#notification-bar').addClass('hidden');
+        $('#showerNotif').removeClass('hidden');
+    }
+    else{
+        $('#notification-bar').removeClass('hidden');
+        $('#showerNotif').addClass('hidden');
     }
 
 
@@ -40,7 +45,7 @@ $(document).ready(function() {
         showNotif();
     });
 
-    $('#title-notification-show').click(function(e){
+    $('#showerNotif').click(function(e){
         showNotif(false);
     })
 });
