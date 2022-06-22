@@ -413,7 +413,7 @@
         $stmt->bindParam(':match_id_match_result', $match_id_match_result);
         $stmt->bindParam(':town_id', $town_id);
         $stmt->execute();
-        echo "match inserted succesfully !<br>";
+        echo "match inserted successfully !<br>";
     }
     
     
@@ -468,7 +468,7 @@
     
     
     // set player status (registered + team), data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer, team  0 => team_A, 1 => team_B, 2 => no_team
-    function setPlayerStatusTeam($db, $match_id, $mail, $accpeted, $role, $team){ //test : 
+    function setPlayerStatusTeam($db, $match_id, $mail, $accepted, $role, $team){ //test :
         // cheking if the number of players registered reached the max if accepted == true
         /*if ($accepted == true && isMatchFull($db, $match_id)){ TOO COMPLICATED
             return false; // the number max of player registered has reached the max
@@ -675,7 +675,7 @@
                     WHERE t.mail=:mail AND t.match_id=m.match_id 
                     AND ( (is_registered=false AND wait_response=false) OR (is_registered=true AND wait_response=false) OR (is_registered=false AND wait_response=true) )';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':mail', $mail);
+        $statement2->bindParam(':mail', $mail);
         $statement2->execute();
         $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         $json = json_encode($data2);
