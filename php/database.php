@@ -398,7 +398,7 @@
         $stmt->bindParam(':match_id_match_result', $match_id_match_result);
         $stmt->bindParam(':town_id', $town_id);
         $stmt->execute();
-        echo "match inserted succesfully !<br>";
+        echo "match inserted successfully !<br>";
     }
     
     
@@ -664,7 +664,7 @@
                     WHERE t.mail=:mail AND t.match_id=m.match_id 
                     AND ( (is_registered=false AND wait_response=false) OR (is_registered=true AND wait_response=false) OR (is_registered=false AND wait_response=true) )';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':mail', $mail);
+        $statement2->bindParam(':mail', $mail);
         $statement2->execute();
         $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         $json = json_encode($data2);

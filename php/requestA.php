@@ -1,18 +1,21 @@
 <?php
 
-function show($what){
+function show($data){
     // Send data to the client
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-control: no-store, no-cache, must-revalidate');
     header('Pragma: no-cache');
 
-    echo json_encode($what); //send as JSON data
+    echo json_encode($data); //send as JSON data
 }
+
 //check the request :
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $request = substr($_SERVER['PATH_INFO'], 1);
 $request = explode('/', $request);
 $requestRessource = array_shift($request);
+
+$db = dbConnect();
 
 $result = 0; //default value
 
@@ -20,15 +23,19 @@ if ($requestRessource == 'search-event'){
 
     if ($requestMethod == 'GET'){
         if ($_GET['wanted'] == 'cities'){
+            //getTowns($db)
             $result = [[0,'Bretteville'],[1,'Caen'],[2,'Nantes']];
         }
         else if ($_GET['wanted'] == 'sports'){
+            //getSports($db)
             $result = [[0,'Foot-ball'],[1,'Basket-Ball']];
         }
         else if($_GET['wanted'] == 'myOrganizeEvent'){
+            //getOrganizerEventIdTitle($db, $mail)
             $result = [[0,'foot2rue']];
         }
         else if($_GET['wanted'] == 'myEvent'){
+            //getOrganizerPlayerEventIdTitle($db,$mail)
             $result = [[0,'foot2rue']];
         }
         else if($_GET['wanted'] == 'allEvents'){
@@ -38,7 +45,7 @@ if ($requestRessource == 'search-event'){
                 $result[] = [$i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12];
             }
         }
-        else if($_GET['wanted'] == 'speEvents'){
+        else if($_GET['wanted'] == 'speEvents'){ //filtre
             $idMatch = $_GET['idMatch'];
 
             $result = [];
@@ -46,15 +53,23 @@ if ($requestRessource == 'search-event'){
                 $result[] = [$i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12];
             }
         }
-        else if($_GET['wanted'] == 'infos'){
+        else if($_GET['wanted'] == 'infos'){ //infos détaillées (pop up)
+            //getInfoEvent($db, $match_id)
             $idMatch = $_GET['idMatch'];
-            $result = [$idMatch, 'titre', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2];
+            if ($idMatch == 0){
+                $result = [$idMatch, 'titre0', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 10];
+            }else{
+                $result = [$idMatch, 'titreautre', 'J\'ai encore de la place :)', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2];
+            }
+
         }
         else if($_GET['wanted'] == 'infosNormal'){
+            //getAllProfilEvents($db, $mail)
             $idMatch = $_GET['idMatch'];
             $result = [$idMatch, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA'];
         }
         else if($_GET['wanted'] == 'allPlayers'){
+            //getPLayersOfEvent($db, $match_id)
             $idMatch = $_GET['idMatch'];
             $result = [];
             $result[] = [0,'Jean','images/default_avatar.jpg'];
@@ -73,38 +88,13 @@ if ($requestRessource == 'search-event'){
         $result = 'POST';
         if ($_POST["what"] == 'participate'){
             $matchID = $_POST["matchID"];
+            //setPlayerStatusTeam($db, $match_id, $mail, $accepted, $role, $team)
             //Add to database
         }
-        else if ($_POST["what"] == 'createEvent'){
-            $matchID = $_POST["matchID"];
-            $sport = $_POST["sport"];
-            $title = $_POST["title"];
-            $comment = $_POST["comment"];
-            $min = $_POST["min"];
-            $max = $_POST["max"];
-            $town = $_POST["town"];
-            $adress = $_POST["adress"];
-            $date = $_POST["date"];
-            $hour = $_POST["hour"];
-            $duration = $_POST["duration"];
-            $price = $_POST["price"];
-            $minA = $_POST["minA"];
-            $maxA = $_POST["maxA"];
-            $in = $_POST["in"];
-            //Add to database  Pas oublier de préciser le "moi"
-        }
+
 
     }
-    if ($requestMethod == 'PUT'){
-        //parse_str(file_get_contents('php://input'), $_PUT);
-        //      $login = $_PUT["login"];
-        $result = 3;
-    }
 
-    if ($requestMethod == 'DELETE'){
-        //$_GET['value1']
-        $result = 4;
-    }
 
     show($result);
 
@@ -112,6 +102,7 @@ if ($requestRessource == 'search-event'){
 else if ($requestRessource == 'organize-event'){
         if ($requestMethod == 'GET'){
             if ($_GET["wanted"] == 'showEventOrganize') {
+                //getAllOrganizerEvents
                 $result = [];
                 $result[] = [0, 'titre0', 'foot', 'date', 'heure', 2, 20, 8];
                 $result[] = [1, 'titre1', 'hand', 'date', 'heure', 4, 20, 5];
@@ -121,6 +112,7 @@ else if ($requestRessource == 'organize-event'){
 
             }
             else if ($_GET["wanted"] == 'showMiniProfilesIn') {
+                //getPLayersOfEvent($db, $match_id)
                 $result = [];
                 $idMatch = $_GET['idMatch'];
                 $result[] = $idMatch;
@@ -141,6 +133,7 @@ else if ($requestRessource == 'organize-event'){
 
             }
             else if ($_GET["wanted"] == 'showMiniProfilesWait') {
+                //getPLayersWaitingOfEvent($db, $match_id)
                 $result = [];
                 $idMatch = $_GET['idMatch'];
                 $result[] = $idMatch;
@@ -153,27 +146,38 @@ else if ($requestRessource == 'organize-event'){
                     for($i=0;$i<3;$i++){
                         $result[] = ['Arnaud.cir@gmail.com'.$i,'Arnaud','CIR','Arnaud.cir@gmail.com','débutant'];
                     }
-
                 }
-
-
-
-
             }
-
-
-
+        }else if ($_POST["what"] == 'createEvent'){
+            //insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range
+            $matchID = $_POST["matchID"];
+            $sport = $_POST["sport"];
+            $title = $_POST["title"];
+            $comment = $_POST["comment"];
+            $min = $_POST["min"];
+            $max = $_POST["max"];
+            $town = $_POST["town"];
+            $adress = $_POST["adress"];
+            $date = $_POST["date"];
+            $hour = $_POST["hour"];
+            $duration = $_POST["duration"];
+            $price = $_POST["price"];
+            $minA = $_POST["minA"];
+            $maxA = $_POST["maxA"];
+            $in = $_POST["in"];
+            //Add to database  Pas oublier de préciser le "moi"
         }
         else if ($requestMethod == 'PUT'){
             parse_str(file_get_contents('php://input'), $_PUT);
             if ($_PUT["what"] == 'setTeam') {
+                //setPlayerStatusTeam($db, $match_id, $mail, $accepted, $role, $team)
                 $result = $_PUT["team"];
             }
             else if ($_PUT["what"] == 'setEnd') {
                 $result = $_PUT["idMatch"];
+                //updateMatchResultTable($db, $match_id, $score_match, $duration, $best_player, $winner)
             }
         }
-
 
     show($result);
 }
@@ -181,14 +185,14 @@ else if ($requestRessource == 'profile'){
     if ($requestMethod == 'GET'){
         if ($_GET["wanted"] == 'profileInfos') {
             $result = ['nantes@gmail.com','Leroy','nathan','19','Caen','débutant','12345','images/default_avatar.jpg','je suis un commentaire']; //[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
-
+            //HERE
         }else if ($_GET["wanted"] == 'profileStats') {
             $result = [10,2,"Roger","Rabbit"]; //[nbMatch,nbButs,bestPlayer_nom,bestPlayer_prenom]
-
+            //HERE
         }
         else if ($_GET["wanted"] == 'notifs') {
             $result = [[0,'User veut se joindre à l\'évènement'],[1,'Vous avez été séléctionnés pour l’évènement :“Petit tennis au SNUC”'],[2,'Vous avez n’avez pas été séléctionnés pour l’évènement :“match de basket au stade de Procès”']];
-
+            //getProfilNotifications($db, $mail)
         }
 
 
@@ -206,6 +210,7 @@ else if ($requestRessource == 'profile'){
         $photoUrl = $_PUT['photoUrl'];
         $commentary = $_PUT['commentary'];
         $result = [$firstName,$lastName,$age,$town,$health,$password,$photoUrl,$commentary];
+        //updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url)
     }
     show($result);
 }
