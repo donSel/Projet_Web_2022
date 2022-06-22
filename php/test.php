@@ -67,10 +67,29 @@
     //echo insertEmptyReview($db);
     
     
-    incrementRegisteredCount($db, 2);
+    //incrementRegisteredCount($db, 2);
+    
+    // set player status (registered + team), data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer, team  0 => team_A, 1 => team_B, 2 => no_team
+    // setPlayerStatusTeam($db, $match_id, $mail, $accpeted, $team)
+    //setPlayerStatusTeam($db, 2, 'Thomas.ROM DANE@gmail.com', true, 0);
+    
+    /*insertPlayer($db, 3, 'Petit.ROLZOU@gmail.com', 1);
+    insertPlayer($db, 3, 'Michel.ROBICOUET@gmail.com', 1);
+    insertPlayer($db, 3, 'Simon.ROLT-LEVEQUE@gmail', 1);
+    insertPlayer($db, 3, 'Dubois.ROLU@gmail.com', 1);*/
+    
+    /*setPlayerStatusTeam($db, 3, 'Petit.ROLZOU@gmail.com', true, 0);
+    setPlayerStatusTeam($db, 3, 'Michel.ROBICOUET@gmail.com', true, 0);
+    setPlayerStatusTeam($db, 3, 'Simon.ROLT-LEVEQUE@gmail', true, 0);
+    setPlayerStatusTeam($db, 3, 'Dubois.ROLU@gmail.com', true, 0);*/
+    
+    //insertScore($db, 3, 'Dubois.ROLU@gmail.com', '00:00:09');
+    
+    //updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url)
+    updateProfil($db, 'Bertrand.RIESSE@gmail.com', 9, 'MOSCOU', 0, 'aze', 0, 'trop nul ce site wallah', 'suuu.png');
     
     
-    
+
     // OLD
     //getInfoEvent($db, $match_id);
     //getAllOrganizerEvents($db, $mail);

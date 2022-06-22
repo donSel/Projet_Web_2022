@@ -83,7 +83,7 @@ CREATE TABLE public.match(
 	address                  VARCHAR (50) NOT NULL ,
 	price                   FLOAT  NOT NULL ,
 	registered_count        INT  NOT NULL ,
-	title                   VARCHAR (50) NOT NULL ,
+	title                   VARCHAR (150) NOT NULL ,
 	age_range               VARCHAR (50) NOT NULL , -- ignore it
 	match_description       VARCHAR (200) NOT NULL ,
 	duration                TIME  NOT NULL ,
@@ -123,7 +123,7 @@ CREATE TABLE public.play(
 ------------------------------------------------------------
 CREATE TABLE public.score(
 	score_id       SERIAL NOT NULL ,
-	scoring_time   TIMESTAMP  NOT NULL ,
+	scoring_time   TIME  NOT NULL ,
 	mail           VARCHAR (50) NOT NULL ,
 	match_id       INT  NOT NULL  ,
 	CONSTRAINT score_PK PRIMARY KEY (score_id)

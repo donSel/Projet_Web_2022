@@ -225,6 +225,8 @@
             return false;
         }
         
+        $town = strtolower($town);
+        
         // Cheking and inserting the town if it doesn't already exist
         $res = townAlreadyExist($db, $town);
         if ($res == 0){
@@ -262,7 +264,7 @@
     //----------------------------------------------------------------------------
 
     
-    function isGoodLogin($db, $mail, $password){
+    function isGoodLogin($db, $mail, $password){ // test : OK
         $arrUser = getUser($db, $mail);
         foreach ($arrUser as $val){
             if ($val['mail'] == $mail && $val['password'] == $password){
@@ -296,7 +298,7 @@
 //----------------------------------------------------------------------------
 
 
-    function sportAlreadyExist($db, $sport_name){
+    function sportAlreadyExist($db, $sport_name){ // test : OK
         $request = 'SELECT sport_id FROM sport WHERE sport_name=:sport_name';
         $statement = $db->prepare($request);
         $statement->bindParam(':sport_name', $sport_name);
@@ -310,7 +312,7 @@
     }
 
 
-    function addNewSport($db, $sport_name){
+    function addNewSport($db, $sport_name){ // test : OK
         // inserting the new sport
         $stmt = $db->prepare("INSERT INTO sport (sport_name) VALUES (:sport_name)");
         $stmt->bindParam(':sport_name', $sport_name);
@@ -328,13 +330,13 @@
     }
     
     
-    function getMatchResults($db){
+    function getMatchResults($db){  
         $statement = $db->query('SELECT * FROM match_result');
         return $statement->fetchAll(PDO::FETCH_ASSOC); 
     }
     
 
-    function insertEmptyMatchResult($db){
+    function insertEmptyMatchResult($db){ // test : OK
         // inserting an empty review
         $stmt = "INSERT INTO match_result (score_match, duration, best_player, winner) VALUES ('', '00:00:00', '', '')";
         $db->query($stmt);
@@ -351,6 +353,9 @@
                                                                                     // check if the match is created and insert the organizer as a player/organizer in play table
                                                                                     // vérifier que le min est pas > au max, de même pour l'age range
                                                                                     // limiter le nombre de caractère pour le titre et la description (commentaire aussi)
+        $town = strtolower($town);
+        $sport = strtolower($sport);
+                                                                                    
         // Cheking and inserting the sport if it doesn't already exist
         $res = sportAlreadyExist($db, $sport);
         if ($res == 0){
@@ -376,26 +381,6 @@
         //insert an empty review
         $match_id_match_result = insertEmptyMatchResult($db);
         
-        // values to insert
-        /*echo "<br>organizer_id : $organizer_id<br>";
-        echo "sport : $sport<br>";
-        echo "title : $title<br>";
-        echo "match_description : $match_description<br>";
-        echo "number_min_player : $number_min_player<br>";
-        echo "number_max_player : $number_max_player<br>";
-        echo "town : $town<br>";
-        echo "address : $address<br>";
-        echo "date : $date<br>";
-        echo "hour : $hour<br>";
-        echo "duration : $duration<br>";
-        echo "price : $price<br>";
-        echo "age_range : $age_range<br>";
-        echo "IDs<br>";
-        echo "mactch_id_match_result : $match_id_match_result<br>";
-        echo "town_id : $town_id<br>";
-        echo "sport_id : $sport_id<br>";*/
-        
-        
         // inserting the new match in the database mail
         $stmt = $db->prepare("INSERT INTO match (number_max_player, number_min_player, date, hour, address, price, registered_count, title, age_range, match_description, duration, organizer_id, sport_id, match_id_match_result, town_id, is_finished) VALUES (:number_max_player, :number_min_player, :date, :hour, :address, :price, 0, :title, :age_range, :match_description, :duration, :organizer_id, :sport_id, :match_id_match_result, :town_id, false)");
         $stmt->bindParam(':number_max_player', $number_max_player);
@@ -417,7 +402,7 @@
     }
     
     
-    function isMatchFull($db, $match_id){//test : 
+    function isMatchFull($db, $match_id){// test : OK
         $request = "SELECT number_max_player, registered_count FROM match WHERE match_id=:match_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':match_id', $match_id);
@@ -431,12 +416,8 @@
     }
     
     
-    // insert player in a match, data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer
-    function insertPLayer($db, $match_id, $mail, $role){ //test : 
-        // checking if the match isn't full
-        if (isMatchFull($db, $match_id)){
-            return false;
-        }
+    // insert player in a match, data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer // check if the player isn't already signed in
+    function insertPlayer($db, $match_id, $mail, $role){ //test : OK
         // inserting the new user in the database play
         $stmt = $db->prepare("INSERT INTO play (match_id, mail, is_registered, wait_response, role, team) 
                             VALUES (:match_id, :mail, false, true, :role, 2)");
@@ -455,6 +436,7 @@
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //print_r($data);
         $currentVal = $data['0']['registered_count'];
         $newVal = $currentVal + 1;
         // update the registered count in the db
@@ -467,47 +449,47 @@
     }
     
     
-    // set player status (registered + team), data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer, team  0 => team_A, 1 => team_B, 2 => no_team
-    function setPlayerStatusTeam($db, $match_id, $mail, $accpeted, $role, $team){ //test : 
-        // cheking if the number of players registered reached the max if accepted == true
-        /*if ($accepted == true && isMatchFull($db, $match_id)){ TOO COMPLICATED
-            return false; // the number max of player registered has reached the max
-        }*/
+    // set player status (registered + team), data format : team  0 => team_A, 1 => team_B, 2 => no_team
+    function setPlayerStatusTeam($db, $match_id, $mail, $accepted, $team){ //test : OK
+        // checking if the match isn't full
+        if ($accepted == true && isMatchFull($db, $match_id)){
+            return false;
+        }
         
         if ($accepted == true){
-            $is_registered = true;
-            $wait_response = false;
+            // updating is_finished value match
+            $stmt = $db->prepare("UPDATE play 
+            SET is_registered=true, wait_response=false
+            WHERE mail=:mail"); 
+            $stmt->bindParam(':mail', $mail);
+            $stmt->execute();
         } else {
-            $is_registered = false;
-            $wait_response = false;
+            $stmt = $db->prepare("UPDATE play 
+            SET is_registered=false, wait_response=false
+            WHERE mail=:mail"); 
+            $stmt->bindParam(':mail', $mail);
+            $stmt->execute();
         }
     
         
-        // updating the player status/team // USE UPDATE
-        $stmt = $db->prepare("UPDATE match SET is_registered=:is_registered, wait_response=:wait_response, team=:team
+        // updating the player status/team 
+        $stmt = $db->prepare("UPDATE play 
+                            SET team=:team
                             WHERE match_id=:match_id"); 
         $stmt->bindParam(':match_id', $match_id);
-        $stmt->bindParam(':is_registered', $is_registered);
-        $stmt->bindParam(':wait_response', $wait_response);
         $stmt->bindParam(':team', $team);
         $stmt->execute();
-        
-        /*$request2 = "UPDATE match SET registered_count=:newVal WHERE match_id=:match_id";
-        $statement2 = $db->prepare($request2);
-        $statement2->bindParam(':match_id', $match_id);
-        $statement2->bindParam(':newVal', $newVal);
-        $statement2->execute();
-        $statement2->fetchAll(PDO::FETCH_ASSOC);*/
         
         // update registered_count
         if ($accepted == true){
             incrementRegisteredCount($db, $match_id);
         }
+        return true;
     }
     
     
     // insert goal
-    function insertScore($db, $match_id, $mail, $scoring_time){ //test : 
+    function insertScore($db, $match_id, $mail, $scoring_time){ //test :  // check if the mail exist ?
         // inserting the new user in the database mail
         $stmt = $db->prepare("INSERT INTO score (scoring_time, mail, match_id) 
                             VALUES (:scoring_time, :mail, :match_id)");
@@ -515,12 +497,12 @@
         $stmt->bindParam(':mail', $mail);
         $stmt->bindParam(':match_id', $match_id);
         $stmt->execute();
-        return true;
     }
     
     
     // update (becouse it's empty at the begining) match result => check if mail best player exist + set match value to finished
     function updateMatchResultTable($db, $match_id, $score_match, $duration, $best_player, $winner){
+        // updating statistics
         $stmt = $db->prepare("UPDATE match_result 
         SET score_match=:score_match, duration=:duration, best_player=:best_player, winner=:winner
         WHERE match_id=:match_id"); 
@@ -529,6 +511,12 @@
         $stmt->bindParam(':duration', $duration);
         $stmt->bindParam(':best_player', $best_player);
         $stmt->bindParam(':winner', $winner);
+        $stmt->execute();
+        // updating is_finished value match
+        $stmt = $db->prepare("UPDATE match 
+        SET is_finished=true
+        WHERE match_id=:match_id"); 
+        $stmt->bindParam(':match_id', $match_id);
         $stmt->execute();
     }
     
@@ -539,7 +527,8 @@
     
     
     // update profile
-    function updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url){ // test : /!\ encrypt the password
+    function updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url){ // test : OK /!\ encrypt the password
+        $town = strtolower($town);
         // updating town player
         $res = townAlreadyExist($db, $town);
         if ($res == 0){
@@ -562,7 +551,7 @@
         $stmt1 = $db->prepare("UPDATE review SET review_value=:review_value, review_text=:review_text
         WHERE review_id=:review_id"); 
         $stmt1->bindParam(':review_value', $review_value);
-        $stmt1->bindParam(':areview_textge', $review_text);
+        $stmt1->bindParam(':review_text', $review_text);
         $stmt1->bindParam(':review_id', $review_id);
         $stmt1->execute();
         

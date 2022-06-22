@@ -14,16 +14,18 @@ INSERT INTO match (number_max_player, number_min_player, date, hour, address, pr
                                 title, age_range, match_description, duration, organizer_id, sport_id, match_id_match_result, town_id, is_finished) 
                             VALUES (25, 11, '2022-06-28', '15:00:00', 'plaine de jeux des Dervalières', 0, 0, 
                                 'après-midi foot-ball', '14-30', 'Petite après midi entre amis, match amicaux', '01:30:00', 'mickael.neroda@gmail.com', 1, 1, 1, false);
-*/
 
 INSERT INTO town (town) VALUES ('Nantes');
 INSERT INTO review (review_value,review_text) VALUES (-1,'');
 
 INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_played, review_id, town_id) 
 VALUES ('mickael.neroda@gmail.Com', 'aze', 'mickael', 'neroda', 'url', -1, -1, 0, 1, 1);
+*/
 /*
 */
 
+INSERT INTO score (scoring_time, mail, match_id) 
+                            VALUES ('00:00:09', 'mickael.neroda@gmail.com', 3);
                     
 /*
 
