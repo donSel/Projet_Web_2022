@@ -264,7 +264,7 @@ $(document).ready(function(){
             for (let i = 0; i< tabSearch.length;i++){
                 console.log(tabSearch[i])
             }
-            ajaxRequest('GET', 'php/requestA.php/search-event/?ville='+tabSearch[0]+'&sport='+tabSearch[1]+'&periode='+tabSearch[2]+'&statutMatch='+tabSearch[3], loadEvents);
+            ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=speEvents&ville='+tabSearch[0]+'&sport='+tabSearch[1]+'&periode='+tabSearch[2]+'&statutMatch='+tabSearch[3], loadEvents);
             //ajaxRequest('POST', 'php/requestA.php/search-event/',test, 'value1=' + 8 );
 
         }

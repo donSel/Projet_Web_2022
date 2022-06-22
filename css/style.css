@@ -342,7 +342,6 @@ body {
 
 
 .mainNotification {
-    display: flex;
     justify-content: center;
     background: #E5E5E5;
     border-bottom-right-radius: 25px;
@@ -353,11 +352,10 @@ body {
 
 .notificationContent {
     text-align: center;
-    margin-left : 23px;
-    margin-right : 23px;
-    margin-top : 16px;
-    width : 388px;
+    vertical-align: middle;
+    margin : auto;
     height : 136px;
+    width:80%;
     border-radius : 25px;
     background-color : #EFF1CD;
     font-weight: 400;
@@ -366,33 +364,28 @@ body {
     color: #363537;
 }
 
-
-.notificationRequestContour{
+.allTypesOfNotification{
     display : grid;
-    width : 434px;
+    width : 90%;
     height : 169px;
     border-radius : 30px;
-    margin-top : 15px;
+    margin : auto;
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
+.notificationRequestContour{
+
     background-color : #363537;
 }
 
 
 .approvalNotificationContour {
-    display : grid;
-    width : 434px;
-    height : 169px;
-    border-radius : 30px;
-    margin-top : 15px;
     background-color : #43A714;
 }
 
 
 .refusalNotificationContour {
-    display : grid;
-    width : 434px;
-    height : 169px;
-    border-radius : 30px;
-    margin-top : 15px;
     background-color : #D81F1F;
 }
 
@@ -404,4 +397,7 @@ footer {
     background-color: #3D7E1F;
 }
 
-
+#modifyProfil{
+    height : 50px;
+    font-size : 30px;
+}
