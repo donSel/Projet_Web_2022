@@ -6,6 +6,7 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="css/style2.css" rel="stylesheet">
         <script src="js/jquery3.4.1.min.js"></script>
+        <script src="js/ajax.js"></script>
         <script src="js/profile.js"></script>
     </head>
     
@@ -47,23 +48,24 @@
                     <div class="cardTitle margin-auto">Profil</div>
                     <div class="cardMain margin-auto">
                         <form class="mainCard-form margin-auto" action="">
-                            <label for="text_field">nom  </label>
-                            <input type="text" name="lastName" class="text_field">
-                            <label for="text_field">prénom  </label>
-                            <input type="text" name="firstName" class="text_field">
-                            <label for="text_field">mail  </label>
-                            <input type="email" name="mail" class="text_field">
-                            <label for="text_field">âge  </label>
-                            <input type="text" name="age" class="text_field">
-                            <label for="text_field">ville  </label>
-                            <input type="text" name="town" class="text_field">
-                            <label for="text_field">forme sportive  </label>
-                            <input type="text" name="health" class="text_field">
-                            <label for="text_field">mot de passe</label>
-                            <input type="password" name="password" class="text_field">
-                            <label for="text_field">chemin relatif de la photo</label>
-                            <input type="url" name="photoUrl" class="text_field">
-                            <label for="text_field">commentaire</label>
+
+                            <label for="lastName">nom  </label>
+                            <input type="text" id="lastName" name="lastName" class="text_field">
+                            <label for="firstName">prénom  </label>
+                            <input type="text" id="firstName" name="firstName" class="text_field">
+                            <label for="mail">mail  </label>
+                            <input type="email" id="mail" name="mail" class="text_field">
+                            <label for="age">âge  </label>
+                            <input type="text" id="age" name="age" class="text_field">
+                            <label for="town">ville  </label>
+                            <input type="text" id="town" name="town" class="text_field">
+                            <label for="health">forme sportive  </label>
+                            <input type="text" id="health" name="health" class="text_field">
+                            <label for="password">mot de passe</label>
+                            <input type="password" id="password" name="password" class="text_field">
+                            <label for="photoUrl">chemin relatif de la photo</label>
+                            <input type="url" id="photoUrl" name="photoUrl" class="text_field">
+                            <label for="commentary">commentaire</label>
                             <textarea name="commentaire" id="commentary" rows="5" cols="20" placeholder="entrer votre commentaire ici / votre commentaire"></textarea>
                             <!-- fix the commentary size -->
                         </form>
@@ -74,19 +76,20 @@
                     <div class="cardTitle margin-auto">Statistiques</div>
                     <div class="cardMain margin-auto"> 
                         <form action="" method="post" class="mainCard-form margin-auto">
-                            match joués <input type="text" name="mail" class="text_field"><br><br>
-                            buts marqués <input type="text" name="mail" class="text_field"><br><br>
-                            meilleur(e) joueur(euse) <input type="text" name="mail" class="text_field"><br><br>
-                            <button type="submit" class="button" name="modif">modifier le profil</button><br><br>
+                            <label for="nbMatch">match joués</label> <input type="text" id="nbMatch" name="nbMatch" class="text_field"><br><br>
+                            <label for="nbButs">buts marqués</label> <input type="text" id="nbButs" name="nbButs" class="text_field"><br><br>
+                                <label for="bestPlayer">meilleur(e) joueur(euse)</label> <input type="text" id="bestPlayer" name="mail" class="text_field"><br><br>
+
                         </form>
                     </div>
                 </div>
+                <button type="submit" id="modifyProfil" class="button" name="modif">Modifier le profil</button><br><br>
 
                 <div id="notification-bar">
                     <div id="profilNotifications">
                         <div class="notificationsButton">
-                            <div class="notificationsButtonText">
-                                <span>N<br>o<br>t<br>i<br>f<br>i<br>c<br>a<br>t<br>i<br>o<br>n<br>s</span>
+                            <div class="notificationsButtonText noTextCursor">
+                                <span class="noTextCursor">N<br>o<br>t<br>i<br>f<br>i<br>c<br>a<br>t<br>i<br>o<br>n<br>s</span>
                             </div>
                         </div>
                     </div>
@@ -94,7 +97,7 @@
 
 
                 <div id="showerNotif" class="notificationList hidden">
-                    <div class="titleNotifications">Notification</div>
+                    <div class="titleNotifications noTextCursor">Notification</div>
                     <div class="mainNotification">
                         <div id = 'notifications'>
                         </div>

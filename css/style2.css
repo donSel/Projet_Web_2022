@@ -513,8 +513,23 @@ nav {
 }
 
 #showerNotif {
-    position : absolute;
-    margin : auto;
+    position : fixed;
+    left: 25%;
+    width : 100%;
+    top : 10%;
+
+}
+.mainNotification{
+    border : solid #9F9C9C 4px;
+    border-top : 0;
+}
+.titleNotifications{
+    border : solid #9F9C9C 4px;
+    border-bottom : 0;
+}
+
+.noTextCursor{
+    cursor: pointer;
 }
 /*
 .navigation_elmt {
