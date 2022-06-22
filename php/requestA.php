@@ -1,13 +1,14 @@
 <?php
 
-function show($what){
+function show($data){
     // Send data to the client
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-control: no-store, no-cache, must-revalidate');
     header('Pragma: no-cache');
 
-    echo json_encode($what); //send as JSON data
+    echo json_encode($data); //send as JSON data
 }
+
 //check the request :
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $request = substr($_SERVER['PATH_INFO'], 1);
@@ -38,7 +39,7 @@ if ($requestRessource == 'search-event'){
                 $result[] = [$i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12];
             }
         }
-        else if($_GET['wanted'] == 'speEvents'){
+        else if($_GET['wanted'] == 'speEvents'){ //filtre
             $idMatch = $_GET['idMatch'];
 
             $result = [];
@@ -46,9 +47,14 @@ if ($requestRessource == 'search-event'){
                 $result[] = [$i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12];
             }
         }
-        else if($_GET['wanted'] == 'infos'){
+        else if($_GET['wanted'] == 'infos'){ //infos détaillées (pop up)
             $idMatch = $_GET['idMatch'];
-            $result = [$idMatch, 'titre', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2];
+            if ($idMatch == 0){
+                $result = [$idMatch, 'titre0', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 10];
+            }else{
+                $result = [$idMatch, 'titreautre', 'J\'ai encore de la place :)', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2];
+            }
+
         }
         else if($_GET['wanted'] == 'infosNormal'){
             $idMatch = $_GET['idMatch'];
@@ -153,16 +159,8 @@ else if ($requestRessource == 'organize-event'){
                     for($i=0;$i<3;$i++){
                         $result[] = ['Arnaud.cir@gmail.com'.$i,'Arnaud','CIR','Arnaud.cir@gmail.com','débutant'];
                     }
-
                 }
-
-
-
-
             }
-
-
-
         }
         else if ($requestMethod == 'PUT'){
             parse_str(file_get_contents('php://input'), $_PUT);
@@ -173,7 +171,6 @@ else if ($requestRessource == 'organize-event'){
                 $result = $_PUT["idMatch"];
             }
         }
-
 
     show($result);
 }

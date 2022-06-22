@@ -235,7 +235,7 @@ function subMenuWanted(menu){ //0 or 1
                                 + '*heure <input type="time" id="eventHour" name="eventHour"><br><br>'
                                 + '*durée éstimée <input type="time" id="eventDuration" name="eventDuration"><br><br>'
                                 + '*prix <input type="text" id="eventPrice" name="eventPrice" class="small_text_field"><br><br>'
-                                + '*tranche d\'âge <select id="selectMinAgeRange" name="eventNbMin"></select> - <select id="selectMaxAgeRange" name="eventNbMax"></select><br><br>'
+                                + '<div class="hidden">*tranche d\'âge <select id="selectMinAgeRange" name="eventNbMin"></select> - <select id="selectMaxAgeRange" name="eventNbMax"></select><br><br></div>'
                                 + 'participer <input type="checkbox" id="isOrganiserParticipating" name="isOrganiserParticipating"><br><br>'
                         + '</div>'
                         + '<button id="start-event" class="classic-button">Lancer</button>'
@@ -285,8 +285,8 @@ function subMenuWanted(menu){ //0 or 1
                 tab.push($('#eventHour').val());
                 tab.push($('#eventDuration').val());
                 tab.push($('#eventPrice').val());
-                tab.push($('#selectMinAgeRange').val());
-                tab.push($('#selectMaxAgeRange').val());
+                tab.push("null"); //$('#selectMinAgeRange').val()
+                tab.push("null"); //$('#selectMaxAgeRange').val()
 
                 let check = true;
 
@@ -300,12 +300,9 @@ function subMenuWanted(menu){ //0 or 1
                 tab.push($('#isOrganiserParticipating').prop("checked"));
                 if (check){
                     $('#alert-event-creation').addClass('hidden');
-                    //console.log('OK tu passes')
-                    //console.log(tab[tab.length - 1]);
                     ajaxRequest('POST', 'php/requestA.php/search-event/',null, 'what=createEvent&sport='+tab[0]+'&title='+tab[1]+'&comment='+tab[2]+'&min='+tab[3]+'&max='+tab[4]+'&town='+tab[5]+'&adress='+tab[6]+'&date='+tab[7]+'&hour='+tab[8]+'&duration='+tab[9]+'&price='+tab[10]+'&mina='+tab[11]+'&maxa='+tab[12] + 'in='+tab[13]);
                 }
                 else{
-                    //console.log('Tu passes pas')
                     $('#alert-event-creation').removeClass('hidden');
                 }
             }
@@ -316,12 +313,6 @@ function subMenuWanted(menu){ //0 or 1
         ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showEventOrganize', loadEventOrganize);
 
 
-
-
-        /*
-        for (let i=0;i<3;i++){
-            generateMiniProfileWait([i+1,'Leroy','gérard','gégé@gmail.com','débutant']); //[id,nom,prénom,mail,statut]
-        }*/
         $('#go-new-event').click(function (e)
             {
                 window.location.href = "organize.html?mode=0";
@@ -337,7 +328,6 @@ function createSelectNbPlayer(){
     let option = '';
     for (i = 1; i <= 100; i++){
         option += '<option value="' + i + '">' + i + '</option>';
-        //console.log(option);
     }
     $('#selectNbMinPlayer').append(option);
     $('#selectNbMaxPlayer').append(option);

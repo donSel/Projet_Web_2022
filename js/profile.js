@@ -57,6 +57,7 @@ function loadProfil(infos){ //[id_user,nom,prenom,age;ville,forme,mdp,url,commen
 }
 function setNotif(infos){ //[type,text]
     let txt = '';
+
     if (infos[0] == 0){
         txt +=
         '<div class="notificationRequestContour allTypesOfNotification noTextCursor">'
@@ -129,46 +130,3 @@ $(document).ready(function() {
     });
 });
 
-/*
-
-<div class="notificationList">
-    <div class="titleNotifications">Notification</div>
-    <div class="mainNotification">
-        <div id = 'notifications'>
-
-            <div class="notificationRequestContour">
-                <div class="notificationContent"><br>
-                    User veut se joindre à l'évènement
-                    <!-- buttons-->
-
-                </div>
-            </div>
-
-            <div class="approvalNotificationContour">
-                <div class="notificationContent"><br>
-                    Vous avez été séléctionnés pour l’évènement :
-                        “Petit tennis au SNUC”
-                </div>
-            </div>
-
-            <div class="refusalNotificationContour">
-                <div class="notificationContent"><br>
-                    Vous avez n’avez pas été séléctionnés pour l’évènement :
-                        “match de basket au stade de Procès”
-                </div>
-            </div>
-
-
-        </div>
-
-    </div>
-</div>
-
-
-
-
-
-
-
-
- */

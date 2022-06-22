@@ -39,44 +39,48 @@ function loadAllPlayers(infos){
 }
 
 function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
-    let txt = "<div id = \"little-window\">"
-        + "<div id=\"title-little-window\">"
+    let txt = '<div id = "little-window">'
+        + '<div id="title-little-window">'
         + infos[1]
-        + "</div>"
-        + "<div id=\"body-little-window\">"
-        + "<div id=\"left-side\">"
-        + "<div id = 'description' >"
+        + '</div>'
+        + '<div id="body-little-window">'
+        + '<div id="left-side">'
+        + '<div id = "description" >'
 
-        + "<span id='label-description'>" + infos[2] + "</span>"
-        + "<input id=\"description-txt\" type=\"text\">"
-        + "</div>"
-        + "<div id='the-organizator' >"
-        + "<span class='fourty'>Organisateur </span>"
-        + "<div id=\"organizator\" class=\"little-profil\">"
-        + "<img src=\"" + infos[4] + "\" alt=\"image de profil\" width=\"70\" height=\"83\">" //images/default_avatar.jpg
-        + "<span class=\"little-box\">" +infos[3] + "</span>"
-        + "</div>"
-        + "</div>"
+        + '<span id="label-description">Description</span>'
+        + '<input id="description-txt" type="text" value="' + infos[2] + '">'
+        + '</div>'
+        + '<div id="the-organizator" >'
+        + '<span class="fourty">Organisateur </span>'
+        + '<div id="organizator" class="little-profil">'
+        + '<img src="' + infos[4] + '" alt="image de profil" width="70" height="83">' //images/default_avatar.jpg
+        + '<span class="little-box">' +infos[3] + '</span>'
+        + '</div>'
+        + '</div>'
 
-        + "<div id=\"players\">"
-        + "<h2>Joueurs</h2>"
-        + "<div id=\"all_players\">"
-        + "</div>"
-        + "</div>"
-        + "</div>"
-        + "<div id=\"right-side\">"
-        + "<div class=\"infos-match\">"
-        + "<span class='z'>Adresse : "+ infos[5] + "</span><br>"
-        + "<span class='a'>Heure du début : "+ infos[6] + "</span><br>"
-        + "<span class='z'>Durée estimée : "+ infos[7] + "</span><br>"
-        + "<span class='a'>Prix : "+ infos[8] + "</span><br>"
-        + "<span class='z'>Nombre max de participants : "+ infos[9] + "</span><br>"
-        + "<span class='a'>Nombre d'inscrits : "+ infos[10] + "</span>"
+        + '<div id="players">'
+        + '<h2>Joueurs</h2>'
+        + '<div id="all_players">'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+        + '<div id="right-side">'
+        + '<div class="infos-match">'
+        + '<span class="z">Adresse : '+ infos[5] + '</span><br>'
+        + '<span class="a">Heure du début : '+ infos[6] + '</span><br>'
+        + '<span class="z">Durée estimée : '+ infos[7] + '</span><br>'
+        + '<span class="a">Prix : '+ infos[8] + '</span><br>'
+        + '<span class="z">Nombre max de participants : '+ infos[9] + '</span><br>'
+        + '<span class="a">Nombre d\'inscrits : '+ infos[10] + '</span>'
 
-        + "</div>"
-        + "<div class='buttons-popup'>"
-        + "<button id='register' class='classic-button'>Participer</button>"
-        + "<button id='close' >Fermer</button>"
+        + '</div>'
+        + '<div class="buttons-popup">';
+    if (infos[10] < infos[9]){
+        txt += "<button id='register' class='classic-button'>Participer</button>";
+
+    }
+
+        txt +=  "<button id='close' >Fermer</button>"
         + "</div>"
         + "</div>"
 
@@ -85,13 +89,7 @@ function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_u
     $('#popup').html(txt);
 
     ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=allPlayers&idMatch=' + infos[0], loadAllPlayers);
-    /*
-    generateMiniProfile([0,'Jean','images/default_avatar.jpg']);
-    generateMiniProfile([1,'Paul','images/default_avatar.jpg']);
-    generateMiniProfile([2,'Adrien','images/default_avatar.jpg']);
-    generateMiniProfile([4,'Clark','images/default_avatar.jpg']);
-    generateMiniProfile([5,'Batman','images/default_avatar.jpg']);
-    generateMiniProfile([33,'uwu','images/default_avatar.jpg']);*/
+
 
     $('#close').click(function (e)
         {
