@@ -5,6 +5,19 @@
 DROP TABLE IF EXISTS review,match_result,sport,match,town,player,score,play CASCADE;
 
 ------------------------------------------------------------
+-- Table: match_result
+------------------------------------------------------------
+CREATE TABLE public.match_result(
+	match_id      SERIAL NOT NULL ,
+	score_match   VARCHAR (50) NOT NULL ,
+	duration      TIME  NOT NULL ,
+	best_player   VARCHAR (50) ,
+	winner        VARCHAR (50) NOT NULL ,
+	CONSTRAINT match_result_PK PRIMARY KEY (match_id) --,
+	--CONSTRAINT match_result_AK UNIQUE (best_player)
+)WITHOUT OIDS;
+
+------------------------------------------------------------
 -- Table: review
 ------------------------------------------------------------
 CREATE TABLE public.review(
@@ -56,18 +69,6 @@ CREATE TABLE public.player(
 )WITHOUT OIDS;
 
 
-------------------------------------------------------------
--- Table: match_result
-------------------------------------------------------------
-CREATE TABLE public.match_result(
-	match_id      SERIAL NOT NULL ,
-	score_match   VARCHAR (50) NOT NULL ,
-	duration      TIME  NOT NULL ,
-	best_player   VARCHAR (50) NOT NULL  ,
-	winner        VARCHAR (50) NOT NULL ,
-	CONSTRAINT match_result_PK PRIMARY KEY (match_id) ,
-	CONSTRAINT match_result_AK UNIQUE (best_player)
-)WITHOUT OIDS;
 
 
 ------------------------------------------------------------
@@ -91,8 +92,8 @@ CREATE TABLE public.match(
 	match_id_match_result   INT  NOT NULL ,
 	town_id                 INT  NOT NULL  ,
 	is_finished   BOOL  NOT NULL ,
-	CONSTRAINT match_PK PRIMARY KEY (match_id) ,
-	CONSTRAINT match_AK UNIQUE (organizer_id)
+	CONSTRAINT match_PK PRIMARY KEY (match_id) --,
+	--CONSTRAINT match_AK UNIQUE (organizer_id)
 
 	,CONSTRAINT match_sport_FK FOREIGN KEY (sport_id) REFERENCES public.sport(sport_id)
 	,CONSTRAINT match_match_result0_FK FOREIGN KEY (match_id_match_result) REFERENCES public.match_result(match_id)

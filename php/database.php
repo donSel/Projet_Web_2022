@@ -215,6 +215,7 @@
         $db->query($stmt);
         // getting the id of the last inserted review (even if it's empty)
         $reviewArray = getReviews($db);
+        print_r($reviewArray);
         return end($reviewArray)['review_id'];
     }
     
@@ -335,26 +336,91 @@
 
     function insertEmptyMatchResult($db){
         // inserting an empty review
-        $stmt = "INSERT INTO match_result (score_match, duration, best_player, winner) VALUES ('', '', '', '')";
+        $stmt = "INSERT INTO match_result (score_match, duration, best_player, winner) VALUES ('', '00:00:00', '', '')";
         $db->query($stmt);
-        // getting the id of the last inserted review (even if it's empty)
+        // getting the id of the last inserted result (even if it's empty)
         $matchResultsArray = getMatchResults($db);
+        print_r($matchResultsArray);
         return end($matchResultsArray)['match_id'];
     }
     
     
+    // insert a enw match in the database, value format : $date => YYYY-mm-dd, $hour => hh:mm:ss, $duration => hh:mm:ss, $age-range : "val-val"
     function insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range){ //  /!\ Encrypt the password and passing town names in lowercase 
+                                                                                    // vérifier que la date/heure rentrée est pas antérieure à l'actuelle
                                                                                     // check if the match is created and insert the organizer as a player/organizer in play table
                                                                                     // vérifier que le min est pas > au max, de même pour l'age range
-                                                                                    // vérifier que la date/heure rentrée est pas antérieure à l'actuelle
                                                                                     // limiter le nombre de caractère pour le titre et la description (commentaire aussi)
         // Cheking and inserting the sport if it doesn't already exist
         $res = sportAlreadyExist($db, $sport);
         if ($res == 0){
+            echo "sport not exists <br>";
             $sport_id = addNewSport($db, $sport);
+        }  
+        else {
+            echo "sport exists <br>";
+            $sport_id = $res;
+        }
+        
+        // Cheking and inserting the town if it doesn't already exist
+        $res = townAlreadyExist($db, $town);
+        if ($res == 0){
+            echo "town not exists <br>";
+            $town_id = addNewTown($db, $town);
         }
         else {
-            $sport_id = $res;
+            echo "town exists <br>";
+            $town_id = $res;
+        }
+        
+        //insert an empty review
+        $match_id_match_result = insertEmptyMatchResult($db);
+        
+        // values to insert
+        /*echo "<br>organizer_id : $organizer_id<br>";
+        echo "sport : $sport<br>";
+        echo "title : $title<br>";
+        echo "match_description : $match_description<br>";
+        echo "number_min_player : $number_min_player<br>";
+        echo "number_max_player : $number_max_player<br>";
+        echo "town : $town<br>";
+        echo "address : $address<br>";
+        echo "date : $date<br>";
+        echo "hour : $hour<br>";
+        echo "duration : $duration<br>";
+        echo "price : $price<br>";
+        echo "age_range : $age_range<br>";
+        echo "IDs<br>";
+        echo "mactch_id_match_result : $match_id_match_result<br>";
+        echo "town_id : $town_id<br>";
+        echo "sport_id : $sport_id<br>";*/
+        
+        
+        // inserting the new match in the database mail
+        $stmt = $db->prepare("INSERT INTO match (number_max_player, number_min_player, date, hour, address, price, registered_count, title, age_range, match_description, duration, organizer_id, sport_id, match_id_match_result, town_id, is_finished) VALUES (:number_max_player, :number_min_player, :date, :hour, :address, :price, 0, :title, :age_range, :match_description, :duration, :organizer_id, :sport_id, :match_id_match_result, :town_id, false)");
+        $stmt->bindParam(':number_max_player', $number_max_player);
+        $stmt->bindParam(':number_min_player', $number_min_player);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':hour', $hour);
+        $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':age_range', $age_range);
+        $stmt->bindParam(':match_description', $match_description);
+        $stmt->bindParam(':duration', $duration);
+        $stmt->bindParam(':organizer_id', $organizer_id);
+        $stmt->bindParam(':sport_id', $sport_id);
+        $stmt->bindParam(':match_id_match_result', $match_id_match_result);
+        $stmt->bindParam(':town_id', $town_id);
+        $stmt->execute();
+        echo "match inserted succesfully !<br>";
+    }
+    
+    
+    // insert player in a match
+    function insertPLayer($db, $match_id, $mail, $role, $team){ //  /!\ Encrypt the password and passing town names in lowercase 
+        if (!mailExists($db, $mail)){
+            return false;
         }
         
         // Cheking and inserting the town if it doesn't already exist
@@ -367,46 +433,40 @@
         }
         
         //insert an empty review
-        $match_id_match_result = insertEmptyMatchResult($db);
+        $review_id = insertEmptyReview($db);
         
-        // values to insert
-        $registered_count = 0;
-        $is_finished = false;
-        
-        // inserting the new match in the database mail
-        $stmt = $db->prepare("INSERT INTO match (number_max_player, number_min_player, date, hour, address, price, registered_count, 
-                                title, age_range, match_description, duration, organizer_id, sport_id, match_id_match_result, town_id, is_finished) 
-                            VALUES (:number_max_player, :number_min_player, :date, :hour, :address, :price, :registered_count, 
-                                :title, :age_range, :match_description, :duration, :organizer_id, :sport_id, :match_id_match_result, :town_id, :is_finished");
-        $stmt->bindParam(':number_max_player', $number_max_player);
-        $stmt->bindParam(':number_min_player', $number_min_player);
-        $stmt->bindParam(':date', $date);
-        $stmt->bindParam(':hour', $hour);
-        $stmt->bindParam(':address', $address);
-        $stmt->bindParam(':price', $price);
-        $stmt->bindParam(':registered_count', $registered_count); // 0 to default
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':age_range', $age_range);
-        $stmt->bindParam(':match_description', $match_description);
-        $stmt->bindParam(':duration', $duration);
-        $stmt->bindParam(':organizer_id', $organizer_id);
-        $stmt->bindParam(':sport_id', $sport_id);
-        $stmt->bindParam(':match_id_match_result', $match_id_match_result);
+        //checking if the avatar url has to be default 
+        if (empty($photo_url)){
+            $photo_url = "images/default_avatar.jpg"; 
+        }
+   
+        // inserting the new user in the database mail
+        $stmt = $db->prepare("INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_played, review_id, town_id) 
+                            VALUES (:mail, :password, :first_name, :last_name, :photo_url, -1, -1, 0, :review_id, :town_id)");
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':photo_url', $photo_url);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':review_id', $review_id);
         $stmt->bindParam(':town_id', $town_id);
-        $stmt->bindParam(':is_finished', $is_finished); // false by default
         $stmt->execute();
         return true;
     }
     
     
-    // insert player in a match
-    // update registered count
-    // set player registered + team + role
-    // set player excluded
-    // update (becouse it's empty at the begining) match result => check if mail best player exist
-    // insert goal
-    // set match to finished
+    // set player status registered + team
+    
     // update profile
+    
+    // update (becouse it's empty at the begining) match result => check if mail best player exist
+    // set match to finished
+    
+    // insert goal
+    
+    // barre de recherche
+    
+    // set player excluded
     
 
     

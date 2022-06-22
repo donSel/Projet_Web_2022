@@ -61,7 +61,7 @@
                     if (isGoodLogin($db, $mail, $password)){
                         // Creating session
                         $userInfo = getUser($db, $mail);
-                        $_SESSION['mail']= $mail;
+                        $mail = $_SESSION['mail'];
                         $_SESSION['nom'] = $userInfo['0']['first_name'];
                         $_SESSION['prenom'] = $userInfo['0']['last_name'];
                         echo "<div class='alert success-alert'>Vous vous êtes connectés avec succès !</div>";
