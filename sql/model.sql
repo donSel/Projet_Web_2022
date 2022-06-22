@@ -84,7 +84,7 @@ CREATE TABLE public.match(
 	price                   FLOAT  NOT NULL ,
 	registered_count        INT  NOT NULL ,
 	title                   VARCHAR (50) NOT NULL ,
-	age_range               VARCHAR (50) NOT NULL ,
+	age_range               VARCHAR (50) NOT NULL , -- ignore it
 	match_description       VARCHAR (50) NOT NULL ,
 	duration                TIME  NOT NULL ,
 	organizer_id            VARCHAR (50) NOT NULL ,

@@ -346,7 +346,7 @@
     
     
     // insert a enw match in the database, value format : $date => YYYY-mm-dd, $hour => hh:mm:ss, $duration => hh:mm:ss, $age-range : "val-val"
-    function insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range){ //  /!\ Encrypt the password and passing town names in lowercase 
+    function insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range){ //  /!\ passing town names in lowercase 
                                                                                     // vérifier que la date/heure rentrée est pas antérieure à l'actuelle
                                                                                     // check if the match is created and insert the organizer as a player/organizer in play table
                                                                                     // vérifier que le min est pas > au max, de même pour l'age range
@@ -417,13 +417,130 @@
     }
     
     
-    // insert player in a match
-    function insertPLayer($db, $match_id, $mail, $role, $team){ //  /!\ Encrypt the password and passing town names in lowercase 
-        if (!mailExists($db, $mail)){
+    function isMatchFull($db, $match_id){//test : 
+        $request = "SELECT number_max_player, registered_count FROM match WHERE match_id=:match_id";
+        $statement = $db->prepare($request);
+        $statement->bindParam(':match_id', $match_id);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        //print_r($data);
+        if ($data['0']['number_max_player'] == $data['0']['registered_count']){
+            return true;
+        }
+        return false;
+    }
+    
+    
+    // insert player in a match, data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer
+    function insertPLayer($db, $match_id, $mail, $role){ //test : 
+        // checking if the match isn't full
+        if (isMatchFull($db, $match_id)){
             return false;
         }
+        // inserting the new user in the database play
+        $stmt = $db->prepare("INSERT INTO play (match_id, mail, is_registered, wait_response, role, team) 
+                            VALUES (:match_id, :mail, false, true, :role, 2)");
+        $stmt->bindParam(':match_id', $match_id);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':role', $role);
+        $stmt->execute();
+        return true;
+    }
+    
+    
+    function incrementRegisteredCount($db, $match_id){ // test OK
+        // getting the current registered_count value
+        $request = "SELECT registered_count FROM match WHERE match_id=:match_id";
+        $statement = $db->prepare($request);
+        $statement->bindParam(':match_id', $match_id);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $currentVal = $data['0']['registered_count'];
+        $newVal = $currentVal + 1;
+        // update the registered count in the db
+        $request2 = "UPDATE match SET registered_count=:newVal WHERE match_id=:match_id";
+        $statement2 = $db->prepare($request2);
+        $statement2->bindParam(':match_id', $match_id);
+        $statement2->bindParam(':newVal', $newVal);
+        $statement2->execute();
+        $statement2->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+    // set player status (registered + team), data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer, team  0 => team_A, 1 => team_B, 2 => no_team
+    function setPlayerStatusTeam($db, $match_id, $mail, $accpeted, $role, $team){ //test : 
+        // cheking if the number of players registered reached the max if accepted == true
+        /*if ($accepted == true && isMatchFull($db, $match_id)){ TOO COMPLICATED
+            return false; // the number max of player registered has reached the max
+        }*/
         
-        // Cheking and inserting the town if it doesn't already exist
+        if ($accepted == true){
+            $is_registered = true;
+            $wait_response = false;
+        } else {
+            $is_registered = false;
+            $wait_response = false;
+        }
+    
+        
+        // updating the player status/team // USE UPDATE
+        $stmt = $db->prepare("UPDATE match SET is_registered=:is_registered, wait_response=:wait_response, team=:team
+                            WHERE match_id=:match_id"); 
+        $stmt->bindParam(':match_id', $match_id);
+        $stmt->bindParam(':is_registered', $is_registered);
+        $stmt->bindParam(':wait_response', $wait_response);
+        $stmt->bindParam(':team', $team);
+        $stmt->execute();
+        
+        /*$request2 = "UPDATE match SET registered_count=:newVal WHERE match_id=:match_id";
+        $statement2 = $db->prepare($request2);
+        $statement2->bindParam(':match_id', $match_id);
+        $statement2->bindParam(':newVal', $newVal);
+        $statement2->execute();
+        $statement2->fetchAll(PDO::FETCH_ASSOC);*/
+        
+        // update registered_count
+        if ($accepted == true){
+            incrementRegisteredCount($db, $match_id);
+        }
+    }
+    
+    
+    // insert goal
+    function insertScore($db, $match_id, $mail, $scoring_time){ //test : 
+        // inserting the new user in the database mail
+        $stmt = $db->prepare("INSERT INTO score (scoring_time, mail, match_id) 
+                            VALUES (:scoring_time, :mail, :match_id)");
+        $stmt->bindParam(':scoring_time', $scoring_time);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':match_id', $match_id);
+        $stmt->execute();
+        return true;
+    }
+    
+    
+    // update (becouse it's empty at the begining) match result => check if mail best player exist + set match value to finished
+    function updateMatchResultTable($db, $match_id, $score_match, $duration, $best_player, $winner){
+        $stmt = $db->prepare("UPDATE match_result 
+        SET score_match=:score_match, duration=:duration, best_player=:best_player, winner=:winner
+        WHERE match_id=:match_id"); 
+        $stmt->bindParam(':match_id', $match_id);
+        $stmt->bindParam(':score_match', $score_match);
+        $stmt->bindParam(':duration', $duration);
+        $stmt->bindParam(':best_player', $best_player);
+        $stmt->bindParam(':winner', $winner);
+        $stmt->execute();
+    }
+    
+    
+//----------------------------------------------------------------------------
+//---------------------------------------------------------- Profil Page  ----------------------------------------------------------
+//----------------------------------------------------------------------------
+    
+    
+    // update profile
+    function updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url){ // test : /!\ encrypt the password
+        // updating town player
         $res = townAlreadyExist($db, $town);
         if ($res == 0){
             $town_id = addNewTown($db, $town);
@@ -432,43 +549,144 @@
             $town_id = $res;
         }
         
-        //insert an empty review
-        $review_id = insertEmptyReview($db);
+        // getting player review id
+        $request = 'SELECT review_id FROM player WHERE mail=:mail';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $review_id = $data['0']['review_id'];
         
-        //checking if the avatar url has to be default 
-        if (empty($photo_url)){
-            $photo_url = "images/default_avatar.jpg"; 
-        }
-   
-        // inserting the new user in the database mail
-        $stmt = $db->prepare("INSERT INTO player (mail, password, first_name, last_name, photo_url, age, health, number_match_played, review_id, town_id) 
-                            VALUES (:mail, :password, :first_name, :last_name, :photo_url, -1, -1, 0, :review_id, :town_id)");
+        
+        // updating review player
+        $stmt1 = $db->prepare("UPDATE review SET review_value=:review_value, review_text=:review_text
+        WHERE review_id=:review_id"); 
+        $stmt1->bindParam(':review_value', $review_value);
+        $stmt1->bindParam(':areview_textge', $review_text);
+        $stmt1->bindParam(':review_id', $review_id);
+        $stmt1->execute();
+        
+        
+        // updating the player table
+        $stmt = $db->prepare("UPDATE player SET age=:age, health=:health, town_id=:town_id, photo_url=:photo_url, password=:password
+        WHERE mail=:mail"); 
         $stmt->bindParam(':mail', $mail);
-        $stmt->bindParam(':photo_url', $photo_url);
-        $stmt->bindParam(':last_name', $last_name);
-        $stmt->bindParam(':first_name', $first_name);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':review_id', $review_id);
+        $stmt->bindParam(':age', $age);
+        $stmt->bindParam(':health', $health);
         $stmt->bindParam(':town_id', $town_id);
+        $stmt->bindParam(':photo_url', $photo_url);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
-        return true;
     }
     
     
-    // set player status registered + team
+    // get PlayeInfo
+    function getPlayerInfo($db, $mail){
+        $request = "SELECT mail, password, first_name, last_name, photo_url, age, health
+                    FROM player
+                    WHERE mail = :mail";
+        $statement = $db->prepare($request);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
+        $json = json_encode($data);
+        print_r($json);
+    }
     
-    // update profile
     
-    // update (becouse it's empty at the begining) match result => check if mail best player exist
-    // set match to finished
+    // get PlayerTown
+    function getPlayerTown($db, $mail){
+        // getting player town id
+        $request = 'SELECT town_id FROM player WHERE mail=:mail';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $town_id = $data['0']['town_id'];
+        // getting Player town name
+        $request2 = 'SELECT town FROM town WHERE town_id=:town_id';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':town_id', $town_id);
+        $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+        $json = json_encode($data2);
+        print_r($json);
+    }
     
-    // insert goal
     
-    // barre de recherche
+    // get PLayerReview
+    function getPLayerReview($db, $mail){
+        // getting player review id
+        $request = 'SELECT review_id FROM player WHERE mail=:mail';
+        $statement = $db->prepare($request);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $review_id = $data['0']['review_id'];
+        // gettin player review value/text
+        $request2 = 'SELECT review_value, review_text FROM review WHERE review_id=:review_id';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':review_id', $review_id);
+        $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+        $json = json_encode($data2);
+        print_r($json);
+    }
     
-    // set player excluded
     
-
+    // get number match of a player
+    function getNumberMatchPlayer($db, $mail){
+        $request2 = 'SELECT match_id FROM play WHERE mail=:mail AND is_registered=true';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':mail', $mail);
+        $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+        return count($data2);
+    }
+    
+    
+    function getNumberGoalPLayer($db, $mail){
+        $request2 = 'SELECT scoring_time FROM score WHERE mail=:mail';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':mail', $mail);
+        $statement2->execute();
+        return count($data2);
+    }
+    
+    
+    function getNumberBestPlayer($db, $mail){
+        $request2 = 'SELECT match_id FROM match_result WHERE best_player=:best_player';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':best_player', $mail);
+        $statement2->execute();
+        return count($data2);
+    }
+    
+    
+//----------------------------------------------------------------------------
+//---------------------------------------------------------- Notifications  ----------------------------------------------------------
+//----------------------------------------------------------------------------
+    
+    
+    // get Refusal/Acceptation notifications
+    function getProfilNotifications($db, $mail){
+        $request2 = 'SELECT m.match_id, m.title, t.is_registered, t.wait_response
+                    FROM match m, play t 
+                    WHERE t.mail=:mail AND t.match_id=m.match_id 
+                    AND ( (is_registered=false AND wait_response=false) OR (is_registered=true AND wait_response=false) OR (is_registered=false AND wait_response=true) )';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':mail', $mail);
+        $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+        $json = json_encode($data2);
+        print_r($json);
+    }
+    
+    
+//----------------------------------------------------------------------------
+//---------------------------------------------------------- Search Bar  ----------------------------------------------------------
+//----------------------------------------------------------------------------
+    
     
         
 ?>

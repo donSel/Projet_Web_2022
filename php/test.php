@@ -35,21 +35,23 @@
     //$town_id = addNewTown($db, $town);
     //$match_id_match_result = insertEmptyMatchResult($db);
     
-    $organizer_id = 'mickael.neroda@gmail.com';
-    $sport = 'Boxe';
-    $title = 'tournoi';
-    $match_description = 'Petite après midi entre amis';
-    $number_min_player = 6;
-    $number_max_player = 20;
-    $town = 'Paris';
-    $address = 'plaine de jeux des Dervalières';
-    $date = '2022-06-28';
-    $hour = '15:00:00';
-    $duration = '01:30:00';
-    $price = 0;
-    $age_range = '14-30';
+    //$organizer_id = 'mickael.neroda@gmail.com';
+    //$sport = 'Boxe';
+    //$title = 'tournoi';
+    //$match_description = 'Petite après midi entre amis';
+    //$number_min_player = 6;
+    //$number_max_player = 20;
+    //$town = 'Paris';
+    //$town2 = 'paris';
+    //$address = 'plaine de jeux des Dervalières';
+    //$date = '2022-06-28';
+    //$hour = '15:00:00';
+    //$duration = '01:30:00';
+    //$price = 0;
+    //$age_range = '14-30';
 
-    insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range);
+    //insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range);
+    //insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town2, $address, $date, $hour, $duration, $price, $age_range);
     
     //$town_id = addNewTown($db, $town);
     //echo $town_id;
@@ -65,7 +67,7 @@
     //echo insertEmptyReview($db);
     
     
-    
+    incrementRegisteredCount($db, 2);
     
     
     
