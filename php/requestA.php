@@ -39,11 +39,12 @@ if ($requestRessource == 'search-event'){
             //$result = [[0,'foot2rue']];
         }
         else if($_GET['wanted'] == 'myEvent'){
-            $result = toTabTab(getOrganizerPlayerEventIdTitle($db,$me));
+            $result = toTabTab(getOrganizerPlayerEventIdTitle($db, $me));
             //$result = [[0,'foot2rue']];
         }
         else if($_GET['wanted'] == 'allEvents'){
             $result = toTabTab(getInfosAllEvent($db));
+
             /*
             //getInfosAllEvent($db)
             $idMatch = $_GET['idMatch'];
@@ -53,7 +54,7 @@ if ($requestRessource == 'search-event'){
             }*/
         }
         else if($_GET['wanted'] == 'speEvents'){ //filtre
-            $idMatch = $_GET['idMatch'];
+            $idMatch = intval($_GET['idMatch']);
 
             $result = [];
             for ($i=0;$i<10;$i++){
@@ -62,8 +63,8 @@ if ($requestRessource == 'search-event'){
         }
         else if($_GET['wanted'] == 'infos'){ //infos détaillées (pop up)
             //getInfoEvent($db, $match_id)
-            $idMatch = $_GET['idMatch'];
-            $result = toTab(getInfoEvent($db, $idMatch));
+            $idMatch = intval($_GET['idMatch']);
+            $result = toTabTab(getInfoEvent($db, $idMatch))[0];
             /*if ($idMatch == 0){
                 $result = [$idMatch, 'titre0', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 10];
             }else{
@@ -74,7 +75,7 @@ if ($requestRessource == 'search-event'){
         else if($_GET['wanted'] == 'infosNormal'){
             //getAllProfilEvents($db, $mail)
             $idMatch = $_GET['idMatch'];
-            $result = toTabTab(getAllProfilEvents($db, $me));
+            $result = toTabTab(getAllProfilEvents($db, $idMatch))[0];
             //$result = [$idMatch, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA'];
         }
         else if($_GET['wanted'] == 'allPlayers'){
@@ -121,7 +122,7 @@ else if ($requestRessource == 'organize-event'){
             }
             else if ($_GET["wanted"] == 'showMiniProfilesIn') {
                 //getPLayersOfEvent($db, $match_id)
-                $idMatch = $_GET['idMatch'];
+                $idMatch = intval($_GET['idMatch']);
                 $result = toTabTab(getPLayersOfEvent($db, $idMatch));
                 array_unshift($result,$idMatch);
                 /*
@@ -146,7 +147,7 @@ else if ($requestRessource == 'organize-event'){
             else if ($_GET["wanted"] == 'showMiniProfilesWait') {
                 //getPLayersWaitingOfEvent($db, $match_id)
                 $result = [];
-                $idMatch = $_GET['idMatch'];
+                $idMatch = intval($_GET['idMatch']);
                 $result = toTabTab(getPLayersWaitingOfEvent($db, $idMatch));
                 array_unshift($result,$idMatch);
                 /*$result[] = $idMatch;
@@ -163,7 +164,7 @@ else if ($requestRessource == 'organize-event'){
             }
         }else if ($_POST["what"] == 'createEvent'){
             //insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range
-            $matchID = $_POST["matchID"];
+
             $sport = $_POST["sport"];
             $title = $_POST["title"];
             $comment = $_POST["comment"];
@@ -190,7 +191,7 @@ else if ($requestRessource == 'organize-event'){
             if ($_PUT["what"] == 'setTeam') {
                 //setPlayerStatusTeam($db, $match_id, $mail, $accepted, $role, $team)
                 $team = $_PUT["team"];
-                $idMatch = $_PUT["idMatch"];
+                $idMatch = intval($_PUT["idMatch"]);
                 $mail = $_PUT["mail"];
                 setPlayerStatusTeam($db, $idMatch, $mail, true, 1, $team);
             }
