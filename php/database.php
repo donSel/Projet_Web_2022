@@ -113,9 +113,7 @@
         $statement = $db->prepare($request);
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
     }
     
     
@@ -127,9 +125,7 @@
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
     }    
     
     
@@ -566,9 +562,7 @@
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
     }
     
     
@@ -586,9 +580,7 @@
         $statement2 = $db->prepare($request2);
         $statement2->bindParam(':town_id', $town_id);
         $statement2->execute();
-        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
-        $json = json_encode($data2);
-        print_r($json);
+        return $statement2->fetchAll(PDO::FETCH_ASSOC);
     }
     
     
@@ -606,9 +598,7 @@
         $statement2 = $db->prepare($request2);
         $statement2->bindParam(':review_id', $review_id);
         $statement2->execute();
-        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
-        $json = json_encode($data2);
-        print_r($json);
+        return $statement2->fetchAll(PDO::FETCH_ASSOC);
     }
     
     
@@ -620,9 +610,7 @@
         $statement2 = $db->prepare($request2);
         $statemen2->bindParam(':mail', $mail);
         $statement2->execute();
-        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
-        $json = json_encode($data2);
-        print_r($json);
+        return $statement2->fetchAll(PDO::FETCH_ASSOC);
     }
     
     // get number match of a player 
@@ -670,9 +658,7 @@
         $statement2 = $db->prepare($request2);
         $statement2->bindParam(':mail', $mail);
         $statement2->execute();
-        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
-        $json = json_encode($data2);
-        print_r($json);
+        return $statement2->fetchAll(PDO::FETCH_ASSOC);
     }
     
     
@@ -681,8 +667,38 @@
 //----------------------------------------------------------------------------
     
 
+    //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
+    function getInfosEventSearched($db, $match_id){
+        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
+        FROM match m, sport s, town t 
+        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.match_id=:match_id');
+        $statement = $db->prepare($request);
+        $statement->bindParam(':match_id', $match_id);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    } 
+
+
     //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
     function searchEvent($db, $town, $sport_name, $period, $complete){
+        //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
+        
+        // getting the table with all events
+        $eventArr = getInfosAllEvent($db);
+        // creating an an array with all events filtered (if the search field is empty, it puts a generic value for this column)
+        $eventArrFiltered = [];
+        foreach() 
+        
+        // convert the period in second
+        
+        
+        
+        // 
+        $searchEventArr = [];
+        
+        
+        
         // put value of field to * if it is ''
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
                                 FROM match m, sport s, town t 
