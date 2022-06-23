@@ -709,6 +709,15 @@
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
     
+    /*$request2 = 'SELECT m.match_id, m.title, t.is_registered, t.wait_response
+    FROM match m, play t 
+    WHERE t.mail=:mail AND t.match_id=m.match_id 
+    AND ( (is_registered=false AND wait_response=false) OR (is_registered=true AND wait_response=false) OR (is_registered=false AND wait_response=true) )';
+$statement2 = $db->prepare($request2);
+$statement2->bindParam(':mail', $mail);
+$statement2->execute();
+return $statement2->fetchAll(PDO::FETCH_ASSOC);*/
+    
     
     // search all the event info with the data adapted to the search [match_id,town,sport_name,period,complete] 
     // period = the number of seconds of difference between today and the date/hour of the match
@@ -718,11 +727,11 @@
         $currentDate = $date->format('Y-m-d');
         // getting the right array
         $request = $db->query("SELECT m.match_id, t.town, s.sport_name, 
-        m.date::DATE – :currentDate::DATE AS period, m.registered_count>=m.number_max_player AS complete 
+        m.date::DATE – NOW()::DATE AS period, m.registered_count>=m.number_max_player AS complete 
         FROM match m, sport s, town t 
         WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date");
         $statement = $db->prepare($request);
-        $statement->bindParam(':currentDate', $currentDate);
+        //$statement->bindParam(':currentDate', $currentDate);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }

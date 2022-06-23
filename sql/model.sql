@@ -22,7 +22,7 @@ CREATE TABLE public.match_result(
 ------------------------------------------------------------
 CREATE TABLE public.review(
 	review_id      SERIAL NOT NULL ,
-	review_value   INT  NOT NULL , -- -1 => no review, 1 => 1 star, 2 => 2 stars, 3 => 3 stars, 4 => 4 stars, 5 => 5 stars
+	review_value   INT  NOT NULL , -- -1 => no review, 0 => 1 star, 2 => 2 stars, 3 => 3 stars, 4 => 4 stars, 5 => 5 stars
 	review_text    VARCHAR (50) ,
 	CONSTRAINT review_PK PRIMARY KEY (review_id)
 )WITHOUT OIDS;
@@ -74,6 +74,8 @@ CREATE TABLE public.player(
 ------------------------------------------------------------
 -- Table: match
 ------------------------------------------------------------
+
+-- value format : $date => YYYY-mm-dd, $hour => hh:mm:ss, $duration => hh:mm:ss, $age-range : "val-val"
 CREATE TABLE public.match(
 	match_id                SERIAL NOT NULL ,
 	number_max_player       INT  NOT NULL ,
