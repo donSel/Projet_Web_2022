@@ -215,17 +215,19 @@
         $db->query($stmt);
         // getting the id of the last inserted review (even if it's empty)
         $reviewArray = getReviews($db);
-        print_r($reviewArray);
         return end($reviewArray)['review_id'];
     }
     
     
-    function registerNewUser($db, $last_name, $first_name, $photo_url, $town, $mail, $password){ //  /!\ Encrypt the password and passing town names in lowercase 
+    function registerNewUser($db, $last_name, $first_name, $photo_url, $town, $mail, $password){ 
         if (mailExists($db, $mail)){
             return false;
         }
         
         $town = strtolower($town);
+        
+        // encrypting the password
+        $password = hash('ripemd160', $password);
         
         // Cheking and inserting the town if it doesn't already exist
         $res = townAlreadyExist($db, $town);
@@ -265,6 +267,9 @@
 
     
     function isGoodLogin($db, $mail, $password){ // test : OK
+        // encrypting the password
+        $password = hash('ripemd160', $password);
+        // checking if the login is good
         $arrUser = getUser($db, $mail);
         foreach ($arrUser as $val){
             if ($val['mail'] == $mail && $val['password'] == $password){
@@ -320,13 +325,6 @@
         // returning the id of the inserted town
         $sportsArray = getSports($db);
         return end($sportsArray)['sport_id'];
-        
-        /* $request = 'SELECT sport_id, sport_name FROM sport WHERE sport=:sport'; OLD
-        $statement = $db->prepare($request);
-        $statement->bindParam(':town', $town);
-        $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $data['0']['town_id'];*/
     }
     
     
@@ -342,39 +340,30 @@
         $db->query($stmt);
         // getting the id of the last inserted result (even if it's empty)
         $matchResultsArray = getMatchResults($db);
-        print_r($matchResultsArray);
         return end($matchResultsArray)['match_id'];
     }
     
     
     // insert a enw match in the database, value format : $date => YYYY-mm-dd, $hour => hh:mm:ss, $duration => hh:mm:ss, $age-range : "val-val"
-    function insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range){ //  /!\ passing town names in lowercase 
-                                                                                    // vérifier que la date/heure rentrée est pas antérieure à l'actuelle
-                                                                                    // check if the match is created and insert the organizer as a player/organizer in play table
-                                                                                    // vérifier que le min est pas > au max, de même pour l'age range
-                                                                                    // limiter le nombre de caractère pour le titre et la description (commentaire aussi)
+    function insertNewMatch($db, $organizer_id, $sport, $title, $match_description, $number_min_player, $number_max_player, $town, $address, $date, $hour, $duration, $price, $age_range){ 
         $town = strtolower($town);
         $sport = strtolower($sport);
                                                                                     
         // Cheking and inserting the sport if it doesn't already exist
         $res = sportAlreadyExist($db, $sport);
         if ($res == 0){
-            echo "sport not exists <br>";
             $sport_id = addNewSport($db, $sport);
         }  
         else {
-            echo "sport exists <br>";
             $sport_id = $res;
         }
         
         // Cheking and inserting the town if it doesn't already exist
         $res = townAlreadyExist($db, $town);
         if ($res == 0){
-            echo "town not exists <br>";
             $town_id = addNewTown($db, $town);
         }
         else {
-            echo "town exists <br>";
             $town_id = $res;
         }
         
@@ -408,7 +397,6 @@
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        //print_r($data);
         if ($data['0']['number_max_player'] == $data['0']['registered_count']){
             return true;
         }
@@ -436,7 +424,6 @@
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        //print_r($data);
         $currentVal = $data['0']['registered_count'];
         $newVal = $currentVal + 1;
         // update the registered count in the db
@@ -527,7 +514,7 @@
     
     
     // update profile
-    function updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url){ // test : OK /!\ encrypt the password
+    function updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url){ // test : OK 
         $town = strtolower($town);
         // updating town player
         $res = townAlreadyExist($db, $town);
@@ -537,6 +524,9 @@
         else {
             $town_id = $res;
         }
+        
+        // encrypting the password
+        $password = hash('ripemd160', $password);
         
         // getting player review id
         $request = 'SELECT review_id FROM player WHERE mail=:mail';
@@ -623,7 +613,20 @@
     }
     
     
-    // get number match of a player
+    // get statistics player => data [[number match played], [number goal], [number best player]]
+    function getStatisticsPlayer($db, $mail){ // test : 
+        $request2 = 'SELECT p.COUNT(*), s.COUNT(*), r.COUNT(*) 
+        FROM play p, score s, match_result r 
+        WHERE (mail=:mail AND is_registered=true) OR mail=:mail';
+        $statement2 = $db->prepare($request2);
+        $statemen2->bindParam(':mail', $mail);
+        $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+        $json = json_encode($data2);
+        print_r($json);
+    }
+    
+    // get number match of a player 
     function getNumberMatchPlayer($db, $mail){
         $request2 = 'SELECT match_id FROM play WHERE mail=:mail AND is_registered=true';
         $statement2 = $db->prepare($request2);
@@ -646,7 +649,7 @@
     function getNumberBestPlayer($db, $mail){
         $request2 = 'SELECT match_id FROM match_result WHERE best_player=:best_player';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':best_player', $mail);
+        $statement2->bindParam(':best_player', $mail);
         $statement2->execute();
         return count($data2);
     }
