@@ -1,5 +1,7 @@
 <?php
 
+include('database.php');
+include('functions.php');
 function show($data){
     // Send data to the client
     header('Content-Type: application/json; charset=utf-8');
@@ -23,27 +25,30 @@ if ($requestRessource == 'search-event'){
 
     if ($requestMethod == 'GET'){
         if ($_GET['wanted'] == 'cities'){
-            //getTowns($db)
-            $result = [[0,'Bretteville'],[1,'Caen'],[2,'Nantes']];
+            $result = toTabTab(getTowns($db));
+            //$result = [[0,'Bretteville'],[1,'Caen'],[2,'Nantes']];
         }
         else if ($_GET['wanted'] == 'sports'){
-            //getSports($db)
-            $result = [[0,'Foot-ball'],[1,'Basket-Ball']];
+            $result = toTabTab(getSports($db));
+            //$result = [[0,'Foot-ball'],[1,'Basket-Ball']];
         }
         else if($_GET['wanted'] == 'myOrganizeEvent'){
-            //getOrganizerEventIdTitle($db, $mail)
-            $result = [[0,'foot2rue']];
+            $result = toTAbTAb(getOrganizerEventIdTitle($db, 'mickael.neroda@mail.com'));
+            //$result = [[0,'foot2rue']];
         }
         else if($_GET['wanted'] == 'myEvent'){
-            //getOrganizerPlayerEventIdTitle($db,$mail)
-            $result = [[0,'foot2rue']];
+            $result = toTabTab(getOrganizerPlayerEventIdTitle($db,'mickael.neroda@mail.com'));
+            //$result = [[0,'foot2rue']];
         }
         else if($_GET['wanted'] == 'allEvents'){
+            $result = toTabTab(getInfosAllEvent($db));
+            /*
+            //getInfosAllEvent($db)
             $idMatch = $_GET['idMatch'];
             $result = [];
             for ($i=0;$i<10;$i++){
                 $result[] = [$i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12];
-            }
+            }*/
         }
         else if($_GET['wanted'] == 'speEvents'){ //filtre
             $idMatch = $_GET['idMatch'];
@@ -56,11 +61,12 @@ if ($requestRessource == 'search-event'){
         else if($_GET['wanted'] == 'infos'){ //infos détaillées (pop up)
             //getInfoEvent($db, $match_id)
             $idMatch = $_GET['idMatch'];
-            if ($idMatch == 0){
+            $result = toTab(getInfoEvent($db, $idMatch));
+            /*if ($idMatch == 0){
                 $result = [$idMatch, 'titre0', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 10];
             }else{
                 $result = [$idMatch, 'titreautre', 'J\'ai encore de la place :)', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2];
-            }
+            }*/
 
         }
         else if($_GET['wanted'] == 'infosNormal'){
@@ -69,20 +75,18 @@ if ($requestRessource == 'search-event'){
             $result = [$idMatch, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA'];
         }
         else if($_GET['wanted'] == 'allPlayers'){
-            //getPLayersOfEvent($db, $match_id)
             $idMatch = $_GET['idMatch'];
-            $result = [];
+            $result = toTabTab(getPLayersOfEvent($db, $idMatch));
+            /*$result = [];
             $result[] = [0,'Jean','images/default_avatar.jpg'];
             $result[] = [1,'Paul','images/default_avatar.jpg'];
             $result[] = [2,'Adrien','images/default_avatar.jpg'];
             $result[] = [4,'Clark','images/default_avatar.jpg'];
             $result[] = [5,'Batman','images/default_avatar.jpg'];
-            $result[] = [33,'uwu','images/default_avatar.jpg'];
+            $result[] = [33,'uwu','images/default_avatar.jpg'];*/
 
         }
-        else{
-            $result = null;
-        }
+        
     }
     if ($requestMethod == 'POST'){
         $result = 'POST';
@@ -218,18 +222,5 @@ else{
     header('HTTP/1.1 400 Bad Request');
 }
 
-
-
-/*
-AJAX REQUEST :
-ajaxRequest('POST', 'php/request.php/operation/',showResult, 'value1=' + $('#value1').val() + '&value2=' + $('#value2').val());
-ajaxRequest('DELETE', 'php/request.php/operation/?value1=' + $('#value1').val() + '&value2=' + $('#value2').val(), showResult);
-
-
-
-
-
-
-*/
 
 ?>

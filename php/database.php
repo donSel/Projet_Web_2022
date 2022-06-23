@@ -28,12 +28,18 @@
     
     //cartes infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
     function getInfosAllEvent($db){
-        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
+        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
                                 FROM match m, sport s, town t 
+<<<<<<< HEAD
                                 WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0');
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         $json = json_encode($data);
         print_r($json); 
+=======
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id');
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+>>>>>>> fc680601dd1cf99ce2568560418f36e18ed8b333
     } 
     
     
@@ -43,9 +49,7 @@
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     
     
@@ -58,9 +62,7 @@
         $statement->bindParam(':organizer_id', $mail);
         $statement->bindParam(':mail_player', $mail);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     
     
@@ -72,9 +74,7 @@
         $statement = $db->prepare($request);
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /*SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
@@ -84,15 +84,13 @@
     
     //carte event : [match_id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits] 
     function getInfoEvent($db, $match_id){
-        $request = "SELECT m.match_id, m.title, m.match_description, o.last_name, o.photo_url, m.adress, m.hour, m.duration, m.price, m.number_max_player, m.registered_count 
+        $request = "SELECT m.match_id, m.title, m.match_description, o.last_name, o.photo_url, m.address, m.hour, m.duration, m.price, m.number_max_player, m.registered_count 
                     FROM match m, player o 
-                    WHERE m.match_id = :match_id AND o.mail = m.organizer_id";
+                    WHERE m.match_id = 4 AND o.mail = m.organizer_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     
     // match ou je suis joueur
@@ -104,9 +102,8 @@
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC); 
-        $json = json_encode($data);
-        print_r($json);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
     }
     
     
@@ -589,7 +586,7 @@
         // getting Player town name
         $request2 = 'SELECT town FROM town WHERE town_id=:town_id';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':town_id', $town_id);
+        $statement2->bindParam(':town_id', $town_id);
         $statement2->execute();
         $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         $json = json_encode($data2);
@@ -609,7 +606,7 @@
         // gettin player review value/text
         $request2 = 'SELECT review_value, review_text FROM review WHERE review_id=:review_id';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':review_id', $review_id);
+        $statement2->bindParam(':review_id', $review_id);
         $statement2->execute();
         $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         $json = json_encode($data2);
@@ -634,7 +631,7 @@
     function getNumberMatchPlayer($db, $mail){
         $request2 = 'SELECT match_id FROM play WHERE mail=:mail AND is_registered=true';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':mail', $mail);
+        $statement2->bindParam(':mail', $mail);
         $statement2->execute();
         $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         return count($data2);
@@ -644,8 +641,9 @@
     function getNumberGoalPLayer($db, $mail){
         $request2 = 'SELECT scoring_time FROM score WHERE mail=:mail';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':mail', $mail);
+        $statement2->bindParam(':mail', $mail);
         $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         return count($data2);
     }
     
@@ -655,6 +653,7 @@
         $statement2 = $db->prepare($request2);
         $statement2->bindParam(':best_player', $mail);
         $statement2->execute();
+        $data2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
         return count($data2);
     }
     
