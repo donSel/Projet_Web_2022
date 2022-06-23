@@ -115,10 +115,10 @@ function loadMiniProfilesIn(infos){
 function test(infos){
     console.log('HERE c\'est un test : ' + infos)
 }
-function acceptationOrNot(id,idMatch,value){
+function acceptationOrNot(id,value){
     let infos = id.split("-");
     //console.log(infos[0] + ' ' + infos[1] + ' ' + infos[2]);
-    ajaxRequest('PUT', 'php/requestA.php/organize-event/',null, 'what=setTeam&idMatch='+idMatch+'team='+value);
+    ajaxRequest('PUT', 'php/requestA.php/organize-event/',null, 'what=setTeam&idMatch='+infos[1]+'&mail='+infos[2]+'&team='+value);
     ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showEventOrganize', loadEventOrganize);
 
 }
@@ -131,19 +131,19 @@ function loadMiniProfilesWait(infos){
     $('.buttonSetTeamA').click(function (e)
         {
             console.log(' TEAM A !');
-            acceptationOrNot(e.currentTarget.id,infos[0],'A');
+            acceptationOrNot(e.currentTarget.id,1); //A
         }
     );
     $('.buttonSetTeamB').click(function (e)
         {
             console.log(' TEAM B !');
-            acceptationOrNot(e.currentTarget.id,infos[0],'B');
+            acceptationOrNot(e.currentTarget.id,2); //B
         }
     );
     $('.buttonSetRefus').click(function (e)
         {
             console.log(' Refus !');
-            acceptationOrNot(e.currentTarget.id,infos[0],'Refus');
+            acceptationOrNot(e.currentTarget.id,-1); //refus
         }
     );
 }
@@ -181,7 +181,7 @@ function loadEventOrganize(infos){
                 //console.log(tabBest[i]);
             //}
 
-            ajaxRequest('PUT', 'php/requestA.php/organize-event/',test, 'what=setEnd&idMatch='+idEvent[1]);
+            ajaxRequest('PUT', 'php/requestA.php/organize-event/',test, 'what=setEnd&idMatch='+idEvent[1]+'&best='+tabBest[0]+'&winner='+tabBest[1]+'&scoreA='+tabBest[2]+'&scoreB='+tabBest[3]);
         }
     );
 
