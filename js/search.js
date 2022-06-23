@@ -180,8 +180,9 @@ function loadInfosMode(infos){
 }
 
 function loadInfosNormalMode(infos) {
-    console.log('NON');
-    setShowInfosNormalMode(infos); //[0, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA']
+    if (infos != null){
+        setShowInfosNormalMode(infos); //[0, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA']
+    }
 
 }
 

@@ -48,7 +48,7 @@ function loadProfil(infos){ //[id_user,nom,prenom,age;ville,forme,mdp,url,commen
     $('#age').val(infos[3]);
     $('#town').val(infos[4]);
     $('#health').val(infos[5]);
-    $('#password').val(infos[6]);
+    $('#password').val('');
     $('#photoUrl').val(infos[7]);
     $('#commentary').val(infos[8]);
 
@@ -87,18 +87,18 @@ function setNotif(infos){ //[type,text]
 
 }
 
-function loadStats(infos){ //[nbMatch,nbButs,bestPlayer_nom,bestPlayer_prenom]
+function loadStats(infos){ //[nbMatch,nbButs,nbBest]
     $('#nbMatch').val(infos[0]);
     $('#nbButs').val(infos[1]);
-    $('#bestPlayer').val(infos[2] + " " + infos[3]);
+    $('#bestPlayer').val(infos[2]);
 }
 function loadNotifs(infos){
     for (let i = 0;i<infos.length;i++){
         setNotif(infos[i])
     }
 }
-function test(infos){
-    console.log('HERE c\'est un test : ' + infos)
+function reload(infos){
+    ajaxRequest('GET', 'php/requestA.php/profile/?wanted=profileInfos', loadProfil);
 }
 
 $(document).ready(function() {
@@ -125,8 +125,8 @@ $(document).ready(function() {
         tabProfil.push($('#photoUrl').val());
         tabProfil.push($('#commentary').val());
 
-        ajaxRequest('PUT', 'php/requestA.php/profile/',test, 'what=setProfile&lastName='+ tabProfil[0] +'&firstName='+ tabProfil[1] +'&age='+ tabProfil[2] +'&town='+ tabProfil[3] +'&health='+ tabProfil[4] +'&password='+ tabProfil[5] +'&photoUrl='+ tabProfil[6] +'&commentary='+ tabProfil[7]);
-        console.log(tabProfil);
+        ajaxRequest('PUT', 'php/requestA.php/profile/',reload, 'what=setProfile&lastName='+ tabProfil[0] +'&firstName='+ tabProfil[1] +'&age='+ tabProfil[2] +'&town='+ tabProfil[3] +'&health='+ tabProfil[4] +'&password='+ tabProfil[5] +'&photoUrl='+ tabProfil[6] +'&commentary='+ tabProfil[7]);
+
     });
 });
 
