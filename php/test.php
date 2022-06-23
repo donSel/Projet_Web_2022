@@ -89,10 +89,10 @@
     //updateProfil($db, 'Bertrand.RIESSE@gmail.com', 9, 'MOSCOU', 0, 'aze', 0, 'trop nul ce site wallah', 'suuu.png');
     
     //print_r(getInfoEvent($db, 3));
-    //print_r(getInfosAllEvent($db));
+    print_r(getInfosAllEvent($db));
     
     //searchEvent($db, $town, $sport_name, $period, $complete)
-    searchEvent($db, 'nantes', 'tennis', '', '');
+    //searchEvent($db, 'nantes', 'football', '', '');
     
     echo "<br><br>";
     
