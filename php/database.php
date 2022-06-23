@@ -688,7 +688,7 @@
         $eventArr = getInfosAllEvent($db);
         // creating an an array with all events filtered (if the search field is empty, it puts a generic value for this column)
         $eventArrFiltered = [];
-        foreach() 
+        //foreach() 
         
         // convert the period in second
         
