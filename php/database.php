@@ -545,7 +545,15 @@
         }
         
         // encrypting the password
-        $password = hash('ripemd160', $password);
+        if (!empty($password)){
+            $password = hash('ripemd160', $password);
+            // updating the new password
+            $stmt = $db->prepare("UPDATE player SET password=:password
+            WHERE mail=:mail"); 
+            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':mail', $mail);
+            $stmt->execute();
+        }
         
         // getting player review id
         $request = 'SELECT review_id FROM player WHERE mail=:mail';
@@ -566,14 +574,13 @@
         
         
         // updating the player table
-        $stmt = $db->prepare("UPDATE player SET age=:age, health=:health, town_id=:town_id, photo_url=:photo_url, password=:password
+        $stmt = $db->prepare("UPDATE player SET age=:age, health=:health, town_id=:town_id, photo_url=:photo_url
         WHERE mail=:mail"); 
         $stmt->bindParam(':mail', $mail);
         $stmt->bindParam(':age', $age);
         $stmt->bindParam(':health', $health);
         $stmt->bindParam(':town_id', $town_id);
         $stmt->bindParam(':photo_url', $photo_url);
-        $stmt->bindParam(':password', $password);
         $stmt->execute();
     }
     
@@ -626,9 +633,9 @@
     }
     
     
-    // get statistics player => data [[number match played], [number goal], [number best player]]
+    // get statistics player => data [[number_match_played], [number_goal], [number_best_player]]
     function getStatisticsPlayer($db, $mail){ // test : 
-        $request2 = 'SELECT p.COUNT(*), s.COUNT(*), r.COUNT(*) 
+        $request2 = 'SELECT p.COUNT(*) AS number_match_played, s.COUNT(*) AS number_goal, r.COUNT(*) AS number_best_player
         FROM play p, score s, match_result r 
         WHERE (mail=:mail AND is_registered=true) OR mail=:mail';
         $statement2 = $db->prepare($request2);
@@ -693,7 +700,7 @@
 
     // search for ONE event infos [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
     function getInfosEventSearched($db, $match_id){
-        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
+        $request = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
         FROM match m, sport s, town t 
         WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.match_id=:match_id');
         $statement = $db->prepare($request);
@@ -701,15 +708,21 @@
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
-
+    
     
     // search all the event info with the data adapted to the search [match_id,town,sport_name,period,complete] 
     // period = the number of seconds of difference between today and the date/hour of the match
     function getInfosAllEventForSearch($db){
-        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
+        // getting the today date
+        $date = new DateTime();
+        $currentDate = $date->format('Y-m-d');
+        // getting the right array
+        $request = $db->query("SELECT m.match_id, t.town, s.sport_name, 
+        m.date::DATE – :currentDate::DATE AS period, m.registered_count>=m.number_max_player AS complete 
         FROM match m, sport s, town t 
-        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date');
+        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date");
         $statement = $db->prepare($request);
+        $statement->bindParam(':currentDate', $currentDate);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -744,14 +757,13 @@
                 $val['complete'] = $genericVal;
             }
             
-            echo "<br><br>eventArr val <br>";
-            print_r($val);
-            echo "<br><br>";
+            //echo "<br><br>eventArr val <br>";
+            //print_r($val);
+            //echo "<br><br>";
         }
         
-        echo "<br><br>eventArr after <br>";
-        //$eventArr['0']['match_id'] = 999;
-        print_r($eventArr);
+        //echo "<br><br>eventArr after <br>";
+        //print_r($eventArr);
         
         // setting the non searched fields value to the value '*'
         if (empty($town)){
@@ -761,46 +773,19 @@
             $sport_name = $genericVal;
         }
         if (empty($period)){
-            $date = $genericVal;
-            $hour = $genericVal;
-            //period
-        } else {
-            $period = 
+            $period = $genericVal;
         }
         if (empty($complete)){
-            //$registered_count = $genericVal;
-            //$number_max_player = $genericVal;
-            $complete = 0;
-        } else {
-            $complete = 
+            $complete = $genericVal;
         }
         
         // filling the searchedEventIdArr with the IDs of the matches searched
         $searchedEventIdArr = [];
-        foreach ($eventArr as $val){
+        /*foreach ($eventArr as $val){
             
             // convert the period in second
-            if ($val['town']==$town && $val)
-            
-            if (empty($town)){
-                $val['town'] = $genericVal;
-            }
-            if (empty($sport_name)){
-                $val['sport_name'] = $genericVal;
-            }
-            if (empty($period)){
-                $val['date'] = $genericVal;
-                $val['hour'] = $genericVal;
-            }
-            if (empty($complete)){
-                $val['registered_count'] = $genericVal;
-                $val['number_max_player'] = $genericVal;
-            }
-            
-            echo "<br><br>eventArr val <br>";
-            print_r($val);
-            echo "<br><br>";
-        }
+            if ($val['town']==$town && $val);
+        }*/
         
         
         
