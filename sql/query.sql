@@ -13,7 +13,7 @@ SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_p
 
 SELECT m.match_id, m.title, m.match_description, o.last_name, o.photo_url, m.address, m.hour, m.duration, m.price, m.number_max_player, m.registered_count 
 FROM match m, player o 
-WHERE (m.match_id = 3 OR m.match_id = 2) AND o.mail = 'mickael.neroda@gmail.com';
+WHERE (m.match_id = 1 OR m.match_id = 2) AND o.mail = 'mickael.neroda@gmail.com';
 
 /*SELECT m.match_id, m.title, m.match_description, o.last_name, o.photo_url, m.address, m.hour, m.duration, m.price, m.number_max_player, m.registered_count 
 FROM match m, player o 

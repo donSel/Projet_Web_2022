@@ -54,7 +54,7 @@
     
     $number_min_player_array = [20, 10, 2, 15];
     $number_max_player_array = [35, 15, 2, 25];
-    $arrDate = ['2022-06-29', '2022-07-15', '2022-07-13', '2022-08-19'];
+    $arrDate = ['2022-06-20', '2022-07-15', '2022-07-13', '2022-08-19'];
     $arrHour = ['15:00:00', '14:00:00', '15:45:00', '17:00:00'];
     $arrTown = ['Nantes', 'Nantes', 'Angers', 'Paris'];
     $arrAddress = ['1 Pl. Alexis-Ricordeau', '12 boulevard de Alsace', '3 place Anatole France', 'Rue Henri Delaunay, 93200 Saint-Denis']; 

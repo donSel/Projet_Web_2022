@@ -30,8 +30,8 @@
     function getInfosAllEvent($db){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
                                 FROM match m, sport s, town t 
-                                ORDER BY m.date DESC
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ');
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW()
+                                ORDER BY m.date ');                                                                                                                                                                                                                                                                                                                                                        
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
     
@@ -121,7 +121,6 @@
     function getAllOrganizerEvents($db, $mail){
         $request = "SELECT m.match_id, m.title, s.sport_name, m.date, m.hour, m.number_min_player, m.number_max_player, m.registered_count
                     FROM match m, sport s
-                    c
                     WHERE m.organizer_id=:mail AND s.sport_id=m.sport_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
@@ -697,10 +696,18 @@
             //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
             // Array returned ( [match_id][title][sport_name] [town]  [date] [hour] [registered_count] [number_max_player] 
         $eventArr = getInfosAllEvent($db);
+        echo "eventArr before <br>";
+        print_r($eventArr);
+        
         // modifying the array with all events filtered (if the search field is empty, it puts a generic value for this column)
         foreach ($eventArr as $val){
             
-            if ($town = ''){
+            echo "<br><br>eventArr val <br>";
+            print_r($val);
+            echo "<br><br>";
+            
+            $val['town'] = $genericVal;
+            /*if ($town = ''){
                 $val['town'] = $genericVal;
             }
             if ($sport_name = ''){
@@ -713,11 +720,16 @@
             if ($complete = ''){
                 $val['registered_count'] = $genericVal;
                 $val['number_max_player'] = $genericVal;
-            }
+            }*/
         }
         
+        echo "<br><br>eventArr after <br>";
+        //$eventArr['0']['match_id'] = 999;
+        print_r($eventArr);
         $searchedEventIdArr = [];
         // filling the searchedEventIdArr with the id of the matches searched
+        
+        
         
         /*foreach($eventArr as $val){
             
