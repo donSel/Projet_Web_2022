@@ -87,12 +87,12 @@
     
     // match ou je suis joueur
     //évènements où je suis TOUS en fonction de moi: [match_id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA,scoreB,vainqueur]
-    function getAllProfilEvents($db, $id_match){
+    function getAllProfilEvents($db, $idMatch){
         $request = "SELECT m.match_id, m.title, m.is_finished, r.best_player, p.photo_url, p.last_name, t.role, m.hour, m.duration, v.town, m.address, r.score_match, r.winner 
                     FROM match m, player p, match_result r, play t, town v
-                    WHERE m.match_id=4 AND m.match_id=t.match_id AND m.match_id=r.match_id AND r.best_player=p.mail AND m.town_id=v.town_id";
+                    WHERE m.match_id=:idMatch AND m.match_id=t.match_id AND m.match_id=r.match_id AND r.best_player=p.mail AND m.town_id=v.town_id";
         $statement = $db->prepare($request);
-        $statement->bindParam(':id_match', $id_match);
+        $statement->bindParam(':idMatch', $idMatch);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -586,10 +586,10 @@
     
     
     // get PlayeInfo
-    function getPlayerInfo($db, $mail){
-        $request = "SELECT mail, password, first_name, last_name, photo_url, age, health
-                    FROM player
-                    WHERE mail = :mail";
+    function getPlayerInfo($db, $mail){//[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
+        $request = "SELECT p.mail, p.first_name, p.last_name, p.age, t.town,p.health,p.password, p.photo_url, r.review_text
+                    FROM player p,town t, review r
+                    WHERE p.mail = 'mickael.neroda@mail.com' AND t.town_id = p.town_id AND r.review_id = p.review_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();

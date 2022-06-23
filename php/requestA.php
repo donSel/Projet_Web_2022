@@ -19,7 +19,7 @@ $requestRessource = array_shift($request);
 
 $db = dbConnect();
 
-$me = 'mickael.neroda@mail.com';
+$me = $_SESSION['mail'];//'mickael.neroda@mail.com';
 
 $result = 0; //default value
 
@@ -74,7 +74,7 @@ if ($requestRessource == 'search-event'){
         }
         else if($_GET['wanted'] == 'infosNormal'){
             //getAllProfilEvents($db, $mail)
-            $idMatch = $_GET['idMatch'];
+            $idMatch = intval($_GET['idMatch']);
             $result = toTabTab(getAllProfilEvents($db, $idMatch))[0];
             //$result = [$idMatch, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA'];
         }
@@ -214,19 +214,17 @@ else if ($requestRessource == 'organize-event'){
 else if ($requestRessource == 'profile'){
     if ($requestMethod == 'GET'){
         if ($_GET["wanted"] == 'profileInfos') {
-            $result = ['nantes@gmail.com','Leroy','nathan','19','Caen','débutant','12345','images/default_avatar.jpg','je suis un commentaire']; //[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
+            //$result = ['nantes@gmail.com','Leroy','nathan','19','Caen','débutant','12345','images/default_avatar.jpg','je suis un commentaire']; //[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
             //HERE
+            $result = toTabTab(getPlayerInfo($db, $me))[0];
         }else if ($_GET["wanted"] == 'profileStats') {
             $result = [10,2,"Roger","Rabbit"]; //[nbMatch,nbButs,bestPlayer_nom,bestPlayer_prenom]
             //HERE
         }
         else if ($_GET["wanted"] == 'notifs') {
-            $result = [[0,'User veut se joindre à l\'évènement'],[1,'Vous avez été séléctionnés pour l’évènement :“Petit tennis au SNUC”'],[2,'Vous avez n’avez pas été séléctionnés pour l’évènement :“match de basket au stade de Procès”']];
+            //$result = [[0,'User veut se joindre à l\'évènement'],[1,'Vous avez été séléctionnés pour l’évènement :“Petit tennis au SNUC”'],[2,'Vous avez n’avez pas été séléctionnés pour l’évènement :“match de basket au stade de Procès”']];
             $result = toTabTab(getProfilNotifications($db, $me));
         }
-
-
-
 
     }
     if ($requestMethod == 'PUT'){
@@ -240,7 +238,7 @@ else if ($requestRessource == 'profile'){
         $photoUrl = $_PUT['photoUrl'];
         $commentary = $_PUT['commentary'];
         $result = [$firstName,$lastName,$age,$town,$health,$password,$photoUrl,$commentary];
-        //updateProfil($db, $me, $age, $town, $health, $password, $review_value, $review_text, $photo_url)
+        updateProfil($db, $me, $age, $town, $health, $password, -1, $commentary, $photoUrl);
     }
     show($result);
 }
