@@ -263,6 +263,11 @@ else if ($requestRessource == 'profile'){
                 }
                 $result[] = $v;
             }
+            $tmp = toTabTab(getOrganizerNotification($db, $me));
+            foreach($tmp as $t){
+                $result[] = [0,"$t[1] veut se joindre à l'évènement \"$t[0]\""];
+            }
+
             //[type,text]
             //$result = 'uuuuuuuuwuu';
         }
