@@ -48,10 +48,11 @@
     
     // évènements où je suis TOUS en fonction de moi: [match_id,titre]
     function getOrganizerPlayerEventIdTitle($db, $mail){
-        $request = 'SELECT m.match_id, m.title 
-                    FROM match m, play p 
-                    WHERE m.organizer_id=m.mail_organizer OR (p.mail=:mail_player AND p.match_id=m.match_id)';//   (SELECT mail FROM player WHERE mail=:mail_player)';
+        $request = 'SELECT m.match_id, m.title
+                    FROM match m, play p
+                    WHERE p.mail=:mail_player AND p.match_id=m.match_id';//   (SELECT mail FROM player WHERE mail=:mail_player)';
         $statement = $db->prepare($request);
+        $statement->bindParam(':mail_player', $mail);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -86,12 +87,12 @@
     
     // match ou je suis joueur
     //évènements où je suis TOUS en fonction de moi: [match_id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA,scoreB,vainqueur]
-    function getAllProfilEvents($db, $mail){
-        $request = "SELECT m.match_id, m.title, m.is_finished, r.best_player, p.photo_url, p.last_name, t.role, m.hour, m.duration, v.town, m.adress, r.score_match, r.winner 
+    function getAllProfilEvents($db, $id_match){
+        $request = "SELECT m.match_id, m.title, m.is_finished, r.best_player, p.photo_url, p.last_name, t.role, m.hour, m.duration, v.town, m.address, r.score_match, r.winner 
                     FROM match m, player p, match_result r, play t, town v
-                    WHERE t.mail=:m.mail AND m.match_id=t.match_id AND m.match_id=r.match_id AND r.best_player=p.mail AND m.town_id=v.town_id";
+                    WHERE m.match_id=4 AND m.match_id=t.match_id AND m.match_id=r.match_id AND r.best_player=p.mail AND m.town_id=v.town_id";
         $statement = $db->prepare($request);
-        $statement->bindParam(':mail', $mail);
+        $statement->bindParam(':id_match', $id_match);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
 

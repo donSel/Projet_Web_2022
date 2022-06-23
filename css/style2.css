@@ -159,9 +159,10 @@ nav {
     border-radius : 25px;
     margin-left : 74px;
     width : 405px;
-    height : 50px;
+    min-height : 50px;
     text-align : center;
     cursor: pointer;
+    margin-bottom:10px;
 
 }
 
