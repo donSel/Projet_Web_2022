@@ -589,7 +589,7 @@
     function getPlayerInfo($db, $mail){//[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
         $request = "SELECT p.mail, p.first_name, p.last_name, p.age, t.town,p.health,p.password, p.photo_url, r.review_text
                     FROM player p,town t, review r
-                    WHERE p.mail = 'mickael.neroda@mail.com' AND t.town_id = p.town_id AND r.review_id = p.review_id";
+                    WHERE p.mail = :mail AND t.town_id = p.town_id AND r.review_id = p.review_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
@@ -634,12 +634,27 @@
     
     
     // get statistics player => data [[number_match_played], [number_goal], [number_best_player]]
-    function getStatisticsPlayer($db, $mail){ // test : 
-        $request2 = 'SELECT p.COUNT(*) AS number_match_played, s.COUNT(*) AS number_goal, r.COUNT(*) AS number_best_player
-        FROM play p, score s, match_result r 
-        WHERE (mail=:mail AND is_registered=true) OR mail=:mail';
+    function getStatisticsPlayer($db, $mail){ // test :
+        /*
+         SELECT *
+FROM (
+   SELECT COUNT(*) somme FROM play WHERE mail='peyrachearnaud@gmail.com'
+   UNION ALL
+   SELECT COUNT(*) somme FROM score WHERE mail='peyrachearnaud@gmail.com'
+   UNION ALL
+   SELECT COUNT(*) somme FROM match_result WHERE best_player='peyrachearnaud@gmail.com'
+) table_temp;
+         */
+        $request2 = 'SELECT *
+FROM (
+   SELECT COUNT(*) somme FROM play WHERE mail=:mail
+   UNION ALL
+   SELECT COUNT(*) somme FROM score WHERE mail=:mail
+   UNION ALL
+   SELECT COUNT(*) somme FROM match_result WHERE best_player=:mail
+) table_temp;';
         $statement2 = $db->prepare($request2);
-        $statemen2->bindParam(':mail', $mail);
+        $statement2->bindParam(':mail', $mail);
         $statement2->execute();
         return $statement2->fetchAll(PDO::FETCH_ASSOC);
     }

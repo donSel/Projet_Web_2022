@@ -133,15 +133,17 @@ function loadMiniProfilesIn(infos){
         $('#select-bestA' + infos[0]).append("<option value='" + infos[i][0] + "'>"+ infos[i][0] +"</option>");
     }
     //-mettre dans le select du best
+
 }
-function test(infos){
-    console.log('HERE c\'est un test : ' + infos)
+function reload(infos){
+    ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showEventOrganize', loadEventOrganize);
 }
+
 function acceptationOrNot(id,value){
     let infos = id.split("-");
     //console.log(infos[0] + ' ' + infos[1] + ' ' + infos[2]);
-    ajaxRequest('PUT', 'php/requestA.php/organize-event/',null, 'what=setTeam&idMatch='+infos[1]+'&mail='+infos[2]+'&team='+value);
-    ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showEventOrganize', loadEventOrganize);
+    ajaxRequest('PUT', 'php/requestA.php/organize-event/',reload, 'what=setTeam&idMatch='+infos[1]+'&mail='+infos[2]+'&team='+value);
+
 
 }
 function loadMiniProfilesWait(infos){
@@ -175,9 +177,9 @@ function loadEventOrganize(infos){
         generateEventOrganize(infos[i]);
 
         ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showMiniProfilesIn&idMatch='+infos[i][0], loadMiniProfilesIn);
-
-
         ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showMiniProfilesWait&idMatch='+infos[i][0], loadMiniProfilesWait);
+
+
 
 
 
@@ -203,7 +205,7 @@ function loadEventOrganize(infos){
                 //console.log(tabBest[i]);
             //}
 
-            ajaxRequest('PUT', 'php/requestA.php/organize-event/',test, 'what=setEnd&idMatch='+idEvent[1]+'&best='+tabBest[0]+'&winner='+tabBest[1]+'&scoreA='+tabBest[2]+'&scoreB='+tabBest[3]);
+            ajaxRequest('PUT', 'php/requestA.php/organize-event/',null, 'what=setEnd&idMatch='+idEvent[1]+'&best='+tabBest[0]+'&winner='+tabBest[1]+'&scoreA='+tabBest[2]+'&scoreB='+tabBest[3]);
         }
     );
 
@@ -217,6 +219,10 @@ function setScore(val){
         score = val;
     }
     return score;
+}
+
+function refresh(infos){
+    window.location.href = "organize.html?mode=1";
 }
 
 function subMenuWanted(menu){ //0 or 1
@@ -322,7 +328,7 @@ function subMenuWanted(menu){ //0 or 1
                 tab.push($('#isOrganiserParticipating').prop("checked"));
                 if (check){
                     $('#alert-event-creation').addClass('hidden');
-                    ajaxRequest('POST', 'php/requestA.php/organize-event/',null, 'what=createEvent&sport='+tab[0]+'&title='+tab[1]+'&comment='+tab[2]+'&min='+tab[3]+'&max='+tab[4]+'&town='+tab[5]+'&adress='+tab[6]+'&date='+tab[7]+'&hour='+tab[8]+'&duration='+tab[9]+'&price='+tab[10]+'&mina='+tab[11]+'&maxa='+tab[12] + 'in='+tab[13]);
+                    ajaxRequest('POST', 'php/requestA.php/organize-event/',refresh, 'what=createEvent&sport='+tab[0]+'&title='+tab[1]+'&comment='+tab[2]+'&min='+tab[3]+'&max='+tab[4]+'&town='+tab[5]+'&adress='+tab[6]+'&date='+tab[7]+'&hour='+tab[8]+'&duration='+tab[9]+'&price='+tab[10]+'&mina='+tab[11]+'&maxa='+tab[12] + 'in='+tab[13]);
                 }
                 else{
                     $('#alert-event-creation').removeClass('hidden');

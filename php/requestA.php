@@ -19,7 +19,8 @@ $requestRessource = array_shift($request);
 
 $db = dbConnect();
 
-$me = $_SESSION['mail'];//'mickael.neroda@mail.com';
+session_start();
+$me = 'mickael.neroda@mail.com';//$_SESSION['mail'];//'mickael.neroda@mail.com';
 
 $result = 0; //default value
 
@@ -184,7 +185,8 @@ else if ($requestRessource == 'organize-event'){
 
             insertNewMatch($db, $me, $sport, $title, $comment, $min, $max, $town, $adress, $date, $hour, $duration, $price, $minA.'-'.$maxA);
             if ($in){
-
+                $idMatch = getLastMatchId($db);
+                insertPlayer($db, $idMatch, $me, 1);
             }
             //Add to database  Pas oublier de préciser le "moi"
         }
@@ -195,7 +197,13 @@ else if ($requestRessource == 'organize-event'){
                 $team = $_PUT["team"];
                 $idMatch = intval($_PUT["idMatch"]);
                 $mail = $_PUT["mail"];
-                setPlayerStatusTeam($db, $idMatch, $mail, true, 1, $team);
+
+                if ($team == -1){
+                    setPlayerStatusTeam($db, $idMatch, $mail, false, $team, $team);
+                }
+                else{
+                    setPlayerStatusTeam($db, $idMatch, $mail, true, $team, $team);
+                }
             }
             else if ($_PUT["what"] == 'setEnd') {
                 //$result = $_PUT["idMatch"];
@@ -214,16 +222,30 @@ else if ($requestRessource == 'organize-event'){
 else if ($requestRessource == 'profile'){
     if ($requestMethod == 'GET'){
         if ($_GET["wanted"] == 'profileInfos') {
-            //$result = ['nantes@gmail.com','Leroy','nathan','19','Caen','débutant','12345','images/default_avatar.jpg','je suis un commentaire']; //[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
-            //HERE
+            //$result = $me;
             $result = toTabTab(getPlayerInfo($db, $me))[0];
         }else if ($_GET["wanted"] == 'profileStats') {
-            $result = [10,2,"Roger","Rabbit"]; //[nbMatch,nbButs,bestPlayer_nom,bestPlayer_prenom]
-            //HERE
+            //$result = [10,2,"Roger","Rabbit"]; //[nbMatch,nbButs,bestPlayer_nom,bestPlayer_prenom]
+            $result = toTabTab(getStatisticsPlayer($db, $me));
         }
         else if ($_GET["wanted"] == 'notifs') {
             //$result = [[0,'User veut se joindre à l\'évènement'],[1,'Vous avez été séléctionnés pour l’évènement :“Petit tennis au SNUC”'],[2,'Vous avez n’avez pas été séléctionnés pour l’évènement :“match de basket au stade de Procès”']];
-            $result = toTabTab(getProfilNotifications($db, $me));
+            $val = toTabTab(getProfilNotifications($db, $me));
+            $result = [];
+            foreach($val as $v){
+                if ($v[2]){
+                    $result[] = [1,"vous avez été sélectionné pour l'évènement \"$v[1]\""];
+                }
+                else{
+                    if (!$v[3]){
+                        $result[] = [2,"vous n'avez pas été sélectionné pour l'évènement \"$v[1]\""];
+                    }
+
+                }
+                $result[] = $v;
+            }
+            //[type,text]
+            //$result = 'uuuuuuuuwuu';
         }
 
     }

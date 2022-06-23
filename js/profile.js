@@ -87,10 +87,10 @@ function setNotif(infos){ //[type,text]
 
 }
 
-function loadStats(infos){ //[nbMatch,nbButs,bestPlayer_nom,bestPlayer_prenom]
+function loadStats(infos){ //[nbMatch,nbButs,nbBest]
     $('#nbMatch').val(infos[0]);
     $('#nbButs').val(infos[1]);
-    $('#bestPlayer').val(infos[2] + " " + infos[3]);
+    $('#bestPlayer').val(infos[2]);
 }
 function loadNotifs(infos){
     for (let i = 0;i<infos.length;i++){
