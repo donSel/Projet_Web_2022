@@ -30,16 +30,9 @@
     function getInfosAllEvent($db){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
                                 FROM match m, sport s, town t 
-<<<<<<< HEAD
                                 WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0');
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $json = json_encode($data);
-        print_r($json); 
-=======
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
 
->>>>>>> fc680601dd1cf99ce2568560418f36e18ed8b333
     } 
     
     
@@ -86,7 +79,7 @@
     function getInfoEvent($db, $match_id){
         $request = "SELECT m.match_id, m.title, m.match_description, o.last_name, o.photo_url, m.address, m.hour, m.duration, m.price, m.number_max_player, m.registered_count 
                     FROM match m, player o 
-                    WHERE m.match_id = 4 AND o.mail = m.organizer_id";
+                    WHERE m.match_id=:match_id AND o.mail=m.organizer_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
@@ -444,29 +437,34 @@
             return false;
         }
         
+        // updating the player status/team 
         if ($accepted == true){
             // updating is_finished value match
             $stmt = $db->prepare("UPDATE play 
-            SET is_registered=true, wait_response=false
-            WHERE mail=:mail"); 
+            SET is_registered=true, wait_response=false, team=:team
+            WHERE mail=:mail AND match_id=:match_id"); 
             $stmt->bindParam(':mail', $mail);
+            $stmt->bindParam(':match_id', $match_id);
+            $stmt->bindParam(':team', $team);
             $stmt->execute();
         } else {
             $stmt = $db->prepare("UPDATE play 
-            SET is_registered=false, wait_response=false
-            WHERE mail=:mail"); 
+            SET is_registered=false, wait_response=false, team=:team
+            WHERE mail=:mail AND match_id=:match_id"); 
             $stmt->bindParam(':mail', $mail);
+            $stmt->bindParam(':match_id', $match_id);
+            $stmt->bindParam(':team', $team);
             $stmt->execute();
         }
     
         
         // updating the player status/team 
-        $stmt = $db->prepare("UPDATE play 
+        /*$stmt = $db->prepare("UPDATE play 
                             SET team=:team
                             WHERE match_id=:match_id"); 
         $stmt->bindParam(':match_id', $match_id);
         $stmt->bindParam(':team', $team);
-        $stmt->execute();
+        $stmt->execute();*/
         
         // update registered_count
         if ($accepted == true){
