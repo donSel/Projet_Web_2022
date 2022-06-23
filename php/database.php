@@ -734,9 +734,9 @@ FROM (
 
     // search for ONE event infos [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
     function getInfosEventSearched($db, $match_id){
-        $request = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
+        $request = 'SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
         FROM match m, sport s, town t 
-        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.match_id=:match_id');
+        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.match_id=:match_id';
         $statement = $db->prepare($request);
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();

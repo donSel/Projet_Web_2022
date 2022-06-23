@@ -227,7 +227,7 @@ function loadMyEvent(infos){
 }
 
 function setOption(id,infos){ //[id_town,town]
-    $('#'+id).append('<option value="'+infos[0]+'">'+infos[1]+'</option>');
+    $('#'+id).append('<option value="'+infos[1]+'">'+infos[1]+'</option>');
 }
 
 function loadCitiesOptions(infos){

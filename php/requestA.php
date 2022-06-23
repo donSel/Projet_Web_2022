@@ -56,18 +56,31 @@ if ($requestRessource == 'search-event'){
         }
         else if($_GET['wanted'] == 'speEvents'){ //filtre
             $idMatch = intval($_GET['idMatch']);
-            $town = intval($_GET['ville']);
-            $sport_name = intval($_GET['sport']);
-            $period = intval($_GET['periode']);
-            $complete = intval($_GET['statutMatch']);
+            $town = $_GET['ville'];
+            $sport_name = $_GET['sport'];
+            $period = $_GET['periode'];
+            $complete = $_GET['statutMatch'];
+
+            if ($period=="+7"){
+                $period = 7;
+            }else if ($period == "+15"){
+                $period = 15;
+            }else if ($period == "+30"){
+                $period = 30;
+            }
+
 
             $tab = searchEvent($db, $town, $sport_name, $period, $complete);
 
             $result = [];
 
             foreach($tab as $t){
-                //$result[] =
+                $result[] = toTabTab(getInfosEventSearched($db, $t))[0];
             }
+            //$tmp = getInfosEventSearched($db, 1);
+
+
+
             /*
             $result = [];
             for ($i=0;$i<10;$i++){
