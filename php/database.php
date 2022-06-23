@@ -393,6 +393,23 @@
     }
     
     
+    // function that return true if the player is already subscribed to the match
+    function isPlayerAlreadyInTheMatch($db, $match_id, $mail){
+        $request = "SELECT match_id 
+        FROM play 
+        WHERE match_id=:match_id AND mail=:mail AND is_registered=true AND wait_response=false";
+        $statement = $db->prepare($request);
+        $statement->bindParam(':match_id', $match_id);
+        $statement->bindParam(':mail', $mail);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if (count($data) != 0){
+            return true;
+        }
+        return false;
+    }
+    
+    
     // insert player in a match, data format : role 0 => Organizer, 1 => Player, 2 => player + Organizer // check if the player isn't already signed in
     function insertPlayer($db, $match_id, $mail, $role){ //test : OK
         // inserting the new user in the database play
@@ -673,7 +690,7 @@
 //----------------------------------------------------------------------------
     
 
-    //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
+    // search for ONE event infos [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
     function getInfosEventSearched($db, $match_id){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
         FROM match m, sport s, town t 
@@ -684,6 +701,18 @@
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
 
+    
+    // search all the event info with the data adapted to the search [match_id,town,sport_name,period,complete] 
+    // period = the number of seconds of difference between today and the date/hour of the match
+    function getInfosAllEventForSearch($db){
+        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
+        FROM match m, sport s, town t 
+        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date');
+        $statement = $db->prepare($request);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 
     //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
     function searchEvent($db, $town, $sport_name, $period, $complete){
@@ -694,7 +723,7 @@
         // getting the table with all events
             //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
             // Array returned ( [match_id][title][sport_name] [town]  [date] [hour] [registered_count] [number_max_player] 
-        $eventArr = getInfosAllEvent($db);
+        $eventArr = getInfosAllEventForSearch($db);
         echo "eventArr before <br>";
         print_r($eventArr);
         
@@ -708,12 +737,10 @@
                 $val['sport_name'] = $genericVal;
             }
             if (empty($period)){
-                $val['date'] = $genericVal;
-                $val['hour'] = $genericVal;
+                $val['period'] = $genericVal;
             }
             if (empty($complete)){
-                $val['registered_count'] = $genericVal;
-                $val['number_max_player'] = $genericVal;
+                $val['complete'] = $genericVal;
             }
             
             echo "<br><br>eventArr val <br>";
@@ -725,9 +752,34 @@
         //$eventArr['0']['match_id'] = 999;
         print_r($eventArr);
         
-        // filling the searchedEventIdArr with the id of the matches searched
+        // setting the non searched fields value to the value '*'
+        if (empty($town)){
+            $town = $genericVal;
+        }
+        if (empty($sport_name)){
+            $sport_name = $genericVal;
+        }
+        if (empty($period)){
+            $date = $genericVal;
+            $hour = $genericVal;
+            //period
+        } else {
+            $period = 
+        }
+        if (empty($complete)){
+            //$registered_count = $genericVal;
+            //$number_max_player = $genericVal;
+            $complete = 0;
+        } else {
+            $complete = 
+        }
+        
+        // filling the searchedEventIdArr with the IDs of the matches searched
         $searchedEventIdArr = [];
         foreach ($eventArr as $val){
+            
+            // convert the period in second
+            if ($val['town']==$town && $val)
             
             if (empty($town)){
                 $val['town'] = $genericVal;
@@ -757,7 +809,6 @@
         }*/
         
         
-        // convert the period in second
         
         
         
