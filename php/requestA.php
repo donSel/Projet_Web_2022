@@ -56,11 +56,23 @@ if ($requestRessource == 'search-event'){
         }
         else if($_GET['wanted'] == 'speEvents'){ //filtre
             $idMatch = intval($_GET['idMatch']);
+            $town = intval($_GET['ville']);
+            $sport_name = intval($_GET['sport']);
+            $period = intval($_GET['periode']);
+            $complete = intval($_GET['statutMatch']);
 
+            $tab = searchEvent($db, $town, $sport_name, $period, $complete);
+
+            $result = [];
+
+            foreach($tab as $t){
+                //$result[] =
+            }
+            /*
             $result = [];
             for ($i=0;$i<10;$i++){
                 $result[] = [$i,'test','foot-ball','Nantes','10-10-2022','12:00',1,12];
-            }
+            }*/
         }
         else if($_GET['wanted'] == 'infos'){ //infos détaillées (pop up)
             //getInfoEvent($db, $match_id)
