@@ -96,7 +96,9 @@ if ($requestRessource == 'search-event'){
         $result = 'POST';
         if ($_POST["what"] == 'participate'){
             $matchID = $_POST["matchID"];
-            setPlayerStatusTeam($db, $matchID, $me, false, 1, 0);
+            insertPlayer($db, $matchID, $me, 1);
+            //setPlayerStatusTeam($db, $matchID, $me, false, 1, 0);
+            $result = $_POST["matchID"];
             //Add to database
         }
 
