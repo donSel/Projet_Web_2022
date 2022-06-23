@@ -1,0 +1,117 @@
+/** **/
+.mw1140p { max-width: 1140px; }
+
+.center {margin-left: auto; margin-right: auto;}
+.right {margin-left: auto;}
+.left {margin-right: auto;}
+
+/** THEME **/
+
+* {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+/*-- HEADER --*/
+/* header > logo */
+header {
+    border-bottom: 1px solid #bbb;
+    height: 55px;
+}
+#logo {
+    font-size: 1.5rem;
+    padding: .5rem;
+}
+
+/* header > menu burger */
+#burger {display: none;}
+
+#burger-button {
+    font-size: .7em;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #40475A;
+    color: #fff;
+    padding: .5rem;
+    border-radius: 0;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+
+    z-index: 99;
+
+    transition: all .3s;
+}
+#burger-button:hover {
+    background-color: #2C293E;
+}
+#burger-button::before {
+    content: '≡';
+    display: block;
+    font-size: 2rem;
+    line-height: 1.5rem;
+
+    transition: all .3s;
+}
+/*selection de l'element dont l'id est #burger-button suivant l'element dont l'id est burger et l'état est coché*/
+#burger:checked ~ #burger-button {
+    background-color: #7e0202;
+}
+#burger:checked ~ #burger-button::before { 
+    content: '×'; 
+    transform: rotate(-180deg);
+}
+
+nav#burger-content {
+    background-color: #fff;
+
+    max-width: 250px;
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    z-index: 10;
+    
+    transition: all .3s;
+}
+
+#burger:checked ~ nav#burger-content { 
+    left: 0; 
+}
+
+#burger:checked ~ #overlay {
+    background-color:rgba(0,0,0,.4);
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:5;
+    transition:all .3s
+}
+
+/* header > navigation */
+nav ul { list-style: none; padding: 1rem; margin: 0;}
+nav ul a {
+    font-size : 1.2rem;
+    color: #000; 
+    text-decoration: none;
+}
+nav ul a:hover {
+    color: #173266; 
+    text-decoration: underline;
+}
+
+
+ 
