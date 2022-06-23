@@ -30,8 +30,8 @@
     function getInfosAllEvent($db){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
                                 FROM match m, sport s, town t 
-                                ORDER BY m.date DESC
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ');
+                                
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
     
