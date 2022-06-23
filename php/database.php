@@ -30,9 +30,8 @@
     function getInfosAllEvent($db){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
                                 FROM match m, sport s, town t 
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0');
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
-
     } 
     
     
@@ -121,6 +120,7 @@
     function getAllOrganizerEvents($db, $mail){
         $request = "SELECT m.match_id, m.title, s.sport_name, m.date, m.hour, m.number_min_player, m.number_max_player, m.registered_count
                     FROM match m, sport s
+                    ORDER BY m.date DESC
                     WHERE m.organizer_id=:mail AND s.sport_id=m.sport_id";
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
@@ -503,6 +503,13 @@
     }
     
     
+    // getting the last match inserted id
+    function getLastMatchId($db){
+        $eventsArr = getInfosAllEvent($db);
+        return end($eventsArr)['match_id'];
+    }
+    
+    
 //----------------------------------------------------------------------------
 //---------------------------------------------------------- Profil Page  ----------------------------------------------------------
 //----------------------------------------------------------------------------
@@ -676,36 +683,52 @@
         $statement->bindParam(':match_id', $match_id);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
-
     } 
 
 
     //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
     function searchEvent($db, $town, $sport_name, $period, $complete){
-        //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
+        
+        // setting
+        $genericVal = '*';
         
         // getting the table with all events
+            //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
+            // Array returned ( [match_id][title][sport_name] [town]  [date] [hour] [registered_count] [number_max_player] 
         $eventArr = getInfosAllEvent($db);
-        // creating an an array with all events filtered (if the search field is empty, it puts a generic value for this column)
-        $eventArrFiltered = [];
-        //foreach() 
+        // modifying the array with all events filtered (if the search field is empty, it puts a generic value for this column)
+        foreach ($eventArr as $val){
+            
+            if ($town = ''){
+                $val['town'] = $genericVal;
+            }
+            if ($sport_name = ''){
+                $val['sport_name'] = $genericVal;
+            }
+            if ($period = ''){
+                $val['date'] = $genericVal;
+                $val['hour'] = $genericVal;
+            }
+            if ($complete = ''){
+                $val['registered_count'] = $genericVal;
+                $val['number_max_player'] = $genericVal;
+            }
+        }
+        
+        $searchedEventIdArr = [];
+        // filling the searchedEventIdArr with the id of the matches searched
+        
+        /*foreach($eventArr as $val){
+            
+            
+        }*/
+        
         
         // convert the period in second
         
         
         
-        // 
-        $searchEventArr = [];
         
-        
-        
-        // put value of field to * if it is ''
-        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
-                                FROM match m, sport s, town t 
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0');
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $json = json_encode($data);
-        print_r($json); 
     }
     
         
