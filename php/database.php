@@ -708,6 +708,21 @@ FROM (
     }
     
     
+    // function to get the inscitpion demand of the event that the organizer organize
+    // return => title event, name of the person that joins, 
+    // input => mail of the connected person
+    function getOrganizerNotification($db, $mail){
+        $request2 = 'SELECT m.title, p.last_name
+                    FROM match m, player p, play t 
+                    WHERE m.organizer_id=:organizer_id AND m.match_id=t.match_id AND t.mail=p.mail
+                    AND is_registered=false AND wait_response=true';
+        $statement2 = $db->prepare($request2);
+        $statement2->bindParam(':organizer_id', $mail);
+        $statement2->execute();
+        return $statement2->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
 //----------------------------------------------------------------------------
 //---------------------------------------------------------- Search Bar  ----------------------------------------------------------
 //----------------------------------------------------------------------------
