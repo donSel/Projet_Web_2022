@@ -168,6 +168,7 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
 
 
 function loadInfosMode(infos){
+    console.log('uxu');
     setShowInfosMode(infos); //[0, 'titre', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2]
 
     $('#register').click(function(e){
@@ -179,6 +180,7 @@ function loadInfosMode(infos){
 }
 
 function loadInfosNormalMode(infos) {
+    console.log('NON');
     setShowInfosNormalMode(infos); //[0, 'titre', true, 0, 'images/default_avatar.jpg', 'Jean-Eude', 'Organisateur', '--:--', '--', 'Bretteville', 'rue du moulin', '10-2', 'ÉquipeA']
 
 }
@@ -210,6 +212,7 @@ function loadMyOrganizeEvent(infos){
 }
 
 function loadMyEvent(infos){
+    console.log('mes events');
     for (let i=0;i<infos.length;i++){
         generateMyEvent(infos[i]);
     }
@@ -232,6 +235,7 @@ function loadCitiesOptions(infos){
     }
 }
 function loadSportsOptions(infos){
+    console.log(infos);
     for (let i=0;i<infos.length;i++){
         setOption('sport',infos[i]);
     }
