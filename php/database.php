@@ -30,8 +30,8 @@
     function getInfosAllEvent($db){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.registered_count,m.number_max_player 
                                 FROM match m, sport s, town t 
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW()
-                                ORDER BY m.date ');                                                                                                                                                                                                                                                                                                                                                        
+                                
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
     
@@ -121,7 +121,8 @@
     function getAllOrganizerEvents($db, $mail){
         $request = "SELECT m.match_id, m.title, s.sport_name, m.date, m.hour, m.number_min_player, m.number_max_player, m.registered_count
                     FROM match m, sport s
-                    WHERE m.organizer_id=:mail AND s.sport_id=m.sport_id";
+                    
+                    WHERE m.organizer_id=:mail AND s.sport_id=m.sport_id ORDER BY m.date";
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
