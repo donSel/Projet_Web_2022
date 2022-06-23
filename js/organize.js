@@ -1,11 +1,26 @@
 
 function generateMiniProfileIn(infos,where){ //[id,nom,prénom,mail,statut,équipe]
+    // ['Leroy.gege@gmail.com'.$i,'Leroy','gérard','gégé@gmail.com','débutant','A'];
+    //t.mail, p.last_name, p.first_name, p.photo_url, t.role, t.team
+    let health = 'Non-dit';
+    let team = 'Aucune';
+    if (infos[4] == 1){
+        health = 'Débutant';
+    }if (infos[4] == 2){
+        health = 'Confirmé';
+    }
+    if (infos[5] == 1){
+        team = 'A';
+    }if (infos[5] == 2){
+        team = 'B';
+    }
+
     let txt = '<div class="card-info-three">'
         + '<div class="infos-card-info-three">'
             +'<span>'+infos[1]+','+ infos[2] + '<br>'
-            + infos[3] + ',<br>'
-            + infos[4] + ',<br>'
-            + 'Équipe : ' + infos[5]
+            + infos[0] + ',<br>'
+            + health + ',<br>'
+            + 'Équipe : ' + team
             + '</span>'
         + '</div>'
         + '<img src="images/default_avatar.jpg" alt="profil" width="70" height="83">'
@@ -18,11 +33,18 @@ function generateMiniProfileIn(infos,where){ //[id,nom,prénom,mail,statut,équi
 }
 
 function generateMiniProfileWait(infos,where){//[id,nom,prénom,mail,statut]
+    let health = 'Non-dit';
+    let team = 'Aucune';
+    if (infos[4] == 1){
+        health = 'Débutant';
+    }if (infos[4] == 2){
+        health = 'Confirmé';
+    }
     let txt = '<div class="card-info-three">'
         +'<div class="infos-card-info-three">'
             +'<span>'+infos[1]+','+ infos[2] + '<br>'
-                + infos[3] +',<br>'
-                + infos[4]
+                + infos[0] +',<br>'
+                + health
             +'</span>'
         +'</div>'
         +'<img src="images/default_avatar.jpg" alt="profil" width="70" height="83">'

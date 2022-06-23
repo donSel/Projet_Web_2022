@@ -123,6 +123,7 @@ else if ($requestRessource == 'organize-event'){
                 //getPLayersOfEvent($db, $match_id)
                 $idMatch = $_GET['idMatch'];
                 $result = toTabTab(getPLayersOfEvent($db, $idMatch));
+                array_unshift($result,$idMatch);
                 /*
                 $result = [];
                 $result[] = $idMatch;
@@ -147,6 +148,7 @@ else if ($requestRessource == 'organize-event'){
                 $result = [];
                 $idMatch = $_GET['idMatch'];
                 $result = toTabTab(getPLayersWaitingOfEvent($db, $idMatch));
+                array_unshift($result,$idMatch);
                 /*$result[] = $idMatch;
                 if($idMatch == 0){
                     for($i=0;$i<3;$i++){

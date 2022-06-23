@@ -121,8 +121,8 @@
     function getAllOrganizerEvents($db, $mail){
         $request = "SELECT m.match_id, m.title, s.sport_name, m.date, m.hour, m.number_min_player, m.number_max_player, m.registered_count
                     FROM match m, sport s
-                    c
-                    WHERE m.organizer_id=:mail AND s.sport_id=m.sport_id";
+                    
+                    WHERE m.organizer_id=:mail AND s.sport_id=m.sport_id ORDER BY m.date";
         $statement = $db->prepare($request);
         $statement->bindParam(':mail', $mail);
         $statement->execute();
