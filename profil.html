@@ -26,9 +26,9 @@
             
             <nav>
                 <ul id = 'navigation' class='navi'>
-                    <li class = 'navigation_elmt'><a href="">Recherche</a></li>
-                    <li class = 'navigation_elmt'><a href="">Organiser</a></li>
-                    <li class = 'navigation_elmt'><a href="">Profil</a></li>
+                    <li class = 'navigation_elmt'><a href="search.html">Recherche</a></li>
+                    <li class = 'navigation_elmt'><a href="organize.html">Organiser</a></li>
+                    <li class = 'navigation_elmt'><a href="profil.html">Profil</a></li>
                 </ul>
             </nav>
             <br>
@@ -45,29 +45,47 @@
                 </div>
                     
                 <div id="profilInfo">
-                    <div class="cardTitle margin-auto">Profil</div>
-                    <div class="cardMain margin-auto">
-                        <form class="mainCard-form margin-auto" action="">
-
-                            <label for="lastName">nom  </label>
-                            <input type="text" id="lastName" name="lastName" class="text_field">
-                            <label for="firstName">prénom  </label>
-                            <input type="text" id="firstName" name="firstName" class="text_field">
-                            <label for="mail">mail  </label>
-                            <input type="email" id="mail" name="mail" class="text_field">
-                            <label for="age">âge  </label>
-                            <input type="text" id="age" name="age" class="text_field">
-                            <label for="town">ville  </label>
-                            <input type="text" id="town" name="town" class="text_field">
-                            <label for="health">forme sportive  </label>
-                            <input type="text" id="health" name="health" class="text_field">
-                            <label for="password">mot de passe</label>
-                            <input type="password" id="password" name="password" class="text_field">
-                            <label for="photoUrl">chemin relatif de la photo</label>
-                            <input type="url" id="photoUrl" name="photoUrl" class="text_field">
-                            <label for="commentary">commentaire</label>
-                            <textarea name="commentaire" id="commentary" rows="5" cols="20" placeholder="entrer votre commentaire ici / votre commentaire"></textarea>
-                            <!-- fix the commentary size -->
+                    <div class="titleCreation margin-auto">Profil</div>
+                    <div class="mainCreation margin-auto">
+                        <form class="mainCreation-form margin-auto" action="">
+                            <div class="form-item">
+                                <label for="lastName">nom  </label>
+                                <input type="text" id="lastName" name="lastName" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="firstName">prénom  </label>
+                                <input type="text" id="firstName" name="firstName" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="mail">mail  </label>
+                                <input type="email" id="mail" name="mail" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="age">âge  </label>
+                                <input type="text" id="age" name="age" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="town">ville  </label>
+                                <input type="text" id="town" name="town" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="health">forme sportive  </label>
+                                <input type="text" id="health" name="health" class="text_field">
+                                
+                            </div>
+                            <div class="form-item">
+                                <label for="password">mot de passe</label>
+                                <input type="password" id="password" name="password" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="photoUrl">chemin relatif de la photo</label>
+                                <input type="url" id="photoUrl" name="photoUrl" class="text_field">
+                                
+                            </div>
+                            <div class="form-item">
+                                <label for="commentary">commentaire</label>
+                                <textarea name="commentaire" id="commentary" rows="5" cols="20" placeholder="entrer votre commentaire ici / votre commentaire"></textarea>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -76,10 +94,18 @@
                     <div class="cardTitle margin-auto">Statistiques</div>
                     <div class="cardMain margin-auto"> 
                         <form action="" method="post" class="mainCard-form margin-auto">
-                            <label for="nbMatch">match joués</label> <input type="text" id="nbMatch" name="nbMatch" class="text_field"><br><br>
-                            <label for="nbButs">buts marqués</label> <input type="text" id="nbButs" name="nbButs" class="text_field"><br><br>
-                                <label for="bestPlayer">meilleur(e) joueur(euse)</label> <input type="text" id="bestPlayer" name="mail" class="text_field"><br><br>
-
+                            <div class="form-item">
+                                <label for="nbMatch">match joués</label> 
+                                <input type="text" id="nbMatch" name="nbMatch" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="nbButs">buts marqués</label> 
+                                <input type="text" id="nbButs" name="nbButs" class="text_field">
+                            </div>
+                            <div class="form-item">
+                                <label for="bestPlayer">meilleur(e) joueur(euse)</label> 
+                                <input type="text" id="bestPlayer" name="mail" class="text_field">
+                            </div>
                         </form>
                     </div>
                 </div>
