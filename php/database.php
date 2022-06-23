@@ -50,10 +50,8 @@
     function getOrganizerPlayerEventIdTitle($db, $mail){
         $request = 'SELECT m.match_id, m.title 
                     FROM match m, play p 
-                    WHERE m.organizer_id=:mail_organizer OR (p.mail=:mail_player AND p.match_id=:m.match_id)';//   (SELECT mail FROM player WHERE mail=:mail_player)';
+                    WHERE m.organizer_id=m.mail_organizer OR (p.mail=:mail_player AND p.match_id=m.match_id)';//   (SELECT mail FROM player WHERE mail=:mail_player)';
         $statement = $db->prepare($request);
-        $statement->bindParam(':organizer_id', $mail);
-        $statement->bindParam(':mail_player', $mail);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -703,32 +701,53 @@
         // modifying the array with all events filtered (if the search field is empty, it puts a generic value for this column)
         foreach ($eventArr as $val){
             
-            echo "<br><br>eventArr val <br>";
-            print_r($val);
-            echo "<br><br>";
-            
-            $val['town'] = $genericVal;
-            /*if ($town = ''){
+            if (empty($town)){
                 $val['town'] = $genericVal;
             }
-            if ($sport_name = ''){
+            if (empty($sport_name)){
                 $val['sport_name'] = $genericVal;
             }
-            if ($period = ''){
+            if (empty($period)){
                 $val['date'] = $genericVal;
                 $val['hour'] = $genericVal;
             }
-            if ($complete = ''){
+            if (empty($complete)){
                 $val['registered_count'] = $genericVal;
                 $val['number_max_player'] = $genericVal;
-            }*/
+            }
+            
+            echo "<br><br>eventArr val <br>";
+            print_r($val);
+            echo "<br><br>";
         }
         
         echo "<br><br>eventArr after <br>";
         //$eventArr['0']['match_id'] = 999;
         print_r($eventArr);
-        $searchedEventIdArr = [];
+        
         // filling the searchedEventIdArr with the id of the matches searched
+        $searchedEventIdArr = [];
+        foreach ($eventArr as $val){
+            
+            if (empty($town)){
+                $val['town'] = $genericVal;
+            }
+            if (empty($sport_name)){
+                $val['sport_name'] = $genericVal;
+            }
+            if (empty($period)){
+                $val['date'] = $genericVal;
+                $val['hour'] = $genericVal;
+            }
+            if (empty($complete)){
+                $val['registered_count'] = $genericVal;
+                $val['number_max_player'] = $genericVal;
+            }
+            
+            echo "<br><br>eventArr val <br>";
+            print_r($val);
+            echo "<br><br>";
+        }
         
         
         
