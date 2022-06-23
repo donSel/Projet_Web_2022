@@ -738,16 +738,7 @@ FROM (
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     } 
-    
-    /*$request2 = 'SELECT m.match_id, m.title, t.is_registered, t.wait_response
-    FROM match m, play t 
-    WHERE t.mail=:mail AND t.match_id=m.match_id 
-    AND ( (is_registered=false AND wait_response=false) OR (is_registered=true AND wait_response=false) OR (is_registered=false AND wait_response=true) )';
-$statement2 = $db->prepare($request2);
-$statement2->bindParam(':mail', $mail);
-$statement2->execute();
-return $statement2->fetchAll(PDO::FETCH_ASSOC);*/
-    
+  
     
     // search all the event info with the data adapted to the search [match_id,town,sport_name,period,complete] 
     // period = the number of seconds of difference between today and the date/hour of the match
@@ -756,21 +747,17 @@ return $statement2->fetchAll(PDO::FETCH_ASSOC);*/
         $date = new DateTime();
         $currentDate = $date->format('Y-m-d');
         // getting the right array
-        $request = $db->query("SELECT m.match_id, t.town, s.sport_name, 
-        m.date::DATE – NOW()::DATE AS period, m.registered_count>=m.number_max_player AS complete 
+        $statement = $db->query('SELECT m.match_id, t.town, s.sport_name, 
+        m.date-current_date AS period, m.registered_count>=m.number_max_player AS complete 
         FROM match m, sport s, town t 
-        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date");
-        $statement = $db->prepare($request);
-        //$statement->bindParam(':currentDate', $currentDate);
-        $statement->execute();
+        WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
     
 
     //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
     function searchEvent($db, $town, $sport_name, $period, $complete){
-        
-        // setting
+        // setting generic value
         $genericVal = '*';
         
         // getting the table with all events
@@ -781,28 +768,28 @@ return $statement2->fetchAll(PDO::FETCH_ASSOC);*/
         print_r($eventArr);
         
         // modifying the array with all events filtered (if the search field is empty, it puts a generic value for this column)
-        foreach ($eventArr as $val){
+        foreach ($eventArr as $i => $val){
             
             if (empty($town)){
-                $val['town'] = $genericVal;
+                $eventArr[$i]['town'] = $genericVal;
             }
             if (empty($sport_name)){
-                $val['sport_name'] = $genericVal;
+                $eventArr[$i]['sport_name'] = $genericVal;
             }
-            if (empty($period)){
-                $val['period'] = $genericVal;
-            }
+            /*if (empty($period)){
+                $eventArr[$i]['period'] = $genericVal;
+            }*/
             if (empty($complete)){
-                $val['complete'] = $genericVal;
+                $eventArr[$i]['complete'] = $genericVal;
             }
             
-            //echo "<br><br>eventArr val <br>";
-            //print_r($val);
-            //echo "<br><br>";
+            echo "<br><br>eventArr val <br>";
+            print_r($eventArr[$i]);
+            echo "<br><br>";
         }
         
-        //echo "<br><br>eventArr after <br>";
-        //print_r($eventArr);
+        echo "<br><br>eventArr after <br>";
+        print_r($eventArr);
         
         // setting the non searched fields value to the value '*'
         if (empty($town)){
@@ -812,7 +799,7 @@ return $statement2->fetchAll(PDO::FETCH_ASSOC);*/
             $sport_name = $genericVal;
         }
         if (empty($period)){
-            $period = $genericVal;
+            $period = -1;
         }
         if (empty($complete)){
             $complete = $genericVal;
@@ -820,24 +807,15 @@ return $statement2->fetchAll(PDO::FETCH_ASSOC);*/
         
         // filling the searchedEventIdArr with the IDs of the matches searched
         $searchedEventIdArr = [];
-        /*foreach ($eventArr as $val){
-            
+        foreach ($eventArr as $val){
             // convert the period in second
-            if ($val['town']==$town && $val);
-        }*/
-        
-        
-        
-        /*foreach($eventArr as $val){
-            
-            
-        }*/
-        
-        
-        
-        
-        
-        
+            if ($val['town']==$town && $val['sport_name']==$sport_name && $val['period']>=$period && $val['complete']==$complete){ // gerer periodes
+                array_push($searchedEventIdArr, $val['match_id']);
+            }
+        }
+        echo "<br><br>ID searched Event produced";
+        print_r($searchedEventIdArr);
+        return $searchedEventIdArr;
     }
     
         
