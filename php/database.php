@@ -26,11 +26,11 @@
     //----------------------------------------------------------------------------
 
     
-    //cartes infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max]
+    //cartes infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
     function getInfosAllEvent($db){
         $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
                                 FROM match m, sport s, town t 
-                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id');
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0');
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         $json = json_encode($data);
         print_r($json); 
@@ -76,6 +76,10 @@
         $json = json_encode($data);
         print_r($json);
     }
+    
+    /*SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
+                                FROM match m, sport s, town t 
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0*/
     
     
     //carte event : [match_id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits] 
@@ -679,6 +683,17 @@
 //---------------------------------------------------------- Search Bar  ----------------------------------------------------------
 //----------------------------------------------------------------------------
     
+
+    //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
+    function searchEvent($db, $town, $sport_name, $period, $complete){
+        // put value of field to * if it is ''
+        $statement = $db->query('SELECT m.match_id, m.title, s.sport_name, t.town, m.date, m.hour, m.number_max_player 
+                                FROM match m, sport s, town t 
+                                WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date - NOW() > 0');
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $json = json_encode($data);
+        print_r($json); 
+    }
     
         
 ?>

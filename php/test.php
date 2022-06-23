@@ -86,9 +86,9 @@
     //insertScore($db, 3, 'Dubois.ROLU@gmail.com', '00:00:09');
     
     //updateProfil($db, $mail, $age, $town, $health, $password, $review_value, $review_text, $photo_url)
-    updateProfil($db, 'Bertrand.RIESSE@gmail.com', 9, 'MOSCOU', 0, 'aze', 0, 'trop nul ce site wallah', 'suuu.png');
+    //updateProfil($db, 'Bertrand.RIESSE@gmail.com', 9, 'MOSCOU', 0, 'aze', 0, 'trop nul ce site wallah', 'suuu.png');
     
-    
+    print_r(getInfoEvent($db, 3));
 
     // OLD
     //getInfoEvent($db, $match_id);
