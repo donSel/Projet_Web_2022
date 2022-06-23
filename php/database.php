@@ -377,7 +377,7 @@
         $stmt->bindParam(':match_id_match_result', $match_id_match_result);
         $stmt->bindParam(':town_id', $town_id);
         $stmt->execute();
-        echo "match inserted successfully !<br>";
+        return "match inserted successfully !<br>";
     }
     
     
@@ -521,9 +521,13 @@
     
     
     // getting the last match inserted id
+
+//select match_id from match ORDER BY match_id;
     function getLastMatchId($db){
-        $eventsArr = getInfosAllEvent($db);
-        return end($eventsArr)['match_id'];
+        $stmt = $db->prepare("SELECT match_id from match ORDER BY match_id;");
+        $stmt->execute();
+
+        return end($stmt->fetchAll(PDO::FETCH_ASSOC))['match_id'];
     }
     
     

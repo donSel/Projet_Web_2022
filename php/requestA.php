@@ -123,27 +123,14 @@ else if ($requestRessource == 'organize-event'){
                 $result[] = [4, 'titre4', 'hand', 'date', 'heure', 4, 20, 5];*/
 
             }
+            else if ($_GET['wanted'] == 'debug'){
+                $result = getLastMatchId($db);
+            }
             else if ($_GET["wanted"] == 'showMiniProfilesIn') {
                 //getPLayersOfEvent($db, $match_id)
                 $idMatch = intval($_GET['idMatch']);
                 $result = toTabTab(getPLayersOfEvent($db, $idMatch));
                 array_unshift($result,$idMatch);
-                /*
-                $result = [];
-                $result[] = $idMatch;
-                if($idMatch == 0){
-                    for($i=0;$i<3;$i++){
-                        $result[] = ['Leroy.gege@gmail.com'.$i,'Leroy','gérard','gégé@gmail.com','débutant','A'];
-                    }
-                }
-                else{
-
-                    for($i=0;$i<3;$i++){
-                        $result[] = ['Arnaud.cir@gmail.com'.$i,'Arnaud','CIR','Arnaud.cir@gmail.com','débutant','A'];
-                    }
-
-                }*/
-
 
 
             }
@@ -185,8 +172,15 @@ else if ($requestRessource == 'organize-event'){
 
             insertNewMatch($db, $me, $sport, $title, $comment, $min, $max, $town, $adress, $date, $hour, $duration, $price, $minA.'-'.$maxA);
             if ($in){
-                $idMatch = getLastMatchId($db);
+                $idMatch = getLastMatchId($db);//'Arnaud.cir@gmail.com'
                 insertPlayer($db, $idMatch, $me, 1);
+                $result = $idMatch;
+                setPlayerStatusTeam($db, $idMatch, $me, true,1);
+                //insertPlayer($db, 24, 'Anaud.cir@gmail.comr', 2);
+                /*
+                INSERT INTO play (match_id, mail, is_registered, wait_response, role, team)
+                            VALUES (24, 'peyrachearnaud@gmail.com', false, true, 2, 2)
+                */
             }
             //Add to database  Pas oublier de préciser le "moi"
         }
