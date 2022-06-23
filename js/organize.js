@@ -171,8 +171,12 @@ function loadMiniProfilesWait(infos){
         }
     );
 }
+function debug(infos){
+    console.log('ici c\'est le debug : ' + infos);
+}
 function loadEventOrganize(infos){
     $('#all-events-organization').html("");
+    ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=debug', debug);
     for(let i=0;i<infos.length;i++){
         generateEventOrganize(infos[i]);
 
@@ -222,7 +226,8 @@ function setScore(val){
 }
 
 function refresh(infos){
-    window.location.href = "organize.html?mode=1";
+    //window.location.href = "organize.html?mode=1";
+    console.log('HERE : '+ infos);
 }
 
 function subMenuWanted(menu){ //0 or 1
@@ -326,9 +331,10 @@ function subMenuWanted(menu){ //0 or 1
                     }
                 }
                 tab.push($('#isOrganiserParticipating').prop("checked"));
+                console.log(tab[13]);
                 if (check){
                     $('#alert-event-creation').addClass('hidden');
-                    ajaxRequest('POST', 'php/requestA.php/organize-event/',refresh, 'what=createEvent&sport='+tab[0]+'&title='+tab[1]+'&comment='+tab[2]+'&min='+tab[3]+'&max='+tab[4]+'&town='+tab[5]+'&adress='+tab[6]+'&date='+tab[7]+'&hour='+tab[8]+'&duration='+tab[9]+'&price='+tab[10]+'&mina='+tab[11]+'&maxa='+tab[12] + 'in='+tab[13]);
+                    ajaxRequest('POST', 'php/requestA.php/organize-event/',refresh, 'what=createEvent&sport='+tab[0]+'&title='+tab[1]+'&comment='+tab[2]+'&min='+tab[3]+'&max='+tab[4]+'&town='+tab[5]+'&adress='+tab[6]+'&date='+tab[7]+'&hour='+tab[8]+'&duration='+tab[9]+'&price='+tab[10]+'&mina='+tab[11]+'&maxa='+tab[12] + '&in='+tab[13]);
                 }
                 else{
                     $('#alert-event-creation').removeClass('hidden');
@@ -339,6 +345,7 @@ function subMenuWanted(menu){ //0 or 1
     }
     else{
         ajaxRequest('GET', 'php/requestA.php/organize-event/?wanted=showEventOrganize', loadEventOrganize);
+
 
 
         $('#go-new-event').click(function (e)

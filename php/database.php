@@ -377,7 +377,7 @@
         $stmt->bindParam(':match_id_match_result', $match_id_match_result);
         $stmt->bindParam(':town_id', $town_id);
         $stmt->execute();
-        echo "match inserted successfully !<br>";
+        return "match inserted successfully !<br>";
     }
     
     
@@ -521,9 +521,13 @@
     
     
     // getting the last match inserted id
+
+//select match_id from match ORDER BY match_id;
     function getLastMatchId($db){
-        $eventsArr = getInfosAllEvent($db);
-        return end($eventsArr)['match_id'];
+        $stmt = $db->prepare("SELECT match_id from match ORDER BY match_id;");
+        $stmt->execute();
+
+        return end($stmt->fetchAll(PDO::FETCH_ASSOC))['match_id'];
     }
     
     
@@ -753,70 +757,70 @@ FROM (
         WHERE m.sport_id = s.sport_id AND m.town_id = t.town_id AND m.date > NOW() ORDER BY m.date');
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 
-    //cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
-    function searchEvent($db, $town, $sport_name, $period, $complete){
-        // setting generic value
-        $genericVal = '*';
-        
-        // getting the table with all events
-            //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
-            // Array returned ( [match_id][title][sport_name] [town]  [date] [hour] [registered_count] [number_max_player] 
-        $eventArr = getInfosAllEventForSearch($db);
-        echo "eventArr before <br>";
-        print_r($eventArr);
-        
-        // modifying the array with all events filtered (if the search field is empty, it puts a generic value for this column)
-        foreach ($eventArr as $i => $val){
-            
-            if (empty($town)){
-                $eventArr[$i]['town'] = $genericVal;
-            }
-            if (empty($sport_name)){
-                $eventArr[$i]['sport_name'] = $genericVal;
-            }
-            /*if (empty($period)){
-                $eventArr[$i]['period'] = $genericVal;
-            }*/
-            if (empty($complete)){
-                $eventArr[$i]['complete'] = $genericVal;
-            }
-            
-            echo "<br><br>eventArr val <br>";
-            print_r($eventArr[$i]);
-            echo "<br><br>";
-        }
-        
-        echo "<br><br>eventArr after <br>";
-        print_r($eventArr);
-        
-        // setting the non searched fields value to the value '*'
+
+//cartes infos des event searched [match_id,titre,sport,ville,date,heure,inscrits,max]
+function searchEvent($db, $town, $sport_name, $period, $complete){
+    // setting generic value
+    $genericVal = '*';
+
+    // getting the table with all events
+    //infos des event TOUS [match_id,titre,sport,ville,date,heure,inscrits,max] only futur events !
+    // Array returned ( [match_id][title][sport_name] [town]  [date] [hour] [registered_count] [number_max_player]
+    $eventArr = getInfosAllEventForSearch($db);
+    //echo "eventArr before <br>";
+    //print_r($eventArr);
+
+    // modifying the array with all events filtered (if the search field is empty, it puts a generic value for this column)
+    foreach ($eventArr as $i => $val){
+
         if (empty($town)){
-            $town = $genericVal;
+            $eventArr[$i]['town'] = $genericVal;
         }
         if (empty($sport_name)){
-            $sport_name = $genericVal;
+            $eventArr[$i]['sport_name'] = $genericVal;
         }
-        if (empty($period)){
-            $period = -1;
-        }
+        /*if (empty($period)){
+            $eventArr[$i]['period'] = $genericVal;
+        }*/
         if (empty($complete)){
-            $complete = $genericVal;
+            $eventArr[$i]['complete'] = $genericVal;
         }
-        
-        // filling the searchedEventIdArr with the IDs of the matches searched
-        $searchedEventIdArr = [];
-        foreach ($eventArr as $val){
-            // convert the period in second
-            if ($val['town']==$town && $val['sport_name']==$sport_name && $val['period']>=$period && $val['complete']==$complete){ // gerer periodes
-                array_push($searchedEventIdArr, $val['match_id']);
-            }
-        }
-        echo "<br><br>ID searched Event produced";
-        print_r($searchedEventIdArr);
-        return $searchedEventIdArr;
+
+        //echo "<br><br>eventArr val <br>";
+        //print_r($eventArr[$i]);
+        //echo "<br><br>";
     }
+
+    //echo "<br><br>eventArr after <br>";
+    //print_r($eventArr);
+
+    // setting the non searched fields value to the value '*'
+    if (empty($town)){
+        $town = $genericVal;
+    }
+    if (empty($sport_name)){
+        $sport_name = $genericVal;
+    }
+    if (empty($period)){
+        $period = -1;
+    }
+    if (empty($complete)){
+        $complete = $genericVal;
+    }
+
+    // filling the searchedEventIdArr with the IDs of the matches searched
+    $searchedEventIdArr = [];
+    foreach ($eventArr as $val){
+        // convert the period in second
+        if ($val['town']==$town && $val['sport_name']==$sport_name && $val['period']>=$period && $val['complete']==$complete){ // gerer periodes
+            array_push($searchedEventIdArr, $val['match_id']);
+        }
+    }
+    //echo "<br><br>ID searched Event produced";
+    //print_r($searchedEventIdArr);
+    return $searchedEventIdArr;
+}
     
         
 ?>
