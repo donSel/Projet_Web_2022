@@ -196,9 +196,9 @@ function loadEvents(infos){
     $('.card-event').click(function (e)
         {
 
-            let idEvent = e.currentTarget.id.split("-"); //[id,titre,description,organisateur_nom,org_url,adresse,heure,durée,prix,nb_max,nb_inscrits]
-            //setShowInfosMode([0,'titre','description','Arnaud','images/default_avatar.jpg','--','--:--','--:--','--',10,2]);
-            ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=infos&idMatch=' + idEvent[1], loadInfosMode);
+            let idEvent = e.currentTarget.id.split("-"); //get the html-id of the card on Tab[name,id_match on bdd]
+            //setShowInfosMode([0,'titre','description','Arnaud','images/default_avatar.jpg','--','--:--','--:--','--',10,2]); //==> Test with fake values
+            ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=infos&idMatch=' + idEvent[1], loadInfosMode); //we get details of events
 
         }
     );

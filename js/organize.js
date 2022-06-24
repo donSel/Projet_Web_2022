@@ -379,8 +379,8 @@ function createSelectAgeRange(){
 }
 
 $(document).ready(function(){
-    let parsedUrl = new URL(window.location.href);
-    let mode = parsedUrl.searchParams.get("mode");
+    parsedUrl = new URL(window.location.href);
+    mode = parsedUrl.searchParams.get("mode");
     if (mode == null){
         mode = 0;
     }

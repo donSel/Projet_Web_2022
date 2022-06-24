@@ -20,7 +20,7 @@ $requestRessource = array_shift($request);
 $db = dbConnect();
 
 session_start();
-$me = 'mickael.neroda@mail.com';//$_SESSION['mail'];//'mickael.neroda@mail.com';
+$me = $_SESSION['mail'];//'mickael.neroda@mail.com';
 
 $result = 0; //default value
 
