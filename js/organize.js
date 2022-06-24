@@ -188,6 +188,9 @@ function loadEventOrganize(infos){
 
 
     }
+    if(mode == 1){
+        location.href = "#organizedEventId-" + parsedUrl.searchParams.get("location");
+    }
     $('.end-button').click(function (e)
         {
             console.log(e.currentTarget.id);
@@ -387,8 +390,6 @@ $(document).ready(function(){
 
     subMenuWanted(mode);
 
-    if(mode == 1){
-        location.href = "#organizedEventId-" + parsedUrl.searchParams.get("location");
-    }
+
 });
 

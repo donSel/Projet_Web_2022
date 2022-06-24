@@ -1,4 +1,4 @@
-    function generateCardInfoEvent(infos){ //[id_match,titre,sport,ville,date,heure,inscrits,max]
+function generateCardInfoEvent(infos){ //[id_match,titre,sport,ville,date,heure,inscrits,max]
     let txt = '<div class="card-event" id="cardEventNumber-' + infos[0] + '">'
         + '<div class="card-event-infos-background">'
         + '<div class="card-event-infos">'
@@ -32,7 +32,7 @@ function generateMiniProfile(infos){ //[id_user,nom,url]
 }
 
 
-function loadAllPlayers(infos){
+function loadAllPlayers(infos){ //tab of tab : [[infos player1],[infos player2],etc...]
     for (let i = 0; i < infos.length; i++){
         generateMiniProfile(infos[i]);
     }
@@ -75,11 +75,11 @@ function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_u
 
         + '</div>'
         + '<div class="buttons-popup">';
-    if (infos[10] < infos[9]){
+
+    if (infos[10] < infos[9]){ //check if the match is full or not
         txt += "<button id='register' class='classic-button'>Participer</button>";
 
     }
-
         txt +=  "<button id='close' >Fermer</button>"
         + "</div>"
         + "</div>"
@@ -88,20 +88,17 @@ function setShowInfosMode(infos){ //[id,titre,description,organisateur_nom,org_u
         + "</div>" ;
     $('#popup').html(txt);
 
-    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=allPlayers&idMatch=' + infos[0], loadAllPlayers);
+    ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=allPlayers&idMatch=' + infos[0], loadAllPlayers); //get all players in the event
 
 
     $('#close').click(function (e)
         {
-            $('#popup').html("");
-            //ajaxRequest('PUT', 'php/requestA.php/search-event/',test, 'value1=' + 9 );
-
-
+            $('#popup').html(""); //close popup
         }
     );
 }
 
-function test(infos){
+function test(infos){ //debug
     console.log(infos[0])
 }
 function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA-scoreB,vainqueur]
@@ -111,6 +108,8 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
         + "</div>"
         + "<div id=\"body-little-window\">"
         + "<div id=\"left-side\">";
+
+    //2 comportments (check if the match is closen
     if (infos[2]) {
         let score = infos[11].split("-");
 
@@ -156,10 +155,10 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
         + "</div>" ;
 
 
-    $('#popup').html(txt);
+    $('#popup').html(txt); //show popup
     $('#close').click(function (e)
         {
-            $('#popup').html("");
+            $('#popup').html(""); //close popup
 
         }
     );
@@ -168,14 +167,11 @@ function setShowInfosNormalMode(infos){ //[id,titre,terminé,best_id,best_url,be
 
 
 function loadInfosMode(infos){
-    console.log('uxu');
     setShowInfosMode(infos); //[0, 'titre', 'description', 'Arnaud', 'images/default_avatar.jpg', '--', '--:--', '--:--', '--', 10, 2]
 
     $('#register').click(function(e){
-        console.log('participer '+infos[0]);
+        //console.log('participer '+infos[0]); //debug
         ajaxRequest('POST', 'php/requestA.php/search-event/',null, 'what=participate&matchID=' + infos[0]);
-        //console.log(idEvent[1]);
-        //ajaxRequest('GET', 'php/requestA.php/search-event/', test);
     })
 }
 
@@ -236,7 +232,7 @@ function loadCitiesOptions(infos){
     }
 }
 function loadSportsOptions(infos){
-    console.log(infos);
+    //console.log(infos);
     for (let i=0;i<infos.length;i++){
         setOption('sport',infos[i]);
     }
@@ -258,15 +254,16 @@ $(document).ready(function(){
 
     $('#research').click(function (e)
         {
+            //get all infos from form
             let tabSearch = [];
             tabSearch.push($('#ville').val());
             tabSearch.push($('#sport').val());
             tabSearch.push($('#période').val());
             tabSearch.push($('#statut_match').val());
 
-            for (let i = 0; i< tabSearch.length;i++){
+            /*for (let i = 0; i< tabSearch.length;i++){ //debug
                 console.log(tabSearch[i])
-            }
+            }*/
             ajaxRequest('GET', 'php/requestA.php/search-event/?wanted=speEvents&ville='+tabSearch[0]+'&sport='+tabSearch[1]+'&periode='+tabSearch[2]+'&statutMatch='+tabSearch[3], loadEvents);
             //ajaxRequest('POST', 'php/requestA.php/search-event/',test, 'value1=' + 8 );
 
@@ -275,7 +272,7 @@ $(document).ready(function(){
 
     $('#new-organizes-event').click(function (e)
     {
-        window.location.href = "organize.html?mode=0";
+        window.location.href = "organize.html?mode=0"; //redirection
 
 
     });
