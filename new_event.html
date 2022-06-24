@@ -12,15 +12,33 @@
     <link href="css/style2.css" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <ul id = 'navigation' class="navi">
-            <li class = 'navigation_elmt'><a href="search.html">Recherche</a></li>
-            <li class = 'navigation_elmt'><a href="organize.html"><b>Organiser</b></a></li>
-            <li class = 'navigation_elmt'><a href="profil.html">Profil</a></li>
-        </ul>
-
-
-    </nav>
+    <header id="secondHeader">
+            
+        <div id="firstHeader">
+                <div id="logo">
+                <img src="images/logo.png" alt="logo officiel" width="200" height="99">
+            </div>
+            <h1 id="site_name">Catch Your Messi</h1>
+            <div id="box3">
+                <form action="index.php" method="post">
+                    <button type="submit" id="logoutButton" name="logout">Déconnexion</button><br><br>
+                </form>
+            </div>
+            <br>
+        </div>
+        
+        <input type="checkbox" id="burger">
+        <label id="burger-button" for="burger">Menu</label>
+        <nav id ='burger-content'>
+            <ul id="'navigation" class="navi">
+                <li class = 'navigation_elmt'><a href="search.html">Recherche</a></li>
+                <li class = 'navigation_elmt'><a href="organize.html">Organiser</a></li>
+                <li class = 'navigation_elmt'><a href="profil.html">Profil</a></li>
+            </ul>
+        </nav>
+        <div id="overlay"></div>
+        <br>
+    </header>
 
     <div class="one-event-organization-head">
       

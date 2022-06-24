@@ -25,7 +25,7 @@ body {
         margin-bottom : 30px;
     }
 }
-    
+
 
 #secondHeader {
     background-color: #3D7E1F;
@@ -59,7 +59,7 @@ body {
 }
 
 
-.mainConnexion {    
+.mainConnexion {
     display: flex;
     justify-content: center;
     width: 300px;
@@ -93,11 +93,11 @@ body {
     padding: 1em;
 }
 
-.mainCreation {    
+.mainCreation {
     display: flex;
     justify-content: center;
     width: 400px;
-    padding: 1em;  
+    padding: 1em;
     background: #E5E5E5;
     border-bottom-right-radius: 25px;
     border-bottom-left-radius: 25px;
@@ -171,13 +171,13 @@ body {
 
 
 .success-alert {
-    background: #2ecc71; 
-    border: 1px solid #27ae60; 
+    background: #2ecc71;
+    border: 1px solid #27ae60;
 }
 
 
 .danger-alert {
-    background: #e74c3c; 
+    background: #e74c3c;
     border: 1px solid #c0392b;
 }
 
@@ -235,7 +235,7 @@ body {
 }
 
 
-.cardMain {   
+.cardMain {
     display: flex;
     justify-content: center;
     width: 300px;

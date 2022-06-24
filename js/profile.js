@@ -42,7 +42,7 @@ function showNotif(show = true){
 }
 
 function loadProfil(infos){ //[id_user,nom,prenom,age;ville,forme,mdp,url,commentaire]
-    $('imgToSet').html('<img src="'+infos[7]+'" alt="logo officiel" width="200px" height="200px">');
+    $('#imgToSet').html('<img src="'+infos[7]+'" alt="logo officiel" width="200px" height="200px">');
     $('#lastName').val(infos[1]);
     $('#firstName').val(infos[2]);
     $('#mail').val(infos[0]);

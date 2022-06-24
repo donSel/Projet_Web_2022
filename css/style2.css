@@ -1,52 +1,171 @@
-nav {
+/*nav {
     background-color: #D9D9D9;
     min-height : 97px;
+}*/
+
+
+/* menu navbar */
+
+
+@media screen and (max-width: 900px){
+
+    #burger {display: none;}
+    #burger-button {
+        font-size: .7em;
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #40475A;
+        color: #fff;
+        padding: .5rem;
+        border-radius: 0;
+
+        position: fixed;
+        top: 40;
+        right: 0;
+
+        width: 40px;
+        height: 40px;
+
+        cursor: pointer;
+
+        z-index: 99;
+
+        transition: all .3s;
+    }
+    #burger-button:hover {
+        background-color: #2C293E;
+    }
+    #burger-button::before {
+        content: '≡';
+        display: block;
+        font-size: 2rem;
+        line-height: 1.5rem;
+
+        transition: all .3s;
+    }
+
+    #burger:checked ~ #burger-button {
+        background-color: #7e0202;
+    }
+    #burger:checked ~ #burger-button::before {
+        content: '×';
+        transform: rotate(-180deg);
+    }
+
+    nav#burger-content {
+        /*height : 100%;
+        display: flex;
+        padding:0;
+        justify-content: center;*/
+
+        /* new style */
+        background-color: #fff;
+        max-width: 250px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: -100%;
+        z-index: 10;
+        transition: all .3s;
+    }
+
+    #burger:checked ~ nav#burger-content {
+        left: 0;
+    }
+
+    #burger:checked ~ #overlay {
+        background-color:rgba(0,0,0,.4);
+        position:fixed;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        z-index:5;
+        transition:all .3s
+    }
+
+
+    /* header > navigation */
+    nav ul { list-style: none; padding: 1rem; margin: 0;}
+    nav ul a {
+        font-size : 1.2rem;
+        color: #000;
+        text-decoration: none;
+    }
+    nav ul a:hover {
+        color: #173266;
+        text-decoration: underline;
+    }
+
+    /* header > navigation */
+    nav ul { list-style: none; padding: 1rem; margin: 0;}
+    nav ul a {
+        font-size : 1.2rem;
+        color: #000;
+        text-decoration: none;
+    }
+    nav ul a:hover {
+        color: #173266;
+        text-decoration: underline;
+    }
 }
 
-.navi {
-    /*background-color : red;*/
-    height : 100%;
 
-    display: flex;
-    padding:0;
-    justify-content: center;
+@media screen and (min-width: 900px){
+    #burger {display: none;}
+    #burger-button {display: none;}
+    nav {
+        background-color: #D9D9D9;
+        min-height : 97px;
+    }
+
+    .navi {
+        /*background-color : red;*/
+        height : 100%;
+
+        display: flex;
+        padding:0;
+        justify-content: center;
 
 
+    }
+
+    .navi li {
+        list-style-type: none ;
+
+        width: 548px;
+
+        /*background-color : green;*/
+    }
+
+    .navi a {
+        display:block;
+        width : 100%;
+        font-size : 50px;
+        margin-top : 15px;
+        text-decoration: none;
+        text-align: center;
+
+        color : black;
+    }
+
+    .navi span {
+        display:block;
+        width : 100%;
+        font-size : 50px;
+        margin-top : 15px;
+        text-decoration: none;
+        text-align: center;
+
+        color : black;
+    }
+    .navi :hover{
+        border-radius : 25px;
+        background-color : blue;
+    }
 }
 
-.navi li {
-    list-style-type: none ;
-
-    width: 548px;
-
-    /*background-color : green;*/
-}
-
-.navi a {
-    display:block;
-    width : 100%;
-    font-size : 50px;
-    margin-top : 15px;
-    text-decoration: none;
-    text-align: center;
-
-    color : black;
-}
-
-.navi span {
-    display:block;
-    width : 100%;
-    font-size : 50px;
-    margin-top : 15px;
-    text-decoration: none;
-    text-align: center;
-
-    color : black;
-}
-.navi :hover{
-    border-radius : 25px;
-    background-color : blue;
-}
 
 .card-event{
     display: grid;
@@ -300,7 +419,7 @@ nav {
 #left-side{
 }
 #right-side{
- }
+}
 
 #the-organizator {
     display : grid;
