@@ -88,14 +88,17 @@
     // match ou je suis joueur
     //évènements où je suis TOUS en fonction de moi: [match_id,titre,terminé,best_id,best_url,best_nom,rôle,heure,durée,ville,adresse,scoreA,scoreB,vainqueur]
     function getAllProfilEvents($db, $idMatch){
-        $request = "SELECT m.match_id, m.title, m.is_finished, r.best_player, p.photo_url, p.last_name, t.role, m.hour, m.duration, v.town, m.address, r.score_match, r.winner 
-                    FROM match m, player p, match_result r, play t, town v
-                    WHERE m.match_id=:idMatch AND m.match_id=t.match_id AND m.match_id=r.match_id AND r.best_player=p.mail AND m.town_id=v.town_id";
+        $request = "SELECT m.match_id, m.title, m.is_finished, r.best_player, p.photo_url, p.last_name, t.role, m.hour, m.duration, v.town, m.address, r.score_match, r.winner
+        FROM match m
+        LEFT JOIN match_result r ON m.match_id = r.match_id
+        LEFT JOIN player p ON p.mail = r.best_player
+        LEFT JOIN town v ON m.town_id = v.town_id
+        LEFT JOIN play t ON m.match_id=t.match_id
+        WHERE m.match_id=:idMatch";
         $statement = $db->prepare($request);
         $statement->bindParam(':idMatch', $idMatch);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
-
     }
     
     

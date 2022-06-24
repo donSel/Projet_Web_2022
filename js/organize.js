@@ -279,8 +279,8 @@ function subMenuWanted(menu){ //0 or 1
     else{
         txt +='<nav>'
             + '<ul id = "navigation2" class="navi">'
-            + '<li id="go-new-event" class = "navigation_elmt"><span>Nouvel évènement</span></li>'
-            + '<li id="go-register" class = "navigation_elmt"><span><b>Registre</b></span></li>'
+            + '<li id="go-new-event" class = "navigation_elmt_nav2"><span>Nouvel évènement</span></li>'
+            + '<li id="go-register" class = "navigation_elmt_nav2"><span><b>Registre</b></span></li>'
             + '</ul>'
             + '</nav>';
         $('#sub-menu-organize-space').html(txt);

@@ -19,22 +19,27 @@
             </div>
             <h1 id="site_name">Catch Your Messi</h1>
             <div id="box3">
-                <button type="submit" id="logoutButton" name="logout">Déconnexion</button><br><br>
+                <form action="index.php" method="post">
+                    <button type="submit" id="logoutButton" name="logout">Déconnexion</button><br><br>
+                </form>
             </div>
             <br>
         </div>
         
-        <nav>
-            <ul id = 'navigation' class='navi'>
+        <input type="checkbox" id="burger">
+        <label id="burger-button" for="burger">Menu</label>
+        <nav id ='burger-content'>
+            <ul id="'navigation" class="navi">
                 <li class = 'navigation_elmt'><a href="search.html">Recherche</a></li>
                 <li class = 'navigation_elmt'><a href="organize.html">Organiser</a></li>
                 <li class = 'navigation_elmt'><a href="profil.html">Profil</a></li>
             </ul>
         </nav>
-        <div id="sub-menu-organize-space"></div>
+        <div id="overlay"></div>
         <br>
     </header>
-
+    
+    <div id="sub-menu-organize-space"></div>
 
     <div id="page-organize-space"></div>
 
