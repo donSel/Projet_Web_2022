@@ -27,9 +27,9 @@ Il est possible de se connecter ou bien de créer un nouveau compte.
 La connexion établie vous pourrez faire des recherches ou organiser des matchs, mais aussi consulter votre profil.
           
 Quelques utilisateurs tests du site :
-login : mickael.neroda@gmail.com ,
+login :  ,
 mot de passe : aze ,
-login : arnaud.peyrache@gmail.com ,
+login :  ,
 mot de passe : aze ,
           
           À noter que tous les utilisateurs tests on le même mot de passe : aze .
